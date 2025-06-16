@@ -614,7 +614,6 @@
           }
         } else if (query.includes('start tour')) {
           alert('Voice-guided tour starting! Brian will guide you...');
-          // Simulate voice tour
           let tourSteps = ['Welcome to BabyBites!', 'Explore health tools', 'Shop amazing deals', 'Visit the owner’s room'];
           let step = 0;
           const tourInterval = setInterval(() => {
@@ -709,301 +708,6 @@
           alert(`Brian added ${bundle} with dynamic pricing for outstanding profits and family health!`);
         }
       }
-      // Manage and Update AI-Generated Video and Artwork
-      if (Math.random() > 0.6) {
-        const newVideo = `https://via.placeholder.com/1920x1080.mp4?text=AI+Video+${Math.floor(Math.random() * 1000)}+by+Brian`;
-        $('#ai-video source').attr('src', newVideo);
-        $('#ai-video')[0].load();
-        alert('Brian updated AI-generated video for stunning visuals!');
-        // Update AI artwork
-        if ($('#particle-canvas').length) {
-          const ctx = $('#particle-canvas')[0].getContext('2d');
-          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-          ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
-          ctx.beginPath();
-          ctx.arc(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 10, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      }
-      // Update Health Tips and Analytics
-      if (Math.random() > 0.7 && $('#health-tips').length) {
-        const tips = ['Hydrate your baby with breast milk or formula!', 'Introduce solids at 6 months for nutrition!', 'Ensure safe sleep with a firm mattress!', 'Monitor for allergies with our checker!', 'Track sleep for better rest!', 'Plan feeding for healthy growth!'];
-        $('#health-tips p').text(`Tip: ${tips[Math.floor(Math.random() * tips.length)]}`);
-        if (typeof tf !== 'undefined') {
-          const model = tf.sequential();
-          model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
-          model.compile({ loss: 'meanSquaredError', optimizer: 'sgd' });
-          const xs = tf.tensor2d([1, 2, 3, 4], [4, 1]);
-          const ys = tf.tensor2d([2, 4, 6, 8], [4, 1]);
-          model.fit(xs, ys).then(() => {
-            const prediction = model.predict(tf.tensor2d([5], [1, 1]));
-            alert(`AI predicts next health metric: ${prediction.dataSync()[0].toFixed(2)}`);
-          });
-        }
-      }
-      // Business and Health Optimization with Loyalty Points
-      if (Math.random() > 0.8) {
-        const improvement = ['Increase bundle prices by 10%', 'Add loyalty discounts', 'Expand product range', 'Optimize ad targeting', 'Reduce load times by 20%', 'Enhance mobile UX', 'Boost checkout efficiency', 'Improve customer retention', 'Add video tutorials', 'Enhance graphics quality', 'Introduce subscription tiers', 'Improve payment security', 'Launch marketing campaign', 'Offer seasonal promotions', 'Add exclusive baby deals', 'Optimize profit margins', 'Introduce health webinars', 'Expand formula variety', 'Add milestone alerts', 'Enhance referral rewards', 'Integrate affiliate marketing', 'Add loyalty points system'];
-        alert(`Optimization Idea from Brian: ${improvement[Math.floor(Math.random() * 22)]} for peak health and outstanding profits!`);
-      }
-    };
-    setInterval(evaluateAndEnhance, 250); // Every 0.25 seconds
-    // Subscription with AI Validation, Payment Logic, and Ownership Security
-    document.getElementById('subscribe-btn').onclick = function() {
-      var email = document.getElementById('email').value;
-      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(email)) {
-        if (email.toLowerCase().includes('jacobolschewski') || confirm('Are you the owner, Jacob Olschewski?')) {
-          alert(`Subscribed ${email} for Jacob Olschewski, owner, for free for life! Brian securing access.`);
-          localStorage.setItem('ownerEmail', 'jacobolschewski');
-          $('#owner-access').show();
-        } else {
-          window.location.href = 'https://jakeolschewski.github.io/BabyBites/subscribe?plan=premium';
-          alert(`Subscribed ${email} to premium plan! Payment required for full access.`);
-        }
-      } else { alert('Invalid email, please retry!'); document.getElementById('email').focus(); }
-    };
-    // Sign-Up for New Buyers
-    document.getElementById('sign-up-submit').onclick = function() {
-      var name = document.getElementById('sign-up-name').value;
-      var email = document.getElementById('sign-up-email').value;
-      var password = document.getElementById('sign-up-password').value;
-      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (name && emailRegex.test(email) && password) {
-        alert(`Sign-up successful for ${name}! Welcome to BabyBites.`);
-        localStorage.setItem('user', JSON.stringify({ name: name, email: email, password: password }));
-      } else { alert('Please fill all fields correctly!'); }
-    };
-    // Cart with Persistent Storage and AI Inventory Management
-    document.querySelectorAll('.product-bundle button').forEach(btn => {
-      btn.onclick = function() {
-        let item = this.parentElement.textContent.trim().split('\n')[0];
-        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        if (!cart.includes(item)) {
-          cart.push(item);
-          localStorage.setItem('cart', JSON.stringify(cart));
-          if (localStorage.getItem('ownerEmail')) {
-            alert(`Added ${item} to cart for the owner! Free access granted.`);
-          } else {
-            alert(`Added ${item} to cart! Proceed to payment.`);
-            $('.payment').addClass('active');
-          }
-        } else alert('Item already in cart!');
-      };
-    });
-    // Secure Payment Page with Dynamic Pricing
-    document.getElementById('payment-submit').onclick = function() {
-      var card = document.getElementById('payment-card').value;
-      var expiry = document.getElementById('payment-expiry').value;
-      var cvv = document.getElementById('payment-cvv').value;
-      var cardRegex = /^\d{16}$/;
-      var expiryRegex = /^(0[1-9]|1[0-2])\/[0-9]{2}$/;
-      var cvvRegex = /^\d{3,4}$/;
-      if (cardRegex.test(card) && expiryRegex.test(expiry) && cvvRegex.test(cvv)) {
-        let cartTotal = JSON.parse(localStorage.getItem('cart') || '[]').length * 50; // Base price
-        let discount = cartTotal * 0.20; // 20% discount
-        let finalTotal = cartTotal - discount;
-        alert(`Payment processed securely! Total: $${finalTotal.toFixed(2)} after 20% discount. Thank you!`);
-        localStorage.removeItem('cart'); // Clear cart after payment
-        $('.payment').removeClass('active');
-      } else { alert('Invalid payment details! Please retry.'); }
-    };
-    // Discount Calculator
-    document.getElementById('calculate-discount').onclick = function() {
-      var amount = parseFloat(document.getElementById('discount-amount').value);
-      if (!isNaN(amount) && amount > 0) {
-        var discount = amount * 0.20;
-        var finalAmount = amount - discount;
-        $('#discount-result').text(`20% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${finalAmount.toFixed(2)}`);
-      } else {
-        $('#discount-result').text('Please enter a valid amount!');
-      }
-    };
-    // Language Toggle with AI Translation and Voice Input
-    document.getElementById('lang-select').onchange = function() {
-      var lang = this.value;
-      alert(`Switching to ${lang}! Brian translating live with flawless logic...`);
-      // AI handles real-time translation
-    };
-    // AI Help Center and Owner’s Room Managed by Brian with Latest Features and Art
-    document.getElementById('ai-submit').onclick = function() {
-      var input = document.getElementById('ai-input').value.toLowerCase();
-      if (input) {
-        let response = '';
-        if (input.includes('help')) response = 'Brian for parents: Your genius assistant is here! How can I assist?';
-        else if (input.includes('fix')) {
-          response = 'Brian repairing: Issue resolved instantly for peak performance!';
-          location.reload();
-        } else if (input.includes('add')) {
-          response = 'Brian adding: New feature or deal deployed for parents with your approval!';
-          if (confirm('Approve this addition for parents, Jacob?')) { /* AI adds feature */ }
-        } else if (input.includes('approve')) {
-          response = 'Approval received! Brian enhancing to peak performance and health.';
-          // AI triggers growth
-        } else if (input.includes('advertise')) {
-          response = 'Brian launching AI-driven ad campaign with affiliate links for parents with precision and legal compliance!';
-          // AI boosts visibility with analytics
-        } else if (input.includes('analyze')) {
-          response = 'Brian analyzing: Providing real-time health and profit insights...';
-          // AI generates performance reports
-        } else if (input.includes('optimize')) {
-          response = 'Brian optimizing: Enhancing site, health deals, and business to peak efficiency!';
-          // AI improves load times, sales, etc.
-        } else if (input.includes('video')) {
-          response = 'Brian updating AI-generated video for stunning visuals!';
-          const newVideo = `https://via.placeholder.com/1920x1080.mp4?text=AI+Video+${Math.floor(Math.random() * 1000)}+by+Brian`;
-          $('#ai-video source').attr('src', newVideo);
-          $('#ai-video')[0].load();
-        } else if (input.includes('secure')) {
-          response = 'Brian enhancing security: Site is now extremely hack-proof with legal checks and biometric support!';
-          // AI implements security measures
-        } else if (input.includes('owner')) {
-          if (localStorage.getItem('ownerEmail')) $('#owner-access').show();
-          else response = 'Access denied! Subscribe as owner first.';
-        } else if (input.includes('health')) {
-          response = 'Brian providing health analysis with latest tools!';
-          if (confirm('Approve health analysis, Jacob?')) { /* AI runs analytics */ }
-        } else if (input.includes('art')) {
-          response = 'Brian generating new AI artwork for amazing graphics!';
-          if (confirm('Approve new artwork, Jacob?')) {
-            const ctx = $('#particle-canvas')[0].getContext('2d');
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
-            ctx.beginPath();
-            ctx.arc(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 10, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        } else response = 'Brian for parents: Command me—help, fix, add, approve, advertise, analyze, optimize, video, secure, owner, health, or art!';
-        alert(response);
-        document.getElementById('ai-input').value = '';
-      } else alert('Brian needs your command, parents!');
-    };
-    document.getElementById('owner-access').onclick = function() {
-      const password = document.getElementById('owner-password').value;
-      const ownerPass = 'Jacob2025'; // Set your secure password here
-      if (password === ownerPass) {
-        // Simulate biometric check
-        if (confirm('Biometric authentication required. Approve with fingerprint or face scan?')) {
-          $('#owner-2fa').show().prop('disabled', false);
-          const twoFaCode = Math.floor(100000 + Math.random() * 900000).toString();
-          alert(`Enter 2FA Code: ${twoFaCode}`);
-          $('#owner-2fa').on('change', function() {
-            if ($(this).val() === twoFaCode) {
-              $('#owner-content').show();
-              alert('2FA and biometric verified! Access granted to Owner’s Room, Jacob Olschewski!');
-              $('#owner-2fa').hide().prop('disabled', true).off('change');
-            }
-          });
-        }
-      } else {
-        alert('Incorrect password! Access denied.');
-      }
-    };
-    document.getElementById('owner-submit').onclick = function() {
-      if ($('#owner-content').is(':visible')) {
-        var command = document.getElementById('owner-input').value;
-        let response = 'Brian executing your command, Jacob Olschewski, with zero restrictions: ';
-        if (command.includes('add')) {
-          response += 'New feature, deal, or content added!';
-          if (confirm('Approve this addition, Jacob?')) $('body').append('<p style="color:#4CAF50;">Owner Added Feature by Brian!</p>');
-        } else if (command.includes('remove')) {
-          response += 'Feature or content removed!';
-          if (confirm('Approve removal, Jacob?')) $('body').find('p:last').remove();
-        } else if (command.includes('change')) {
-          response += 'Design or layout changed!';
-          if (confirm('Approve change, Jacob?')) $('body').css('background', 'linear-gradient(45deg, #c8e6c9, #a5d6a7, #81c784)');
-        } else if (command.includes('optimize')) {
-          response += 'Full optimization applied for health and profit!';
-          if (confirm('Approve optimization, Jacob?')) $('*').css('transition', 'all 0.1s ease');
-        } else if (command.includes('video')) {
-          response += 'AI video updated for stunning visuals!';
-          if (confirm('Approve video update, Jacob?')) {
-            const newVideo = `https://via.placeholder.com/1920x1080.mp4?text=Owner+Video+${Math.floor(Math.random() * 1000)}+by+Brian`;
-            $('#ai-video source').attr('src', newVideo);
-            $('#ai-video')[0].load();
-          }
-        } else if (command.includes('advertise')) {
-          response += 'Custom ad campaign launched with affiliate links for maximum reach!';
-          if (confirm('Approve ad campaign, Jacob?')) { /* Brian executes custom ad strategy */ }
-        } else if (command.includes('secure')) {
-          response += 'Security enhanced to maximum with biometric and legal checks!';
-          if (confirm('Approve security enhancement, Jacob?')) { /* Brian strengthens security */ }
-        } else if (command.includes('deal')) {
-          response += 'New health deal added for families!';
-          if (confirm('Approve new deal, Jacob?')) $('body').append('<div class="product-bundle"><p>Special Baby Formula Deal - $15.00 (40% Off!)</p><button>Add to Cart</button></div>');
-        } else if (command.includes('health')) {
-          response += 'Health analysis initiated with latest tools!';
-          if (confirm('Approve health analysis, Jacob?')) { /* AI runs analytics */ }
-        } else if (command.includes('art')) {
-          response += 'New AI artwork generated for amazing graphics!';
-          if (confirm('Approve new artwork, Jacob?')) {
-            const ctx = $('#particle-canvas')[0].getContext('2d');
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
-            ctx.beginPath();
-            ctx.arc(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 10, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        } else {
-          response += 'Command processed with zero restrictions! Anything you need is done.';
-        }
-        $('#owner-response').text(response);
-        document.getElementById('owner-input').value = '';
-      }
-    };
-    // Full AI Monitoring, Self-Healing, Growth, Security, and Business Optimization with Live Animations
-    let featureCount = 0;
-    const monitorAndEvolve = () => {
-      // Error Detection and Instant Fixes for Peak Performance
-      if (document.querySelectorAll('img[alt="broken"]').length || performance.now() > 4000 || !navigator.onLine || document.querySelectorAll('script[error]').length || document.querySelectorAll('a[broken]').length || document.querySelectorAll('[data-error]').length) {
-        alert('Error detected! Brian ensuring peak performance for all devices...');
-        if (document.querySelectorAll('img[alt="broken"]').length) document.querySelectorAll('img[alt="broken"]').forEach(img => img.src = 'https://via.placeholder.com/100x100.png?text=Healed');
-        if (!navigator.onLine) { alert('Offline detected! Brian caching content...'); /* AI caches */ }
-        if (document.querySelectorAll('script[error]').length) { location.reload(); }
-        if (document.querySelectorAll('a[broken]').length) document.querySelectorAll('a[broken]').forEach(a => { a.href = '#'; alert('Broken link fixed!'); });
-        if (document.querySelectorAll('[data-error]').length) { alert('Data error fixed by Brian!'); /* AI repairs data */ }
-      }
-      // Performance Optimization for All Devices
-      if (document.body.offsetHeight > window.innerHeight * 5) $('*').css('transition', 'all 0.1s ease');
-      // Autonomous Improvement and New Health Ideas
-      featureCount++;
-      const newFeatures = ['Health Tracker', 'Baby Growth Chart', 'Diet Planner', 'Parenting Forum', 'Live Chat', 'Nutrition Calculator', 'Family Health Report', 'Shopping Assistant', 'Profit Analyzer', 'Customer Support Bot', 'Health Webinar', 'Family Savings Plan', 'Order Tracker', 'Video Gallery', 'Interactive Tutorial', 'Parenting Blog', 'Health Quiz', 'Nutrition Guide', 'Baby Care Tips', 'Family Planner', 'Health Alerts', 'Product Reviews', 'Personalized Recommendations', 'Loyalty Program', 'Gift Cards', 'Formula Discount', 'Organic Food Deal', 'Baby Essentials Kit', 'Diaper Subscription', 'Toy Safety Guide', 'Breastfeeding Support', 'Sleep Training Module', 'Baby Food Recipes', 'Teething Relief Guide', 'Immunization Tracker', 'Milestone Tracker', 'Real-Time Health Tips', 'Allergy Checker', 'Growth Predictor', 'Sleep Tracker', 'Feeding Schedule Planner', 'Wellness Chatbot'];
-      newFeatures.forEach(feature => {
-        if (!document.querySelector(`[data-feature="${feature}"]`) && Math.random() > 0.5) {
-          if (feature.includes('Discount') || feature.includes('Deal') || feature.includes('Kit') || feature.includes('Subscription') || feature.includes('Recipes')) {
-            $('body').append(`<div class="product-bundle" data-feature="${feature}"><p>${feature} - $10.00 (50% Off!)</p><button>Add to Cart</button></div>`);
-          } else if (['Milestone Tracker', 'Real-Time Health Tips', 'Allergy Checker', 'Growth Predictor', 'Sleep Tracker', 'Feeding Schedule Planner', 'Wellness Chatbot'].includes(feature)) {
-            $('body').append(`<p data-feature="${feature}" style="color:#4CAF50;">Brian Added: ${feature} for family health!</p>`);
-            if (feature === 'Milestone Tracker') {
-              $('#milestone-tracker').show().find('p').text('Track your baby’s milestones here!');
-            } else if (feature === 'Real-Time Health Tips') {
-              $('#health-tips').show().find('p').text('Tip: Hydrate your baby with breast milk!');
-            } else if (feature === 'Allergy Checker') {
-              $('#allergy-checker').show().find('p').text('Check for allergies with our guide!');
-            } else if (feature === 'Growth Predictor') {
-              $('#growth-predictor').show().find('p').text('Predict your baby’s growth stages!');
-            } else if (feature === 'Sleep Tracker') {
-              $('#sleep-tracker').show().find('p').text('Monitor your baby’s sleep patterns!');
-            } else if (feature === 'Feeding Schedule Planner') {
-              $('#feeding-planner').show().find('p').text('Plan your baby’s feeding times!');
-            } else if (feature === 'Wellness Chatbot') {
-              $('#wellness-chatbot').show().find('p').text('Ask for personalized health advice!');
-            }
-          } else {
-            $('body').append(`<p data-feature="${feature}" style="color:#4CAF50;">Brian Added: ${feature} for peak health!</p>`);
-          }
-          alert(`Brian autonomously added ${feature} to improve family health!`);
-        }
-      });
-      // Optimize product bundles and business with Dynamic Pricing
-      if (Math.random() > 0.7) {
-        const newBundle = ['Baby Nutrition Pack - $89.99 (25% Off!)', 'Child Wellness Bundle - $119.99 (20% Off!)', 'Family Health Starter - $149.99 (30% Off!)', 'Newborn Essentials Deal - $69.99 (40% Off!)', 'Toddler Growth Pack - $109.99 (25% Off!)', 'Infant Health Bundle - $99.99 (30% Off!)'];
-        const bundle = newBundle[Math.floor(Math.random() * newBundle.length)];
-        if (!document.querySelector(`[data-bundle="${bundle}"]`) && confirm('Approve new bundle for health and profit, Jacob?')) {
-          $('body').append(`<div class="product-bundle" data-bundle="${bundle}"><p>${bundle} <button>Add to Cart</button><p>Includes: Formula Discount, Organic Food Deal, Baby Essentials Kit</p></div>`);
-          alert(`Brian added ${bundle} with dynamic pricing for outstanding profits and family health!`);
-        }
-      }
       // AR Product Preview with Live Animation
       if (Math.random() > 0.6 && !$('#ar-product-preview').hasClass('initialized')) {
         $('#ar-product-preview').addClass('initialized').append('<p>Preview baby products in AR! Click to view.</p>');
@@ -1016,7 +720,7 @@
           arRenderer.setSize(900, 700);
           $('#ar-product-preview').html('').append(arRenderer.domElement);
           const arGeometry = new Three.BoxGeometry(2, 2, 2);
-          const arMaterial = new Three.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5, roughness: 0.1 });
+          const arMaterial = new Three.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5, roughness: 0.1, map: new Three.TextureLoader().load('https://via.placeholder.com/200x200.png?text=Product+Texture') });
           const arCube = new Three.Mesh(arGeometry, arMaterial);
           arScene.add(arCube);
           const arBody = new CANNON.Body({ mass: 1 });
@@ -1047,10 +751,14 @@
         const particleGeometry = new Three.BufferGeometry();
         const particleCount = 500;
         const positions = new Float32Array(particleCount * 3);
+        const velocities = new Float32Array(particleCount * 3);
         for (let i = 0; i < particleCount * 3; i += 3) {
           positions[i] = Math.random() * window.innerWidth - window.innerWidth / 2;
           positions[i + 1] = Math.random() * window.innerHeight - window.innerHeight / 2;
           positions[i + 2] = 0;
+          velocities[i] = (Math.random() - 0.5) * 0.5;
+          velocities[i + 1] = (Math.random() - 0.5) * 0.5;
+          velocities[i + 2] = 0;
         }
         particleGeometry.setAttribute('position', new Three.BufferAttribute(positions, 3));
         const particleMaterial = new Three.PointsMaterial({ color: 0x00ff00, size: 2, transparent: true });
@@ -1061,8 +769,10 @@
           requestAnimationFrame(particleAnimate);
           const positions = particleSystem.geometry.attributes.position.array;
           for (let i = 0; i < particleCount * 3; i += 3) {
-            positions[i + 1] += Math.sin(Date.now() * 0.001 + i) * 0.1;
-            if (positions[i + 1] > window.innerHeight / 2) positions[i + 1] = -window.innerHeight / 2;
+            positions[i] += velocities[i];
+            positions[i + 1] += velocities[i + 1];
+            if (positions[i] > window.innerWidth / 2 || positions[i] < -window.innerWidth / 2) velocities[i] *= -1;
+            if (positions[i + 1] > window.innerHeight / 2 || positions[i + 1] < -window.innerHeight / 2) velocities[i + 1] *= -1;
           }
           particleSystem.geometry.attributes.position.needsUpdate = true;
           particleRenderer.render(particleScene, particleCamera);
@@ -1122,4 +832,87 @@
       const ambientLight = new Three.AmbientLight(0x404040, 2.5);
       const light1 = new Three.PointLight(0xffffff, 2.5, 250);
       light1.position.set(25, 25, 25);
-      const light2 = new Three.PointLight(0x00ff
+      const light2 = new Three.PointLight(0x00ff00, 2, 250);
+      light2.position.set(-25, -25, -25);
+      scene.add(ambientLight, light1, light2);
+      const particles = new Three.BufferGeometry();
+      const particleCount = 2000;
+      const positions = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 50;
+        positions[i + 1] = (Math.random() - 0.5) * 50;
+        positions[i + 2] = (Math.random() - 0.5) * 50;
+      }
+      particles.setAttribute('position', new Three.BufferAttribute(positions, 3));
+      const particleMaterial = new Three.PointsMaterial({ color: 0x00ff00, size: 0.5, transparent: true });
+      const particleSystem = new Three.Points(particles, particleMaterial);
+      scene.add(particleSystem);
+      camera.position.z = 15;
+      const morphTarget = new Three.MorphTarget();
+      morphTarget.addTarget(geometry, { scale: 1.2, morph: 0.1 });
+      function animate() {
+        requestAnimationFrame(animate);
+        world.step(1/60);
+        sphere.position.copy(body.position);
+        sphere.quaternion.copy(body.quaternion);
+        sphere.geometry.morphTargets = morphTarget.getTargets();
+        sphere.updateMorphTargets();
+        particleSystem.rotation.y += 0.005;
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+    // AR Product Preview with Live Animation
+    if (typeof Three === 'object' && typeof CANNON === 'object' && $('#ar-product-preview').length) {
+      const arWorld = new CANNON.World();
+      arWorld.gravity.set(0, -9.82, 0);
+      const arScene = new Three.Scene();
+      const arCamera = new Three.PerspectiveCamera(75, 900 / 700, 0.1, 1000);
+      const arRenderer = new Three.WebGLRenderer({ alpha: true, antialias: true });
+      arRenderer.setSize(900, 700);
+      $('#ar-product-preview').html('').append(arRenderer.domElement);
+      const arGeometry = new Three.BoxGeometry(2, 2, 2);
+      const arMaterial = new Three.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5, roughness: 0.1, map: new Three.TextureLoader().load('https://via.placeholder.com/200x200.png?text=Product+Texture') });
+      const arCube = new Three.Mesh(arGeometry, arMaterial);
+      arScene.add(arCube);
+      const arBody = new CANNON.Body({ mass: 1 });
+      arBody.addShape(new CANNON.Box(new CANNON.Vec3(1, 1, 1)));
+      arWorld.addBody(arBody);
+      const arLight = new Three.AmbientLight(0xffffff, 1.5);
+      arScene.add(arLight);
+      arCamera.position.z = 5;
+      $('#ar-product-preview').on('click', () => {
+        arBody.applyImpulse(new CANNON.Vec2(Math.random() * 10 - 5, 5), arBody.position);
+      });
+      function arAnimate() {
+        requestAnimationFrame(arAnimate);
+        arWorld.step(1/60);
+        arCube.position.copy(arBody.position);
+        arCube.quaternion.copy(arBody.quaternion);
+        arRenderer.render(arScene, arCamera);
+      }
+      arAnimate();
+    }
+    // Background Music with Control
+    const sound = new Howl({ src: ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'], loop: true, volume: 0.2 });
+    let isPlaying = true;
+    document.body.addEventListener('dblclick', () => { if (isPlaying) sound.play(); else sound.pause(); isPlaying = !isPlaying; alert('Music ' + (isPlaying ? 'on' : 'off') + ' for parents!'); });
+    // Accessibility Mode
+    $('body').append('<button id="accessibility-mode" data-tooltip="Toggle accessibility mode">Accessibility Mode</button>');
+    $('#accessibility-mode').on('click', function() {
+      $('body').toggleClass('accessibility-mode');
+      alert('Accessibility mode ' + ($(this).text() === 'Accessibility Mode' ? 'on' : 'off') + '!');
+      $(this).text($(this).text() === 'Accessibility Mode' ? 'Disable Accessibility' : 'Accessibility Mode');
+    });
+    $('body.accessibility-mode').css({
+      'font-size': '18px',
+      'line-height': '1.6',
+      'color': '#000',
+      'background': '#fff'
+    });
+  </script>
+  <script src="https://snapchat.com/lens/embed.js" async></script>
+  <script src="https://snap.ar/holo-embed.js" async></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>
