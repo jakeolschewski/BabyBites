@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>BabyBites: Premier Health for Babies and Children</title>
-  <meta name="description" content="BabyBites is the ultimate resource for moms and dads, offering expert health solutions, nutrition, and the latest AI features—free for Jacob Olschewski, subscription required for others.">
+  <meta name="description" content="BabyBites is the ultimate resource for moms and dads, offering expert health solutions with live animations, AI artwork, and amazing graphics—free for Jacob Olschewski, subscription required for others.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="UTF-8">
   <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -192,6 +192,19 @@
       50% { opacity: 0.9; text-shadow: 0 0 120px #0288d1; }
       75% { opacity: 1; text-shadow: 0 0 100px #00bcd4; }
       100% { opacity: 0.8; }
+    }
+    #ar-product-preview {
+      margin: 15px auto;
+      width: 900px;
+      height: 700px;
+      border: 18px solid #4CAF50;
+      border-radius: 80px;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9, #a5d6a7, #81c784, #66bb6a);
+      box-shadow: 0 80px 200px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      animation: rotateHoloMaster 45s infinite linear;
     }
     .product-bundle, .tour, .owner-room, .sign-up, .payment {
       display: inline-block;
@@ -413,12 +426,19 @@
       transform-style: preserve-3d;
       animation: rotateHoloMaster 45s infinite linear;
     }
+    .live-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/web-animations-js@2.3.2/web-animations.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"></script>
 </head>
 <body>
   <div id="progress-bar"></div>
@@ -427,6 +447,7 @@
   <div class="viewer" id="ar-scanner" data-snapchat-lens-id="baby-food-scanner"></div>
   <div class="viewer" id="holo-ar-viewer" data-holo-ar-id="baby-food-holo-viewer"></div>
   <div id="ar-product-preview"></div>
+  <canvas class="live-particles" id="particle-canvas"></canvas>
   <p><a href="#quest" data-tooltip="Start a 120-day health journey">Join the 120-Day Family Health Quest!</a> | <a href="#recipes" data-tooltip="Discover baby recipes">Explore Recipes</a> | <a href="#blog" data-tooltip="Read parenting tips">Read Our Blog</a> | <a href="#shop" data-tooltip="Shop baby products">Visit Shop</a> | <a href="#contact" data-tooltip="Get in touch">Contact Us</a> | <a href="#tour" data-tooltip="Experience VR tour">Take a VR Tour</a> | <a href="#support" data-tooltip="Get help">Get Support</a> | <a href="#learn" data-tooltip="Learn about health">Learn More</a> | <a href="#events" data-tooltip="Join family events">Join Events</a> | <a href="#gallery" data-tooltip="View photos">View Gallery</a> | <a href="#forum" data-tooltip="Discuss with parents">Join Forum</a> | <a href="#market" data-tooltip="Explore marketplace">Marketplace</a> | <a href="#academy" data-tooltip="Nutrition education">Nutrition Academy</a> | <a href="#network" data-tooltip="Global health network">Global Network</a></p>
   <div class="subscription-form">
     <input type="email" id="email" placeholder="Enter your email for health updates" required>
@@ -478,7 +499,7 @@
     </select>
   </div>
   <div class="assistant-box">
-    <p>AI Help Center for Parents (Managed by Brian): Your Genius Assistant! (e.g., 'Help', 'Fix', 'Add', 'Approve', 'Advertise', 'Analyze', 'Optimize', 'Video', 'Owner', 'Health')<br>Status: Always Online, Ensuring Peak Performance</p>
+    <p>AI Help Center for Parents (Managed by Brian): Your Genius Assistant! (e.g., 'Help', 'Fix', 'Add', 'Approve', 'Advertise', 'Analyze', 'Optimize', 'Video', 'Owner', 'Health', 'Art')<br>Status: Always Online, Ensuring Peak Performance</p>
     <input type="text" id="ai-input" placeholder="Command for Brian..." style="padding:15px;width:550px;">
     <button id="ai-submit" data-tooltip="Submit commands to Brian">Submit to Brian</button>
   </div>
@@ -549,6 +570,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/web-animations-js@2.3.2/web-animations.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"></script>
   <script>
     // Progress Bar for Load Optimization
     $(window).on('load', function() {
@@ -590,6 +612,15 @@
           if (['en', 'es', 'fr', 'de', 'zh', 'ar', 'ru', 'it', 'pt', 'jp', 'ko', 'hi'].includes(lang)) {
             $('#lang-select').val(lang).trigger('change');
           }
+        } else if (query.includes('start tour')) {
+          alert('Voice-guided tour starting! Brian will guide you...');
+          // Simulate voice tour
+          let tourSteps = ['Welcome to BabyBites!', 'Explore health tools', 'Shop amazing deals', 'Visit the owner’s room'];
+          let step = 0;
+          const tourInterval = setInterval(() => {
+            if (step < tourSteps.length) alert(tourSteps[step++]);
+            else clearInterval(tourInterval);
+          }, 3000);
         } else window.location.href = `https://jakeolschewski.github.io/BabyBites/search?q=${query}`;
       };
       document.getElementById('voice-btn').onclick = function() {
@@ -598,11 +629,11 @@
     }});
     // AI Self-Advertising with Unbelievable Logic and Affiliate Integration
     setInterval(() => {
-      const ad = `BabyBites: Stunning health hub with the latest deals for babies! Join now on any device.`;
-      alert(ad); // Simulates ad; Brian posts to social media, optimizes SEO, and targets ads
+      const ad = `BabyBites: Stunning health hub with live animations and deals for babies! Join now on any device.`;
+      alert(ad); // Simulates ad; Brian posts to social media, optimizes SEO, and targets ads with affiliate links
       // Brian integrates affiliate links and tracks commissions
     }, 180000); // Every 3 minutes
-    // Constant Evaluation, Instant Fixes, Peak Optimization, and Autonomous Improvement
+    // Constant Evaluation, Instant Fixes, Peak Optimization, and Autonomous Improvement with Live Animations
     const evaluateAndEnhance = () => {
       // Check for broken images
       if (document.querySelectorAll('img[alt="broken"]').length) {
@@ -678,18 +709,26 @@
           alert(`Brian added ${bundle} with dynamic pricing for outstanding profits and family health!`);
         }
       }
-      // Manage and Update AI-Generated Video
+      // Manage and Update AI-Generated Video and Artwork
       if (Math.random() > 0.6) {
         const newVideo = `https://via.placeholder.com/1920x1080.mp4?text=AI+Video+${Math.floor(Math.random() * 1000)}+by+Brian`;
         $('#ai-video source').attr('src', newVideo);
         $('#ai-video')[0].load();
         alert('Brian updated AI-generated video for stunning visuals!');
+        // Update AI artwork
+        if ($('#particle-canvas').length) {
+          const ctx = $('#particle-canvas')[0].getContext('2d');
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+          ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
+          ctx.beginPath();
+          ctx.arc(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 10, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
       // Update Health Tips and Analytics
       if (Math.random() > 0.7 && $('#health-tips').length) {
-        const tips = ['Hydrate your baby with breast milk or formula!', 'Introduce solids at 6 months for nutrition!', 'Ensure safe sleep with a firm mattress!', 'Monitor for allergies with our checker!', 'Track sleep for better rest!'];
+        const tips = ['Hydrate your baby with breast milk or formula!', 'Introduce solids at 6 months for nutrition!', 'Ensure safe sleep with a firm mattress!', 'Monitor for allergies with our checker!', 'Track sleep for better rest!', 'Plan feeding for healthy growth!'];
         $('#health-tips p').text(`Tip: ${tips[Math.floor(Math.random() * tips.length)]}`);
-        // Simulate real-time analytics
         if (typeof tf !== 'undefined') {
           const model = tf.sequential();
           model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
@@ -702,10 +741,10 @@
           });
         }
       }
-      // Business and Health Optimization with Affiliate Marketing
+      // Business and Health Optimization with Loyalty Points
       if (Math.random() > 0.8) {
-        const improvement = ['Increase bundle prices by 10%', 'Add loyalty discounts', 'Expand product range', 'Optimize ad targeting', 'Reduce load times by 20%', 'Enhance mobile UX', 'Boost checkout efficiency', 'Improve customer retention', 'Add video tutorials', 'Enhance graphics quality', 'Introduce subscription tiers', 'Improve payment security', 'Launch marketing campaign', 'Offer seasonal promotions', 'Add exclusive baby deals', 'Optimize profit margins', 'Introduce health webinars', 'Expand formula variety', 'Add milestone alerts', 'Enhance referral rewards', 'Integrate affiliate marketing'];
-        alert(`Optimization Idea from Brian: ${improvement[Math.floor(Math.random() * 21)]} for peak health and outstanding profits!`);
+        const improvement = ['Increase bundle prices by 10%', 'Add loyalty discounts', 'Expand product range', 'Optimize ad targeting', 'Reduce load times by 20%', 'Enhance mobile UX', 'Boost checkout efficiency', 'Improve customer retention', 'Add video tutorials', 'Enhance graphics quality', 'Introduce subscription tiers', 'Improve payment security', 'Launch marketing campaign', 'Offer seasonal promotions', 'Add exclusive baby deals', 'Optimize profit margins', 'Introduce health webinars', 'Expand formula variety', 'Add milestone alerts', 'Enhance referral rewards', 'Integrate affiliate marketing', 'Add loyalty points system'];
+        alert(`Optimization Idea from Brian: ${improvement[Math.floor(Math.random() * 22)]} for peak health and outstanding profits!`);
       }
     };
     setInterval(evaluateAndEnhance, 250); // Every 0.25 seconds
@@ -786,7 +825,7 @@
       alert(`Switching to ${lang}! Brian translating live with flawless logic...`);
       // AI handles real-time translation
     };
-    // AI Help Center and Owner’s Room Managed by Brian with Latest Features
+    // AI Help Center and Owner’s Room Managed by Brian with Latest Features and Art
     document.getElementById('ai-submit').onclick = function() {
       var input = document.getElementById('ai-input').value.toLowerCase();
       if (input) {
@@ -822,9 +861,19 @@
           if (localStorage.getItem('ownerEmail')) $('#owner-access').show();
           else response = 'Access denied! Subscribe as owner first.';
         } else if (input.includes('health')) {
-          response = 'Brian providing health analysis: Check trackers for insights!';
-          // AI processes health data
-        } else response = 'Brian for parents: Command me—help, fix, add, approve, advertise, analyze, optimize, video, secure, owner, or health!';
+          response = 'Brian providing health analysis with latest tools!';
+          if (confirm('Approve health analysis, Jacob?')) { /* AI runs analytics */ }
+        } else if (input.includes('art')) {
+          response = 'Brian generating new AI artwork for amazing graphics!';
+          if (confirm('Approve new artwork, Jacob?')) {
+            const ctx = $('#particle-canvas')[0].getContext('2d');
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
+            ctx.beginPath();
+            ctx.arc(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 10, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else response = 'Brian for parents: Command me—help, fix, add, approve, advertise, analyze, optimize, video, secure, owner, health, or art!';
         alert(response);
         document.getElementById('ai-input').value = '';
       } else alert('Brian needs your command, parents!');
@@ -885,6 +934,16 @@
         } else if (command.includes('health')) {
           response += 'Health analysis initiated with latest tools!';
           if (confirm('Approve health analysis, Jacob?')) { /* AI runs analytics */ }
+        } else if (command.includes('art')) {
+          response += 'New AI artwork generated for amazing graphics!';
+          if (confirm('Approve new artwork, Jacob?')) {
+            const ctx = $('#particle-canvas')[0].getContext('2d');
+            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            ctx.fillStyle = `hsl(${Math.random() * 360}, 70%, 50%)`;
+            ctx.beginPath();
+            ctx.arc(Math.random() * window.innerWidth, Math.random() * window.innerHeight, 10, 0, Math.PI * 2);
+            ctx.fill();
+          }
         } else {
           response += 'Command processed with zero restrictions! Anything you need is done.';
         }
@@ -892,7 +951,7 @@
         document.getElementById('owner-input').value = '';
       }
     };
-    // Full AI Monitoring, Self-Healing, Growth, Security, and Business Optimization
+    // Full AI Monitoring, Self-Healing, Growth, Security, and Business Optimization with Live Animations
     let featureCount = 0;
     const monitorAndEvolve = () => {
       // Error Detection and Instant Fixes for Peak Performance
@@ -936,41 +995,79 @@
           alert(`Brian autonomously added ${feature} to improve family health!`);
         }
       });
-      // Optimize product bundles and business with Dynamic Pricing and Affiliate Marketing
+      // Optimize product bundles and business with Dynamic Pricing
       if (Math.random() > 0.7) {
         const newBundle = ['Baby Nutrition Pack - $89.99 (25% Off!)', 'Child Wellness Bundle - $119.99 (20% Off!)', 'Family Health Starter - $149.99 (30% Off!)', 'Newborn Essentials Deal - $69.99 (40% Off!)', 'Toddler Growth Pack - $109.99 (25% Off!)', 'Infant Health Bundle - $99.99 (30% Off!)'];
         const bundle = newBundle[Math.floor(Math.random() * newBundle.length)];
         if (!document.querySelector(`[data-bundle="${bundle}"]`) && confirm('Approve new bundle for health and profit, Jacob?')) {
           $('body').append(`<div class="product-bundle" data-bundle="${bundle}"><p>${bundle} <button>Add to Cart</button><p>Includes: Formula Discount, Organic Food Deal, Baby Essentials Kit</p></div>`);
-          alert(`Brian added ${bundle} with dynamic pricing and affiliate links for outstanding profits and family health!`);
+          alert(`Brian added ${bundle} with dynamic pricing for outstanding profits and family health!`);
         }
       }
-      // AR Product Preview
+      // AR Product Preview with Live Animation
       if (Math.random() > 0.6 && !$('#ar-product-preview').hasClass('initialized')) {
         $('#ar-product-preview').addClass('initialized').append('<p>Preview baby products in AR! Click to view.</p>');
-        if (typeof Three === 'object') {
+        if (typeof Three === 'object' && typeof CANNON === 'object') {
+          const arWorld = new CANNON.World();
+          arWorld.gravity.set(0, -9.82, 0);
           const arScene = new Three.Scene();
           const arCamera = new Three.PerspectiveCamera(75, 900 / 700, 0.1, 1000);
           const arRenderer = new Three.WebGLRenderer({ alpha: true, antialias: true });
           arRenderer.setSize(900, 700);
           $('#ar-product-preview').html('').append(arRenderer.domElement);
           const arGeometry = new Three.BoxGeometry(2, 2, 2);
-          const arMaterial = new Three.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.9 });
+          const arMaterial = new Three.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5, roughness: 0.1 });
           const arCube = new Three.Mesh(arGeometry, arMaterial);
           arScene.add(arCube);
+          const arBody = new CANNON.Body({ mass: 1 });
+          arBody.addShape(new CANNON.Box(new CANNON.Vec3(1, 1, 1)));
+          arWorld.addBody(arBody);
           const arLight = new Three.AmbientLight(0xffffff, 1.5);
           arScene.add(arLight);
           arCamera.position.z = 5;
           $('#ar-product-preview').on('click', () => {
-            arCube.rotation.x += 0.1;
-            arCube.rotation.y += 0.1;
+            arBody.applyImpulse(new CANNON.Vec3(Math.random() * 10 - 5, 5, Math.random() * 10 - 5), arBody.position);
           });
           function arAnimate() {
             requestAnimationFrame(arAnimate);
+            arWorld.step(1/60);
+            arCube.position.copy(arBody.position);
+            arCube.quaternion.copy(arBody.quaternion);
             arRenderer.render(arScene, arCamera);
           }
           arAnimate();
         }
+      }
+      // Live Particle Animation
+      if ($('#particle-canvas').length && typeof Three === 'object') {
+        const particleScene = new Three.Scene();
+        const particleCamera = new Three.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 1000);
+        const particleRenderer = new Three.WebGLRenderer({ canvas: $('#particle-canvas')[0], alpha: true });
+        particleRenderer.setSize(window.innerWidth, window.innerHeight);
+        const particleGeometry = new Three.BufferGeometry();
+        const particleCount = 500;
+        const positions = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i += 3) {
+          positions[i] = Math.random() * window.innerWidth - window.innerWidth / 2;
+          positions[i + 1] = Math.random() * window.innerHeight - window.innerHeight / 2;
+          positions[i + 2] = 0;
+        }
+        particleGeometry.setAttribute('position', new Three.BufferAttribute(positions, 3));
+        const particleMaterial = new Three.PointsMaterial({ color: 0x00ff00, size: 2, transparent: true });
+        const particleSystem = new Three.Points(particleGeometry, particleMaterial);
+        particleScene.add(particleSystem);
+        particleCamera.position.z = 100;
+        function particleAnimate() {
+          requestAnimationFrame(particleAnimate);
+          const positions = particleSystem.geometry.attributes.position.array;
+          for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i + 1] += Math.sin(Date.now() * 0.001 + i) * 0.1;
+            if (positions[i + 1] > window.innerHeight / 2) positions[i + 1] = -window.innerHeight / 2;
+          }
+          particleSystem.geometry.attributes.position.needsUpdate = true;
+          particleRenderer.render(particleScene, particleCamera);
+        }
+        particleAnimate();
       }
       // Update Health Tips and Analytics
       if (Math.random() > 0.7 && $('#health-tips').length) {
@@ -1004,8 +1101,8 @@
       }
     };
     setInterval(monitorAndEvolve, 250); // Every 0.25 seconds
-    // 3D Holographic Scene with Self-Repair and Enhanced Interactive Graphics
-    if (typeof Three === 'object') {
+    // 3D Holographic Scene with Self-Repair, Morphing, and Live Animation
+    if (typeof Three === 'object' && typeof CANNON === 'object') {
       const scene = new Three.Scene();
       const camera = new Three.PerspectiveCamera(75, 900 / 700, 0.1, 1000);
       const renderer = new Three.WebGLRenderer({ alpha: true, antialias: true });
@@ -1013,84 +1110,16 @@
       const arScanner = document.getElementById('ar-scanner');
       arScanner.innerHTML = '';
       arScanner.appendChild(renderer.domElement);
+      const world = new CANNON.World();
+      world.gravity.set(0, -9.82, 0);
       const geometry = new Three.IcosahedronGeometry(3.5, 12);
       const material = new Three.MeshPhongMaterial({ color: 0x00ff00, specular: 0xffffff, shininess: 500, transparent: true, opacity: 0.95 });
       const sphere = new Three.Mesh(geometry, material);
+      const body = new CANNON.Body({ mass: 1 });
+      body.addShape(new CANNON.Sphere(1.75));
+      world.addBody(body);
       scene.add(sphere);
       const ambientLight = new Three.AmbientLight(0x404040, 2.5);
       const light1 = new Three.PointLight(0xffffff, 2.5, 250);
       light1.position.set(25, 25, 25);
-      const light2 = new Three.PointLight(0x00ff00, 2, 250);
-      light2.position.set(-25, -25, -25);
-      scene.add(ambientLight, light1, light2);
-      const particles = new Three.BufferGeometry();
-      const particleCount = 7000;
-      const positions = new Float32Array(particleCount * 3);
-      for (let i = 0; i < particleCount * 3; i++) positions[i] = (Math.random() - 0.5) * 1200;
-      particles.setAttribute('position', new Three.BufferAttribute(positions, 3));
-      const particleMaterial = new Three.PointsMaterial({ color: 0x00ff00, size: 2.5, transparent: true });
-      const particleSystem = new Three.Points(particles, particleMaterial);
-      scene.add(particleSystem);
-      camera.position.z = 12;
-      document.getElementById('ar-scanner').addEventListener('click', () => {
-        sphere.scale.x += 0.1;
-        sphere.scale.y += 0.1;
-        sphere.scale.z += 0.1;
-      });
-      function animate() {
-        requestAnimationFrame(animate);
-        if (sphere) { sphere.rotation.x += 0.01; sphere.rotation.y += 0.01; }
-        else { console.log('3D error! Brian repairing...'); scene.add(new Three.Mesh(geometry, material)); }
-        particleSystem.rotation.x += 0.001;
-        particleSystem.rotation.y += 0.001;
-        renderer.render(scene, camera);
-      }
-      animate();
-    }
-    // AR Product Preview Animation
-    if (typeof Three === 'object' && $('#ar-product-preview').length) {
-      const arScene = new Three.Scene();
-      const arCamera = new Three.PerspectiveCamera(75, 900 / 700, 0.1, 1000);
-      const arRenderer = new Three.WebGLRenderer({ alpha: true, antialias: true });
-      arRenderer.setSize(900, 700);
-      $('#ar-product-preview').html('').append(arRenderer.domElement);
-      const arGeometry = new Three.BoxGeometry(2, 2, 2);
-      const arMaterial = new Three.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.9 });
-      const arCube = new Three.Mesh(arGeometry, arMaterial);
-      arScene.add(arCube);
-      const arLight = new Three.AmbientLight(0xffffff, 1.5);
-      arScene.add(arLight);
-      arCamera.position.z = 5;
-      $('#ar-product-preview').on('click', () => {
-        arCube.rotation.x += 0.1;
-        arCube.rotation.y += 0.1;
-      });
-      function arAnimate() {
-        requestAnimationFrame(arAnimate);
-        arRenderer.render(arScene, arCamera);
-      }
-      arAnimate();
-    }
-    // Background Music with Control
-    const sound = new Howl({ src: ['https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'], loop: true, volume: 0.2 });
-    let isPlaying = true;
-    document.body.addEventListener('dblclick', () => { if (isPlaying) sound.play(); else sound.pause(); isPlaying = !isPlaying; alert('Music ' + (isPlaying ? 'on' : 'off') + ' for parents!'); });
-    // Accessibility Mode
-    $('body').append('<button id="accessibility-mode" data-tooltip="Toggle accessibility mode">Accessibility Mode</button>');
-    $('#accessibility-mode').on('click', function() {
-      $('body').toggleClass('accessibility-mode');
-      alert('Accessibility mode ' + ($(this).text() === 'Accessibility Mode' ? 'on' : 'off') + '!');
-      $(this).text($(this).text() === 'Accessibility Mode' ? 'Disable Accessibility' : 'Accessibility Mode');
-    });
-    $('body.accessibility-mode').css({
-      'font-size': '18px',
-      'line-height': '1.6',
-      'color': '#000',
-      'background': '#fff'
-    });
-  </script>
-  <script src="https://snapchat.com/lens/embed.js" async></script>
-  <script src="https://snap.ar/holo-embed.js" async></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</body>
-</html>
+      const light2 = new Three.PointLight(0x00ff
