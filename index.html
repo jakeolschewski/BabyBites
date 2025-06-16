@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="BabyBites: The ultimate AI-powered parenting hub with a vibrant, emotional design, smart chatbot, and global health solutions—free for Jacob Olschewski, premium for others.">
+    <meta name="description" content="BabyBites: The ultimate AI-powered parenting hub with immersive design, smart chatbot, and global health solutions—free for Jacob Olschewski, premium for others.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tensorflow.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://images.unsplash.com; media-src 'self' https://via.placeholder.com; object-src 'none'; worker-src 'self' blob:;">
     <title>BabyBites: Premier Health for Babies and Children</title>
@@ -20,6 +20,7 @@
             animation: joyfulGlow 90s infinite ease-in-out;
             overflow-x: hidden;
             perspective: 5000px;
+            position: relative;
         }
         @keyframes joyfulGlow {
             0% { background-position: 0% 0%, 0% 0%; filter: brightness(100%) hue-rotate(0deg); }
@@ -46,6 +47,14 @@
             z-index: -1;
             opacity: 0.6;
             pointer-events: none;
+        }
+        canvas#bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
         }
         header {
             background: linear-gradient(90deg, #0288d1, #42a5f5);
@@ -94,11 +103,15 @@
             padding: 2.5rem;
             max-width: 1200px;
             margin: 0 auto 30px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 245, 245, 0.85);
             border-radius: 20px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+        .section:hover {
+            transform: translateY(-10px);
         }
         .section::before {
             content: '';
@@ -107,7 +120,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, transparent 70%);
             animation: pulseHeart 10s infinite;
             z-index: 0;
         }
@@ -182,6 +195,7 @@
             width: 350px;
             background: #fff;
             transition: all 0.4s;
+            cursor: pointer;
         }
         input:focus, select:focus, button:focus {
             border-color: #f06292;
@@ -195,6 +209,7 @@
         }
         button:hover {
             background: linear-gradient(45deg, #f06292, #ec407a);
+            transform: scale(1.05);
         }
         a {
             color: #d81b60;
@@ -273,6 +288,7 @@
 <body>
     <div id="progress-bar"></div>
     <canvas class="live-particles" id="particle-canvas"></canvas>
+    <canvas id="bg-canvas"></canvas>
     <header>
         <h1>BabyBites</h1>
         <nav>
@@ -300,19 +316,19 @@
     </div>
     <div class="section" id="products">
         <h2>Explore Joyful Baby Products</h2>
-        <div class="product-bundle" data-bundle="Family Food Pack">
+        <div class="product-bundle" data-bundle="Family Food Pack" draggable="true" ondragstart="dragStart(event)">
             <p>Family Food Pack - $49.99 (20% Off!)</p>
             <p>Includes: Organic Baby Food Pack, Organic Snack Box</p>
             <p>Tax: Calculated at checkout</p>
             <button onclick="addToCart('Family Food Pack', 39.99)">Add to Cart</button>
         </div>
-        <div class="product-bundle" data-bundle="Health Starter Bundle">
+        <div class="product-bundle" data-bundle="Health Starter Bundle" draggable="true" ondragstart="dragStart(event)">
             <p>Health Starter Bundle - $63.99 (20% Off!)</p>
             <p>Includes: Nutritional Starter Kit, Baby Vitamin Set</p>
             <p>Tax: Calculated at checkout</p>
             <button onclick="addToCart('Health Starter Bundle', 51.19)">Add to Cart</button>
         </div>
-        <div class="product-bundle" data-bundle="Premium Wellness Pack">
+        <div class="product-bundle" data-bundle="Premium Wellness Pack" draggable="true" ondragstart="dragStart(event)">
             <p>Premium Wellness Pack - $79.99 (20% Off!)</p>
             <p>Includes: Premium Baby Formula, Baby Health Bundle</p>
             <p>Tax: Calculated at checkout</p>
@@ -343,7 +359,7 @@
     </div>
     <div class="section" id="tools">
         <h2>Nurture with Health Tools</h2>
-        <div class="tool-card" id="milestone-tracker">
+        <div class="tool-card" id="milestone-tracker" draggable="true" ondragstart="dragStart(event)">
             <h3>Milestone Tracker</h3>
             <input id="milestone-input" placeholder="Enter milestone (e.g., First step)">
             <button onclick="logMilestone()">Log Milestone</button>
@@ -351,7 +367,7 @@
         </div>
         <div class="tool-card" id="wellness-chatbot">
             <h3>Wellness Chatbot</h3>
-            <input id="chatbot-input" placeholder="Ask anything about parenting...">
+            <input id="chatbot-input" placeholder="Ask anything about parenting..." onvoiceinput="voiceInput(event)">
             <button onclick="chatbotRespond()">Ask</button>
             <p id="chatbot-response">Ask away!</p>
         </div>
@@ -392,19 +408,26 @@
             <input type="text" id="owner-2fa" placeholder="2FA Code" style="display:none;" disabled>
             <button id="owner-access">Access Room</button>
             <div id="owner-content" style="display:none;">
-                <input type="text" id="owner-input" placeholder="Owner Command for Brian 4.0...">
-                <button id="owner-submit">Submit to Brian 4.0</button>
+                <input type="text" id="owner-input" placeholder="Owner Command for Brian 5.0...">
+                <button id="owner-submit">Submit to Brian 5.0</button>
                 <div id="owner-response"></div>
             </div>
         </div>
     </div>
     <div class="section">
         <div class="assistant-box">
-            <p>AI Help Center (Managed by Brian 4.0): Type 'help', 'fix', 'owner', 'health', 'innovate', or ask anything!</p>
-            <input type="text" id="ai-input" placeholder="Command for Brian 4.0...">
-            <button id="ai-submit">Submit to Brian 4.0</button>
+            <p>AI Help Center (Managed by Brian 5.0): Speak or type 'help', 'fix', 'owner', 'health', 'innovate', or ask anything!</p>
+            <input type="text" id="ai-input" placeholder="Command for Brian 5.0..." onvoiceinput="voiceInput(event)">
+            <button id="ai-submit">Submit to Brian 5.0</button>
         </div>
         <button id="accessibility-mode">Toggle Accessibility Mode</button>
+        <div class="theme-toggle">
+            <select id="theme-select" onchange="changeTheme()">
+                <option value="default">Loving Theme</option>
+                <option value="calm">Calm Theme</option>
+                <option value="playful">Playful Theme</option>
+            </select>
+        </div>
         <div class="language-toggle">
             Language: <select id="lang-select">
                 <option value="en">English</option>
@@ -429,13 +452,13 @@
         </div>
     </div>
     <div class="footer">
-        <p>Created with ❤️ by Brian 4.0 for families</p>
+        <p>Created with ❤️ by Brian 5.0 for families</p>
     </div>
     <script>
         window.onerror = function(msg, url, lineNo, columnNo, error) {
             const errorDetails = `Error: ${msg}\nURL: ${url}\nLine: ${lineNo}\nColumn: ${columnNo}\nStack: ${error ? error.stack : 'N/A'}`;
             console.error(errorDetails);
-            alert(`Brian 4.0 detected error: ${msg}. Optimizing...`);
+            alert(`Brian 5.0 detected error: ${msg}. Optimizing with care...`);
             localStorage.setItem('errorLog', JSON.stringify([...(JSON.parse(localStorage.getItem('errorLog')) || []), { time: new Date(), details: errorDetails }]));
             setTimeout(() => location.reload(), 500);
             return false;
@@ -452,16 +475,16 @@
         async function trainSuperAIModel() {
             try {
                 const model = tf.sequential();
-                model.add(tf.layers.dense({ units: 40, inputShape: [6], activation: 'relu' }));
-                model.add(tf.layers.dense({ units: 20, activation: 'relu' }));
+                model.add(tf.layers.dense({ units: 50, inputShape: [7], activation: 'relu' }));
+                model.add(tf.layers.dense({ units: 25, activation: 'relu' }));
                 model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
                 model.compile({ optimizer: 'adam', loss: 'binaryCrossentropy', metrics: ['accuracy'] });
-                const xs = tf.tensor2d(userInteractions.map(i => [i.clicks, i.timeSpent, i.featuresUsed, i.pageViews, i.conversionRate, i.sessionDuration]));
+                const xs = tf.tensor2d(userInteractions.map(i => [i.clicks, i.timeSpent, i.featuresUsed, i.pageViews, i.conversionRate, i.sessionDuration, i.themePreference]));
                 const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore]));
-                await model.fit(xs, ys, { epochs: 40, batchSize: 8 });
+                await model.fit(xs, ys, { epochs: 50, batchSize: 8 });
                 return model;
             } catch (e) {
-                console.error('Brian 4.0 model training error:', e);
+                console.error('Brian 5.0 model training error:', e);
                 return null;
             }
         }
@@ -469,13 +492,13 @@
         async function trainChatbotModel() {
             try {
                 const model = tf.sequential();
-                model.add(tf.layers.dense({ units: 30, inputShape: [15], activation: 'relu' }));
-                model.add(tf.layers.dense({ units: 15, activation: 'relu' }));
+                model.add(tf.layers.dense({ units: 40, inputShape: [20], activation: 'relu' }));
+                model.add(tf.layers.dense({ units: 20, activation: 'relu' }));
                 model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
                 model.compile({ optimizer: 'adam', loss: 'binaryCrossentropy' });
-                const xs = tf.tensor2d(userInteractions.map(i => Array(15).fill(Math.random())));
+                const xs = tf.tensor2d(userInteractions.map(i => Array(20).fill(Math.random())));
                 const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore || 0.5]));
-                await model.fit(xs, ys, { epochs: 20, batchSize: 4 });
+                await model.fit(xs, ys, { epochs: 30, batchSize: 4 });
                 return model;
             } catch (e) {
                 console.error('Chatbot model training error:', e);
@@ -484,38 +507,78 @@
         }
 
         const chatbotResponses = {
-            help: 'Brian 4.0: Ask about parenting, products, or commands like innovate with love!',
-            fix: 'Brian 4.0: All systems optimized with care! Share details if needed.',
-            owner: 'Brian 4.0: Use password Jacob2025 and 2FA for Owner’s Room.',
-            health: 'Brian 4.0: Nurture with love! Try the Milestone Tracker or ask about sleep.',
-            innovate: 'Brian 4.0: Creating joyful new features! Check back soon.',
-            nutrition: 'Brian 4.0: Feed with love—breast milk or formula. Need a meal plan?',
-            milestone: 'Brian 4.0: Celebrate first steps in the Milestone Tracker!',
-            allergy: 'Brian 4.0: Check allergies with care using the Allergy Checker.',
-            sleep: 'Brian 4.0: Sweet dreams with the Sleep Tracker. Want tips?',
-            feeding: 'Brian 4.0: Plan meals with love using the Feeding Schedule Planner.',
-            cart: 'Brian 4.0: Fill your cart with joy and checkout securely!',
-            discount: 'Brian 4.0: Save with love using the Discount Calculator (20-30% off)!',
-            referral: 'Brian 4.0: Share code BABY2025 for 10% off with a friend!',
-            subscribe: 'Brian 4.0: Subscribe for updates—free for Jacob Olschewski!',
-            recipe: 'Brian 4.0: Whip up love with pureed carrots or banana mash!',
-            product: 'Brian 4.0: Discover organic treasures in Products!',
-            community: 'Brian 4.0: Join our loving Forum or Nutrition Academy!',
-            tax: 'Brian 4.0: We comply with IRS rules but don’t offer tax advice. Consult a pro.',
-            privacy: 'Brian 4.0: Your data is safe with love per GDPR/CCPA. See Privacy Policy.',
-            default: 'Brian 4.0: Spread joy! Try health, cart, or innovate!'
+            help: 'Brian 5.0: I’m here to sprinkle love! Ask about parenting, products, or say innovate!',
+            fix: 'Brian 5.0: Fixing with care! Tell me more if needed.',
+            owner: 'Brian 5.0: Unlock Owner’s Room with password Jacob2025 and 2FA.',
+            health: 'Brian 5.0: Nurture with love! Try Milestone Tracker or ask about sleep.',
+            innovate: 'Brian 5.0: Crafting magical new features! Check back soon.',
+            nutrition: 'Brian 5.0: Feed with love—breast milk or formula. Want a custom plan?',
+            milestone: 'Brian 5.0: Celebrate milestones with joy in the Tracker!',
+            allergy: 'Brian 5.0: Check allergies with care using the Checker.',
+            sleep: 'Brian 5.0: Sweet dreams with the Sleep Tracker. Need lullaby tips?',
+            feeding: 'Brian 5.0: Plan meals with love using the Planner.',
+            cart: 'Brian 5.0: Fill your cart with joy and pay securely!',
+            discount: 'Brian 5.0: Save with love (20-30% off) using the Calculator!',
+            referral: 'Brian 5.0: Share BABY2025 for 10% off with a friend!',
+            subscribe: 'Brian 5.0: Subscribe with love—free for Jacob Olschewski!',
+            recipe: 'Brian 5.0: Try pureed carrots or banana mash with a smile!',
+            product: 'Brian 5.0: Discover treasures in Products with love!',
+            community: 'Brian 5.0: Join our warm Forum or Nutrition Academy!',
+            tax: 'Brian 5.0: IRS compliance with love, but no advice. See a pro.',
+            privacy: 'Brian 5.0: Data safe with love per GDPR/CCPA. Check Privacy Policy.',
+            default: 'Brian 5.0: Spread joy! Try health, cart, or innovate!'
         };
 
         const searchCategories = [
-            { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log baby milestones with love!', score: 0.9 },
-            { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask parenting questions with care.', score: 0.95 },
-            { id: 'health-tips', category: 'Health Tools', title: 'Health Tips', description: 'Real-time tips for your baby.', score: 0.8 },
-            { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Organic food and snacks with love.', score: 0.85 },
-            { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Nutritional kit for your baby., score: 0.8 },
-            { id: 'premium-wellness-pack', category: 'Products', title: 'Premium Wellness Pack', description: 'Formula and health with care., score: 0.9 },
+            { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones with love!', score: 0.9 },
+            { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask with care.', score: 0.95 },
+            { id: 'health-tips', category: 'Health Tools', title: 'Health Tips', description: 'Joyful tips for your baby.', score: 0.8 },
+            { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Organic love in every bite., score: 0.85 },
+            { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Nurturing kit for your baby., score: 0.8 },
+            { id: 'premium-wellness-pack', category: 'Products', title: 'Premium Wellness Pack', description: 'Care in every drop., score: 0.9 },
             { id: 'forum', category: 'Community', title: 'Forum', description: 'Connect with loving parents., score: 0.75 },
-            { id: 'nutrition-academy', category: 'Community', title: 'Nutrition Academy', description: 'Learn to nurture your baby., score: 0.7 }
+            { id: 'nutrition-academy', category: 'Community', title: 'Nutrition Academy', description: 'Learn with love., score: 0.7 }
         ];
+
+        let currentTheme = 'default';
+
+        function changeTheme() {
+            const theme = document.getElementById('theme-select').value;
+            currentTheme = theme;
+            document.body.style.background = theme === 'calm' ? 'linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea, #4dd0e1, #26c6da)' :
+                theme === 'playful' ? 'linear-gradient(135deg, #fff9c4, #ffecb3, #ffe082, #ffd54f, #ffca28)' : 'linear-gradient(135deg, #fce4ec, #f8bbd0, #f48fb1, #f06292, #ec407a)';
+            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: theme === 'calm' ? 0 : theme === 'playful' ? 1 : 2 });
+            localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+        }
+
+        function voiceInput(event) {
+            const input = event.target;
+            if (input && 'webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.onresult = (e) => {
+                    input.value = e.results[0][0].transcript;
+                    if (input.id === 'chatbot-input') chatbotRespond();
+                    else if (input.id === 'ai-input') aiSubmit.click();
+                };
+                recognition.start();
+            }
+        }
+
+        function dragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.getAttribute('data-bundle'));
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData('text');
+            alert(`Dropped ${data} into cart with love!`);
+            addToCart(data, data === 'Family Food Pack' ? 39.99 : data === 'Health Starter Bundle' ? 51.19 : 63.99);
+        }
 
         try {
             checkDependencies();
@@ -550,11 +613,11 @@
                 const ctx = canvas.getContext('2d');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                const particles = Array.from({ length: 1000 }, () => ({
+                const particles = Array.from({ length: 1500 }, () => ({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 1,
-                    vy: (Math.random() - 0.5) * 1,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: (Math.random() - 0.5) * 1.5,
                     color: `hsl(${Math.random() * 360}, 70%, 70%)`
                 }));
                 worker.postMessage({ type: 'animateParticles', data: { particles, width: canvas.width, height: canvas.height } });
@@ -573,6 +636,30 @@
                 };
             }
 
+            if (typeof THREE === 'object') {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('bg-canvas').appendChild(renderer.domElement);
+                const geometry = new THREE.SphereGeometry(500, 32, 32);
+                const material = new THREE.MeshBasicMaterial({ color: 0xffeb3b, wireframe: true, transparent: true, opacity: 0.1 });
+                const sphere = new THREE.Mesh(geometry, material);
+                scene.add(sphere);
+                camera.position.z = 5;
+                function animate() {
+                    requestAnimationFrame(animate);
+                    sphere.rotation.y += 0.001;
+                    renderer.render(scene, camera);
+                }
+                animate();
+                window.addEventListener('resize', () => {
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                });
+            }
+
             if (typeof THREE === 'object' && typeof CANNON === 'object') {
                 const arWorld = new CANNON.World();
                 arWorld.gravity.set(0, -9.82, 0);
@@ -582,7 +669,7 @@
                 arRenderer.setSize(900, 700);
                 document.getElementById('ar-product-preview').appendChild(arRenderer.domElement);
                 const arGeometry = new THREE.BoxGeometry(2, 2, 2);
-                const arMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5, roughness: 0.1 });
+                const arMaterial = new THREE.MeshStandardMaterial({ color: 0xffca28, metalness: 0.5, roughness: 0.1 });
                 const arCube = new THREE.Mesh(arGeometry, arMaterial);
                 arScene.add(arCube);
                 const arBody = new CANNON.Body({ mass: 1 });
@@ -614,7 +701,7 @@
                 const world = new CANNON.World();
                 world.gravity.set(0, -9.82, 0);
                 const geometry = new THREE.IcosahedronGeometry(3.5, 12);
-                const material = new THREE.MeshPhongMaterial({ color: 0x00ff00, specular: 0xffffff, shininess: 500, transparent: true, opacity: 0.95 });
+                const material = new THREE.MeshPhongMaterial({ color: 0xffca28, specular: 0xffffff, shininess: 500, transparent: true, opacity: 0.95 });
                 const sphere = new THREE.Mesh(geometry, material);
                 const body = new CANNON.Body({ mass: 1 });
                 body.addShape(new CANNON.Sphere(1.75));
@@ -641,21 +728,21 @@
                     if (!cart.some(i => i.item === item)) {
                         cart.push({ item, price });
                         localStorage.setItem('cart', JSON.stringify(cart));
-                        alert(`Added ${item} to cart with love!`);
+                        alert(`Added ${item} to cart with love! 🎉`);
                         $('.payment').addClass('active');
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.9 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.9, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } else {
-                        alert('Item already in your cart of love!');
+                        alert('Item already in your cart of love! 🎀');
                     }
                 } catch (e) {
                     console.error('Cart error:', e);
-                    alert('Error adding to cart. Brian 4.0 fixing with care...');
+                    alert('Error adding to cart. Brian 5.0 fixing with care...');
                 }
             }
 
             function calculateTax(zipCode, amount) {
-                const taxRates = { 'default': 0.08 }; // Placeholder; integrate with TaxJar API in backend
+                const taxRates = { 'default': 0.08 }; // Placeholder; integrate with TaxJar API
                 const rate = taxRates[zipCode] || taxRates['default'];
                 return amount * rate;
             }
@@ -677,18 +764,18 @@
                             let discount = cartTotal * (Math.random() * 0.1 + 0.2);
                             let tax = calculateTax(zipCode, cartTotal - discount);
                             let finalTotal = cartTotal - discount + tax;
-                            document.getElementById('payment-status').textContent = `Payment processed with love! Subtotal: $${cartTotal.toFixed(2)}, Discount: $${discount.toFixed(2)}, Tax: $${tax.toFixed(2)}, Total: $${finalTotal.toFixed(2)}.`;
+                            document.getElementById('payment-status').textContent = `Payment processed with love! Subtotal: $${cartTotal.toFixed(2)}, Discount: $${discount.toFixed(2)}, Tax: $${tax.toFixed(2)}, Total: $${finalTotal.toFixed(2)}. 🎊`;
                             localStorage.removeItem('cart');
                             cart = [];
                             $('.payment').removeClass('active');
-                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, sessionDuration: performance.now(), engagementScore: 1.0 });
+                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                             localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                         } else {
                             document.getElementById('payment-status').textContent = 'Invalid payment details or ZIP code!';
                         }
                     } catch (e) {
                         console.error('Payment error:', e);
-                        alert('Payment error. Brian 4.0 fixing with care...');
+                        alert('Payment error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -702,12 +789,14 @@
                         localStorage.setItem('milestones', JSON.stringify(milestones));
                         document.getElementById('milestone-log').textContent = milestones.join(', ');
                         input.value = '';
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.8 });
+                        const badge = `<span style="color:#ec407a; animation: bounce 1s;">⭐ Milestone Logged!</span>`;
+                        document.getElementById('milestone-log').innerHTML += badge;
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.8, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     }
                 } catch (e) {
                     console.error('Milestone error:', e);
-                    alert('Milestone error. Brian 4.0 fixing with care...');
+                    alert('Milestone error. Brian 5.0 fixing with care...');
                 }
             }
 
@@ -716,7 +805,7 @@
                 try {
                     const input = document.getElementById('chatbot-input');
                     if (!input || !input.value) {
-                        document.getElementById('chatbot-response').textContent = 'Please ask with love!';
+                        document.getElementById('chatbot-response').textContent = 'Speak or type with love! 🎤';
                         return;
                     }
                     const query = input.value.toLowerCase().trim();
@@ -733,19 +822,19 @@
                     }
                     if (!chatbotModel) chatbotModel = await trainChatbotModel();
                     if (chatbotModel) {
-                        const inputVector = Array(15).fill(Math.random());
+                        const inputVector = Array(20).fill(Math.random());
                         const prediction = chatbotModel.predict(tf.tensor2d([inputVector]));
                         const score = (await prediction.data())[0];
                         response += ` (AI confidence: ${(score * 100).toFixed(2)}%)`;
                     }
                     document.getElementById('chatbot-response').textContent = response;
                     input.value = '';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 } catch (e) {
                     console.error('Chatbot error:', e);
-                    alert('Chatbot error. Brian 4.0 fixing with care...');
-                    document.getElementById('chatbot-response').textContent = 'Oops! Try again with love!';
+                    alert('Chatbot error. Brian 5.0 fixing with care...');
+                    document.getElementById('chatbot-response').textContent = 'Oops! Try again with love! 🎵';
                 }
             }
 
@@ -753,20 +842,20 @@
                 try {
                     const input = document.getElementById('search-input');
                     if (!input || !input.value) {
-                        document.getElementById('search-results').textContent = 'Search with love!';
+                        document.getElementById('search-results').textContent = 'Search with love! 🎉';
                         return;
                     }
                     const query = input.value.toLowerCase().trim();
                     const results = searchCategories
                         .filter(item => item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query))
                         .sort((a, b) => b.score - a.score)
-                        .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description}</p>`);
-                    document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No joyful results found!';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7 });
+                        .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description} ✨</p>`);
+                    document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No joyful results found! 🎵';
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 } catch (e) {
                     console.error('Search error:', e);
-                    alert('Search error. Brian 4.0 fixing with care...');
+                    alert('Search error. Brian 5.0 fixing with care...');
                 }
             }
 
@@ -775,12 +864,12 @@
                 setInterval(() => {
                     try {
                         const tips = [
-                            'Hydrate your baby with breast milk or formula with love!',
-                            'Introduce solids at 6 months for happy growth!',
-                            'Ensure safe sleep with a firm mattress and cuddles!',
-                            'Monitor for allergies with our caring checker!',
-                            'Track sleep for sweet dreams with love!',
-                            'Plan feeding for healthy, joyful moments!'
+                            'Hydrate your baby with breast milk or formula with love! 🎶',
+                            'Introduce solids at 6 months for happy growth! 🌱',
+                            'Ensure safe sleep with a firm mattress and cuddles! 💤',
+                            'Monitor for allergies with our caring checker! 🌼',
+                            'Track sleep for sweet dreams with love! 🌙',
+                            'Plan feeding for healthy, joyful moments! 🍎'
                         ];
                         healthTip.textContent = `Tip: ${tips[Math.floor(Math.random() * tips.length)]}`;
                     } catch (e) {
@@ -798,15 +887,15 @@
                             const discountRate = Math.random() * 0.1 + 0.2;
                             const discount = amount * discountRate;
                             const finalAmount = amount - discount;
-                            document.getElementById('discount-result').textContent = `${(discountRate * 100).toFixed(0)}% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${finalAmount.toFixed(2)}`;
-                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6 });
+                            document.getElementById('discount-result').textContent = `${(discountRate * 100).toFixed(0)}% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${finalAmount.toFixed(2)} 🎁`;
+                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                             localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                         } else {
-                            document.getElementById('discount-result').textContent = 'Enter a loving amount!';
+                            document.getElementById('discount-result').textContent = 'Enter a loving amount! 💕';
                         }
                     } catch (e) {
                         console.error('Discount error:', e);
-                        alert('Discount error. Brian 4.0 fixing with care...');
+                        alert('Discount error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -819,21 +908,21 @@
                         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                         if (emailRegex.test(email)) {
                             if (email.toLowerCase().includes('jacobolschewski')) {
-                                alert('Subscribed with love for Jacob Olschewski, owner, for free!');
+                                alert('Subscribed with love for Jacob Olschewski, owner, for free! 🎉');
                                 localStorage.setItem('ownerEmail', 'jacobolschewski');
                                 $('.owner-room').addClass('active');
                             } else {
-                                alert('Subscribed to premium plan with joy! Payment required.');
+                                alert('Subscribed to premium plan with joy! Payment required. 🎀');
                                 window.location.href = 'https://jakeolschewski.github.io/BabyBites/subscribe?plan=premium';
                             }
-                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.95 });
+                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.95, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                             localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                         } else {
-                            alert('Invalid email! Try again with love!');
+                            alert('Invalid email! Try again with love! 💌');
                         }
                     } catch (e) {
                         console.error('Subscription error:', e);
-                        alert('Subscription error. Brian 4.0 fixing with care...');
+                        alert('Subscription error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -854,19 +943,19 @@
                                     sessionToken = 'token-' + Date.now();
                                     localStorage.setItem('sessionToken', JSON.stringify(sessionToken));
                                     document.getElementById('owner-content').style.display = 'block';
-                                    alert('Access granted to Owner’s Room, Jacob Olschewski, with love!');
+                                    alert('Access granted to Owner’s Room, Jacob Olschewski, with love! 🎉');
                                     document.getElementById('owner-2fa').style.display = 'none';
                                     document.getElementById('owner-2fa').disabled = true;
-                                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0 });
+                                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                                 }
                             };
                         } else {
-                            alert('Incorrect password! Try again with love!');
+                            alert('Incorrect password! Try again with love! 💕');
                         }
                     } catch (e) {
                         console.error('Owner access error:', e);
-                        alert('Owner access error. Brian 4.0 fixing with care...');
+                        alert('Owner access error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -877,36 +966,36 @@
                     try {
                         if (sessionToken) {
                             const command = document.getElementById('owner-input').value.toLowerCase();
-                            let response = 'Brian 4.0 executing command with love: ';
+                            let response = 'Brian 5.0 executing command with love: ';
                             if (command.includes('add')) {
-                                response += 'New feature added with joy!';
+                                response += 'New feature added with joy! 🎉';
                                 document.body.insertAdjacentHTML('beforeend', '<p style="color:#ec407a;">Owner Added Feature with Love!</p>');
                             } else if (command.includes('optimize')) {
-                                response += 'Site optimized with care!';
+                                response += 'Site optimized with care! ✨';
                                 document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.03s ease');
                             } else if (command.includes('new-tool')) {
-                                response += 'New health tool added with love!';
+                                response += 'New health tool added with love! ❤️';
                                 document.getElementById('tools').insertAdjacentHTML('beforeend', '<div class="tool-card"><h3>AI-Generated Tool</h3><p>Personalized health insights!</p></div>');
                             } else if (command.includes('new-product')) {
-                                response += 'New product added with joy!';
+                                response += 'New product added with joy! 🎀';
                                 document.getElementById('products').insertAdjacentHTML('beforeend', '<div class="product-bundle"><p>AI-Curated Bundle - $99.99</p><button onclick="addToCart(\'AI Bundle\', 79.99)">Add to Cart</button></div>');
                             } else if (command.includes('innovate')) {
-                                response += 'Triggering innovation cycle with love!';
+                                response += 'Triggering innovation cycle with love! 🌟';
                                 aiFeatures.push({ id: `custom-${Date.now()}`, html: '<div class="tool-card"><h3>Custom AI Feature</h3><p>Coming soon!</p></div>', score: 0.9 });
                             } else {
-                                response += 'Command processed with care!';
+                                response += 'Command processed with care! 💕';
                             }
                             document.getElementById('owner-response').textContent = response;
                             document.getElementById('owner-input').value = '';
-                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0 });
+                            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                             localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                         } else {
-                            alert('Session expired. Please log in again with love!');
+                            alert('Session expired. Please log in again with love! 💌');
                             document.getElementById('owner-content').style.display = 'none';
                         }
                     } catch (e) {
                         console.error('Owner command error:', e);
-                        alert('Owner command error. Brian 4.0 fixing with care...');
+                        alert('Owner command error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -917,19 +1006,19 @@
                     try {
                         const input = document.getElementById('ai-input').value.toLowerCase();
                         let response = '';
-                        if (input.includes('help')) response = 'Brian 4.0: How can I assist with love?';
-                        else if (input.includes('fix')) response = 'Brian 4.0: Issue resolved with care! Report if needed.';
-                        else if (input.includes('owner')) response = 'Brian 4.0: Access Owner’s Room with password Jacob2025';
-                        else if (input.includes('health')) response = 'Brian 4.0: Providing health insights with love!';
-                        else if (input.includes('innovate')) response = 'Brian 4.0: Generating new feature ideas with joy!';
-                        else response = 'Brian 4.0: Command not recognized! Try again with love!';
+                        if (input.includes('help')) response = 'Brian 5.0: How can I assist with love? 🎶';
+                        else if (input.includes('fix')) response = 'Brian 5.0: Issue resolved with care! Report if needed. ✨';
+                        else if (input.includes('owner')) response = 'Brian 5.0: Access Owner’s Room with password Jacob2025';
+                        else if (input.includes('health')) response = 'Brian 5.0: Providing health insights with love! ❤️';
+                        else if (input.includes('innovate')) response = 'Brian 5.0: Generating new feature ideas with joy! 🌟';
+                        else response = 'Brian 5.0: Command not recognized! Try again with love! 💕';
                         alert(response);
                         document.getElementById('ai-input').value = '';
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } catch (e) {
                         console.error('AI help error:', e);
-                        alert('AI help error. Brian 4.0 fixing with care...');
+                        alert('AI help error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -940,11 +1029,11 @@
                     try {
                         document.body.classList.toggle('accessibility-mode');
                         this.textContent = document.body.classList.contains('accessibility-mode') ? 'Disable Accessibility' : 'Toggle Accessibility Mode';
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } catch (e) {
                         console.error('Accessibility error:', e);
-                        alert('Accessibility error. Brian 4.0 fixing with care...');
+                        alert('Accessibility error. Brian 5.0 fixing with care...');
                     }
                 };
             }
@@ -953,35 +1042,36 @@
             if (langSelect) {
                 langSelect.onchange = function() {
                     try {
-                        alert(`Switching to ${this.value} with love! Brian 4.0 translating...`);
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6 });
+                        alert(`Switching to ${this.value} with love! Brian 5.0 translating... 🎉`);
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } catch (e) {
                         console.error('Language error:', e);
-                        alert('Language error. Brian 4.0 fixing with care...');
+                        alert('Language error. Brian 5.0 fixing with care...');
                     }
                 };
             }
 
             const aiFeatures = [
-                { id: 'nutrition-planner', html: '<div class="tool-card"><h3>AI Nutrition Planner</h3><p>Personalized meal plans with love!</p></div>', score: 0.95 },
-                { id: 'growth-analytics', html: '<div class="tool-card"><h3>Growth Analytics</h3><p>Track growth with joy!</p></div>', score: 0.9 },
+                { id: 'nutrition-planner', html: '<div class="tool-card"><h3>AI Nutrition Planner</h3><p>Personalized meal plans with love! ❤️</p></div>', score: 0.95 },
+                { id: 'growth-analytics', html: '<div class="tool-card"><h3>Growth Analytics</h3><p>Track growth with joy! 🌱</p></div>', score: 0.9 },
                 { id: 'smart-recommend', html: '<div class="product-bundle"><p>Smart Bundle - $129.99</p><button onclick="addToCart(\'Smart Bundle\', 103.99)">Add to Cart</button></div>', score: 0.98 },
-                { id: 'community-hub', html: '<div class="section"><h3>Global Community Hub</h3><p>Connect with love!</p></div>', score: 0.85 },
-                { id: 'ai-blog', html: '<div class="section"><h3>AI-Generated Blog</h3><p>Parenting tips with care!</p></div>', score: 0.8 },
-                { id: 'recipe-generator', html: '<div class="tool-card"><h3>Recipe Generator</h3><p>Delightful baby recipes!</p></div>', score: 0.92 },
-                { id: 'parent-coach', html: '<div class="tool-card"><h3>AI Parenting Coach</h3><p>Personal advice with love!</p></div>', score: 0.94 }
+                { id: 'community-hub', html: '<div class="section"><h3>Global Community Hub</h3><p>Connect with love! 💕</p></div>', score: 0.85 },
+                { id: 'ai-blog', html: '<div class="section"><h3>AI-Generated Blog</h3><p>Parenting tips with care! 🌟</p></div>', score: 0.8 },
+                { id: 'recipe-generator', html: '<div class="tool-card"><h3>Recipe Generator</h3><p>Delightful baby recipes! 🍎</p></div>', score: 0.92 },
+                { id: 'parent-coach', html: '<div class="tool-card"><h3>AI Parenting Coach</h3><p>Personal advice with love! 🎀</p></div>', score: 0.94 },
+                { id: 'nursery-tour', html: '<div class="tool-card"><h3>Virtual Nursery Tour</h3><p>Explore a loving nursery! 🍼</p></div>', score: 0.96 }
             ];
             async function monitorAndEvolve() {
                 try {
                     const startTime = performance.now();
                     if (document.querySelectorAll('img[alt="broken"]').length) {
                         document.querySelectorAll('img[alt="broken"]').forEach(img => img.src = 'https://via.placeholder.com/100x100.png?text=Fixed+by+Brian');
-                        alert('Brian 4.0 fixed broken images with love!');
+                        alert('Brian 5.0 fixed broken images with love! ❤️');
                     }
                     if (startTime > 100) {
                         document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.02s ease');
-                        alert('Brian 4.0 optimized performance with care!');
+                        alert('Brian 5.0 optimized performance with care! ✨');
                     }
                     const model = await trainSuperAIModel();
                     if (model && Math.random() > 0.5) {
@@ -991,8 +1081,8 @@
                             const section = document.getElementById(targetSection);
                             if (section) {
                                 section.insertAdjacentHTML('beforeend', feature.html);
-                                alert(`Brian 4.0 innovated: Added ${feature.id} with joy!`);
-                                userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: feature.score });
+                                alert(`Brian 5.0 innovated: Added ${feature.id} with joy! 🎉`);
+                                userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: feature.score, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                             }
                         }
@@ -1000,10 +1090,10 @@
                     if (Math.random() > 0.75) {
                         document.querySelector('#ai-video source').src = `https://via.placeholder.com/1920x1080.mp4?text=AI+Video+${Math.floor(Math.random() * 1000)}+by+Brian`;
                         document.getElementById('ai-video').load();
-                        alert('Brian 4.0 updated AI-generated video with love!');
+                        alert('Brian 5.0 updated AI-generated video with love! 🎥');
                     }
                 } catch (e) {
-                    console.error('Brian 4.0 error:', e);
+                    console.error('Brian 5.0 error:', e);
                 }
             }
             setInterval(monitorAndEvolve, 50);
@@ -1012,13 +1102,19 @@
             pageViews++;
             localStorage.setItem('pageViews', pageViews);
             document.addEventListener('click', () => {
-                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews, conversionRate: cart.length ? 0.5 : 0.0, sessionDuration: performance.now(), engagementScore: 0.6 });
+                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews, conversionRate: cart.length ? 0.5 : 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2 });
                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
             });
 
+            // Play soothing background sound
+            const audio = new Audio('https://www.soundjay.com/buttons/beep-01a.mp3');
+            audio.volume = 0.1;
+            audio.loop = true;
+            audio.play().catch(() => console.log('Audio play blocked by browser'));
+
         } catch (e) {
             console.error('Initialization error:', e);
-            alert(`Brian 4.0 detected critical error: ${e.message}. Reloading with care...`);
+            alert(`Brian 5.0 detected critical error: ${e.message}. Reloading with care...`);
             setTimeout(() => location.reload(), 500);
         }
     </script>
