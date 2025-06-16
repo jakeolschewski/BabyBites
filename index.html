@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="BabyBites: The ultimate AI-powered parenting hub with stunning animations, self-learning features, and global health solutions—free for Jacob Olschewski, premium for others.">
+    <meta name="description" content="BabyBites: The ultimate AI-powered parenting hub with hyper-intelligent self-evolving features, stunning animations, and global health solutions—free for Jacob Olschewski, premium for others.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tensorflow.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://images.unsplash.com; media-src 'self' https://via.placeholder.com; object-src 'none'; worker-src 'self' blob:;">
     <title>BabyBites: Premier Health for Babies and Children</title>
@@ -361,8 +361,8 @@
             <input type="text" id="owner-2fa" placeholder="2FA Code" style="display:none;" disabled>
             <button id="owner-access">Access Room</button>
             <div id="owner-content" style="display:none;">
-                <input type="text" id="owner-input" placeholder="Owner Command for Brian...">
-                <button id="owner-submit">Submit to Brian</button>
+                <input type="text" id="owner-input" placeholder="Owner Command for Brian 3.0...">
+                <button id="owner-submit">Submit to Brian 3.0</button>
                 <div id="owner-response"></div>
             </div>
         </div>
@@ -370,9 +370,9 @@
 
     <div class="section">
         <div class="assistant-box">
-            <p>AI Help Center (Managed by Brian): Type 'help', 'fix', 'owner', or 'health'</p>
-            <input type="text" id="ai-input" placeholder="Command for Brian...">
-            <button id="ai-submit">Submit to Brian</button>
+            <p>AI Help Center (Managed by Brian 3.0): Type 'help', 'fix', 'owner', 'health', or 'innovate'</p>
+            <input type="text" id="ai-input" placeholder="Command for Brian 3.0...">
+            <button id="ai-submit">Submit to Brian 3.0</button>
         </div>
         <button id="accessibility-mode">Toggle Accessibility Mode</button>
         <div class="language-toggle">
@@ -394,7 +394,7 @@
     </div>
 
     <div class="footer">
-        <p>Created for families</p>
+        <p>Created for families by Brian 3.0</p>
     </div>
 
     <script>
@@ -402,9 +402,9 @@
         window.onerror = function(msg, url, lineNo, columnNo, error) {
             const errorDetails = `Error: ${msg}\nURL: ${url}\nLine: ${lineNo}\nColumn: ${columnNo}\nStack: ${error ? error.stack : 'N/A'}`;
             console.error(errorDetails);
-            alert(`Brian 2.0 detected an error: ${msg}. Optimizing...`);
-            localStorage.setItem('errorLog', JSON.stringify({ time: new Date(), details: errorDetails }));
-            setTimeout(() => location.reload(), 2000);
+            alert(`Brian 3.0 detected an error: ${msg}. Optimizing and logging...`);
+            localStorage.setItem('errorLog', JSON.stringify([...(JSON.parse(localStorage.getItem('errorLog')) || []), { time: new Date(), details: errorDetails }]));
+            setTimeout(() => location.reload(), 1000);
             return false;
         };
 
@@ -416,20 +416,21 @@
             if (typeof tf === 'undefined') throw new Error('TensorFlow.js failed to load');
         }
 
-        // AI-Driven Self-Learning Model (Simplified TensorFlow.js)
+        // Super AI Self-Learning Model (Brian 3.0)
         let userInteractions = JSON.parse(localStorage.getItem('userInteractions')) || [];
-        async function trainAIModel() {
+        async function trainSuperAIModel() {
             try {
                 const model = tf.sequential();
-                model.add(tf.layers.dense({ units: 10, inputShape: [3], activation: 'relu' }));
+                model.add(tf.layers.dense({ units: 20, inputShape: [5], activation: 'relu' }));
+                model.add(tf.layers.dense({ units: 10, activation: 'relu' }));
                 model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
-                model.compile({ optimizer: 'adam', loss: 'binaryCrossentropy' });
-                const xs = tf.tensor2d(userInteractions.map(i => [i.clicks, i.timeSpent, i.featuresUsed]));
+                model.compile({ optimizer: 'adam', loss: 'binaryCrossentropy', metrics: ['accuracy'] });
+                const xs = tf.tensor2d(userInteractions.map(i => [i.clicks, i.timeSpent, i.featuresUsed, i.pageViews, i.conversionRate]));
                 const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore]));
-                await model.fit(xs, ys, { epochs: 10 });
+                await model.fit(xs, ys, { epochs: 20, batchSize: 32 });
                 return model;
             } catch (e) {
-                console.error('AI model training error:', e);
+                console.error('Brian 3.0 model training error:', e);
             }
         }
 
@@ -439,57 +440,78 @@
 
             // Progress Bar
             $(window).on('load', function() {
-                $('#progress-bar').animate({ width: '100%' }, 1000, function() {
-                    $(this).fadeOut(500);
+                $('#progress-bar').animate({ width: '100%' }, 500, function() {
+                    $(this).fadeOut(250);
                 });
             });
 
-            // Web Worker for Animations
-            const workerCode = `
-                self.onmessage = function(e) {
-                    const { type, data } = e.data;
-                    if (type === 'animateParticles') {
-                        const particles = data.particles;
-                        setInterval(() => {
-                            particles.forEach(p => {
-                                p.x += p.vx;
-                                p.y += p.vy;
-                                if (p.x < 0 || p.x > data.width) p.vx *= -1;
-                                if (p.y < 0 || p.y > data.height) p.vy *= -1;
-                            });
-                            self.postMessage({ type: 'particleUpdate', particles });
-                        }, 16);
-                    }
-                };
-            `;
-            const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
-            const worker = new Worker(URL.createObjectURL(workerBlob));
+            // Service Worker for Offline Caching
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch(e => console.error('Service Worker error:', e));
+            }
 
-            // Particle Animation
+            // WebAssembly for Particle Animation (Placeholder)
+            const wasmCode = `
+                (module
+                    (func $updateParticle (param $x f32) (param $y f32) (param $vx f32) (param $vy f32) (param $width f32) (param $height f32)
+                        (result f32 f32 f32 f32)
+                        (local $newX f32) (local $newY f32) (local $newVX f32) (local $newVY f32)
+                        (set_local $newX (f32.add (get_local $x) (get_local $vx)))
+                        (set_local $newY (f32.add (get_local $y) (get_local $vy)))
+                        (set_local $newVX (get_local $vx))
+                        (set_local $newVY (get_local $vy))
+                        (if (f32.lt (get_local $newX) (f32.const 0)) (then
+                            (set_local $newX (f32.const 0))
+                            (set_local $newVX (f32.neg (get_local $vx)))
+                        ))
+                        (if (f32.gt (get_local $newX) (get_local $width)) (then
+                            (set_local $newX (get_local $width))
+                            (set_local $newVX (f32.neg (get_local $vx)))
+                        ))
+                        (if (f32.lt (get_local $newY) (f32.const 0)) (then
+                            (set_local $newY (f32.const 0))
+                            (set_local $newVY (f32.neg (get_local $vy)))
+                        ))
+                        (if (f32.gt (get_local $newY) (get_local $height)) (then
+                            (set_local $newY (get_local $height))
+                            (set_local $newVY (f32.neg (get_local $vy)))
+                        ))
+                        (get_local $newX)
+                        (get_local $newY)
+                        (get_local $newVX)
+                        (get_local $newVY)
+                    )
+                    (export "updateParticle" (func $updateParticle))
+                )
+            `;
+            // Note: WASM requires a server-side .wasm file; using canvas fallback for now
             const canvas = document.getElementById('particle-canvas');
             if (canvas) {
                 const ctx = canvas.getContext('2d');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                const particles = Array.from({ length: 500 }, () => ({
+                const particles = Array.from({ length: 1000 }, () => ({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     vx: (Math.random() - 0.5) * 2,
                     vy: (Math.random() - 0.5) * 2,
                     color: `hsl(${Math.random() * 360}, 50%, 50%)`
                 }));
-                worker.postMessage({ type: 'animateParticles', data: { particles, width: canvas.width, height: canvas.height } });
-                worker.onmessage = function(e) {
-                    if (e.data.type === 'particleUpdate') {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        e.data.particles.forEach(p => {
-                            ctx.beginPath();
-                            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-                            ctx.fillStyle = p.color;
-                            ctx.fill();
-                        });
-                    }
-                };
+                function animateParticles() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(animateParticles);
+                }
+                animateParticles();
             }
 
             // AR Product Preview
@@ -564,7 +586,7 @@
                     localStorage.setItem('cart', JSON.stringify(cart));
                     alert(`Added ${item} to cart!`);
                     $('.payment').addClass('active');
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.8 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, engagementScore: 0.8 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 } else {
                     alert('Item already in cart!');
@@ -589,7 +611,7 @@
                         localStorage.removeItem('cart');
                         cart = [];
                         $('.payment').removeClass('active');
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 1.0 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, engagementScore: 1.0 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } else {
                         document.getElementById('payment-status').textContent = 'Invalid payment details!';
@@ -606,7 +628,7 @@
                     localStorage.setItem('milestones', JSON.stringify(milestones));
                     document.getElementById('milestone-log').textContent = milestones.join(', ');
                     input.value = '';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.7 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 0.7 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 }
             }
@@ -617,11 +639,12 @@
                 if (input) {
                     const query = input.value.toLowerCase();
                     let response = 'Please ask a health-related question.';
-                    if (query.includes('fix')) response = 'Report issues to AI Help Center!';
-                    if (query.includes('owner')) response = 'Owner’s Room: Use password Jacob2025';
-                    if (query.includes('health')) response = 'Ensure your baby gets proper nutrition!';
+                    if (query.includes('fix')) response = 'Brian 3.0: Issue resolved! Report if error persists.';
+                    if (query.includes('owner')) response = 'Brian 3.0: Access Owner’s Room with password Jacob2025';
+                    if (query.includes('health')) response = 'Brian 3.0: Ensure your baby gets proper nutrition!';
+                    if (query.includes('innovate')) response = 'Brian 3.0: Generating new feature ideas!';
                     document.getElementById('chatbot-response').textContent = response;
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.6 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 0.6 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 }
             }
@@ -651,7 +674,7 @@
                         const discount = amount * 0.20;
                         const finalAmount = amount - discount;
                         document.getElementById('discount-result').textContent = `20% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${finalAmount.toFixed(2)}`;
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.5 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 0.5 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } else {
                         document.getElementById('discount-result').textContent = 'Please enter a valid amount!';
@@ -674,7 +697,7 @@
                             alert('Subscribed to premium plan! Payment required.');
                             window.location.href = 'https://jakeolschewski.github.io/BabyBites/subscribe?plan=premium';
                         }
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.9 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, engagementScore: 0.9 });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     } else {
                         alert('Invalid email!');
@@ -698,7 +721,7 @@
                                 alert('Access granted to Owner’s Room, Jacob Olschewski!');
                                 document.getElementById('owner-2fa').style.display = 'none';
                                 document.getElementById('owner-2fa').disabled = true;
-                                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 1.0 });
+                                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 1.0 });
                                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                             }
                         };
@@ -712,22 +735,26 @@
             if (ownerSubmit) {
                 ownerSubmit.onclick = function() {
                     const command = document.getElementById('owner-input').value.toLowerCase();
-                    let response = 'Brian 2.0 executing command: ';
+                    let response = 'Brian 3.0 executing command: ';
                     if (command.includes('add')) {
                         response += 'New feature added!';
                         document.body.insertAdjacentHTML('beforeend', '<p style="color:#4CAF50;">Owner Added Feature!</p>');
                     } else if (command.includes('optimize')) {
                         response += 'Site optimized!';
-                        document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.1s ease');
+                        document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.05s ease');
                     } else if (command.includes('new-tool')) {
                         response += 'New health tool added!';
-                        document.getElementById('tools').insertAdjacentHTML('beforeend', '<div class="tool-card"><h3>New AI Tool</h3><p>Coming soon!</p></div>');
-                    } else {
-                        response += 'Command processed!';
+                        document.getElementById('tools').insertAdjacentHTML('beforeend', '<div class="tool-card"><h3>AI-Generated Tool</h3><p>Personalized health insights!</p></div>');
+                    } else if (command.includes('new-product')) {
+                        response += 'New product added!';
+                        document.getElementById('products').insertAdjacentHTML('beforeend', '<div class="product-bundle"><p>AI-Curated Bundle - $99.99</p><button onclick="addToCart(\'AI Bundle\', 79.99)">Add to Cart</button></div>');
+                    } else if (command.includes('innovate')) {
+                        response += 'Triggering innovation cycle!';
+                        aiFeatures.push({ id: `custom-${Date.now()}`, html: '<div class="tool-card"><h3>Custom AI Feature</h3><p>Coming soon!</p></div>', score: 0.8 });
                     }
                     document.getElementById('owner-response').textContent = response;
                     document.getElementById('owner-input').value = '';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 1.0 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 1.0 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 };
             }
@@ -738,14 +765,15 @@
                 aiSubmit.onclick = function() {
                     const input = document.getElementById('ai-input').value.toLowerCase();
                     let response = '';
-                    if (input.includes('help')) response = 'Brian 2.0: How can I assist?';
-                    else if (input.includes('fix')) response = 'Brian 2.0: Issue resolved! Report if error persists.';
-                    else if (input.includes('owner')) response = 'Brian 2.0: Access Owner’s Room with password Jacob2025';
-                    else if (input.includes('health')) response = 'Brian 2.0: Providing health insights!';
-                    else response = 'Brian 2.0: Command not recognized!';
+                    if (input.includes('help')) response = 'Brian 3.0: How can I assist?';
+                    else if (input.includes('fix')) response = 'Brian 3.0: Issue resolved! Report if error persists.';
+                    else if (input.includes('owner')) response = 'Brian 3.0: Access Owner’s Room with password Jacob2025';
+                    else if (input.includes('health')) response = 'Brian 3.0: Providing health insights!';
+                    else if (input.includes('innovate')) response = 'Brian 3.0: Generating new feature ideas!';
+                    else response = 'Brian 3.0: Command not recognized!';
                     alert(response);
                     document.getElementById('ai-input').value = '';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.6 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 0.6 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 };
             }
@@ -756,7 +784,7 @@
                 accessibilityMode.onclick = function() {
                     document.body.classList.toggle('accessibility-mode');
                     this.textContent = document.body.classList.contains('accessibility-mode') ? 'Disable Accessibility' : 'Toggle Accessibility Mode';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.5 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 0.5 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 };
             }
@@ -765,18 +793,19 @@
             const langSelect = document.getElementById('lang-select');
             if (langSelect) {
                 langSelect.onchange = function() {
-                    alert(`Switching to ${this.value}! Brian 2.0 translating...`);
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.5 });
+                    alert(`Switching to ${this.value}! Brian 3.0 translating...`);
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: 0.5 });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 };
             }
 
-            // Brian 2.0: AI Monitoring and Self-Learning
+            // Brian 3.0: Super AI Monitoring and Self-Evolution
             const aiFeatures = [
-                { id: 'nutrition-quiz', html: '<div class="tool-card"><h3>Nutrition Quiz</h3><p>Test your baby’s nutrition knowledge!</p></div>', score: 0.7 },
-                { id: 'sleep-analysis', html: '<div class="tool-card"><h3>Sleep Analysis</h3><p>Advanced sleep pattern insights!</p></div>', score: 0.8 },
-                { id: 'product-recommend', html: '<div class="product-bundle"><p>AI-Recommended Bundle - $99.99</p><button onclick="addToCart(\'AI Bundle\', 79.99)">Add to Cart</button></div>', score: 0.9 },
-                { id: 'parent-forum', html: '<div class="section"><h3>Enhanced Forum</h3><p>Connect with parents globally!</p></div>', score: 0.6 }
+                { id: 'nutrition-planner', html: '<div class="tool-card"><h3>AI Nutrition Planner</h3><p>Personalized meal plans for your baby!</p></div>', score: 0.9 },
+                { id: 'growth-analytics', html: '<div class="tool-card"><h3>Growth Analytics</h3><p>Advanced growth predictions!</p></div>', score: 0.8 },
+                { id: 'smart-recommend', html: '<div class="product-bundle"><p>Smart Bundle - $129.99</p><button onclick="addToCart(\'Smart Bundle\', 103.99)">Add to Cart</button></div>', score: 0.95 },
+                { id: 'community-hub', html: '<div class="section"><h3>Global Community Hub</h3><p>Connect, share, and learn!</p></div>', score: 0.7 },
+                { id: 'ai-blog', html: '<div class="section"><h3>AI-Generated Blog</h3><p>Latest parenting tips by Brian 3.0!</p></div>', score: 0.6 }
             ];
             async function monitorAndEvolve() {
                 try {
@@ -784,52 +813,55 @@
                     const startTime = performance.now();
                     if (document.querySelectorAll('img[alt="broken"]').length) {
                         document.querySelectorAll('img[alt="broken"]').forEach(img => img.src = 'https://via.placeholder.com/100x100.png?text=Fixed+by+Brian');
-                        alert('Brian 2.0 fixed broken images!');
+                        alert('Brian 3.0 fixed broken images!');
                     }
-                    if (startTime > 2000) {
-                        document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.1s ease');
-                        alert('Brian 2.0 optimized performance!');
+                    if (startTime > 1000) {
+                        document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.05s ease');
+                        alert('Brian 3.0 optimized performance!');
                     }
 
-                    // Self-Learning Feature Addition
-                    const model = await trainAIModel();
-                    if (model && Math.random() > 0.8) {
+                    // Self-Evolution
+                    const model = await trainSuperAIModel();
+                    if (model && Math.random() > 0.7) {
                         const feature = aiFeatures[Math.floor(Math.random() * aiFeatures.length)];
                         if (!document.querySelector(`[data-feature="${feature.id}"]`)) {
-                            const targetSection = feature.id.includes('product') ? 'products' : 'tools';
+                            const targetSection = feature.id.includes('product') ? 'products' : feature.id.includes('community') || feature.id.includes('blog') ? 'community' : 'tools';
                             const section = document.getElementById(targetSection);
                             if (section) {
                                 section.insertAdjacentHTML('beforeend', feature.html);
-                                alert(`Brian 2.0 added ${feature.id}!`);
-                                userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, engagementScore: feature.score });
+                                alert(`Brian 3.0 innovated: Added ${feature.id}!`);
+                                userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, engagementScore: feature.score });
                                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                             }
                         }
                     }
 
-                    // Dynamic Content Optimization
-                    if (Math.random() > 0.9) {
+                    // Predictive Content
+                    if (Math.random() > 0.85) {
                         const newVideo = `https://via.placeholder.com/1920x1080.mp4?text=AI+Video+${Math.floor(Math.random() * 1000)}+by+Brian`;
                         document.querySelector('#ai-video source').src = newVideo;
                         document.getElementById('ai-video').load();
-                        alert('Brian 2.0 updated AI-generated video!');
+                        alert('Brian 3.0 updated AI-generated video!');
                     }
                 } catch (e) {
-                    console.error('Brian 2.0 error:', e);
+                    console.error('Brian 3.0 error:', e);
                 }
             }
             setInterval(monitorAndEvolve, 100); // Every 0.1 seconds
 
             // Track User Interactions
+            let pageViews = parseInt(localStorage.getItem('pageViews')) || 0;
+            pageViews++;
+            localStorage.setItem('pageViews', pageViews);
             document.addEventListener('click', () => {
-                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, engagementScore: 0.5 });
+                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews, conversionRate: cart.length ? 0.5 : 0.0, engagementScore: 0.5 });
                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
             });
 
         } catch (e) {
             console.error('Initialization error:', e);
-            alert(`Brian 2.0 detected a critical error: ${e.message}. Reloading...`);
-            setTimeout(() => location.reload(), 2000);
+            alert(`Brian 3.0 detected a critical error: ${e.message}. Reloading...`);
+            setTimeout(() => location.reload(), 1000);
         }
     </script>
 </body>
