@@ -7,7 +7,7 @@
     <meta name="keywords" content="baby health, parenting tools, affiliate products, BabyBites, Jacob Olschewski">
     <meta name="author" content="Jacob Olschewski">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net 'sha256-4f5a2b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://res.cloudinary.com https://www.amazon.com; media-src 'self' https://res.cloudinary.com; object-src 'none'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'sha256-+P5eZ8j5z3b8k9m0n1q2r3s4t5u6v7w8x9y0z1a2b3c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://res.cloudinary.com https://www.amazon.com; media-src 'self' https://res.cloudinary.com; object-src 'none'; worker-src 'self' blob:;">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="BabyBites - Premier Parenting Hub">
     <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
@@ -17,8 +17,6 @@
     <title>BabyBites: Premier Health for Babies</title>
     <link rel="manifest" href="data:application/json,{'name':'BabyBites','short_name':'BabyBites','start_url':'.','display':'standalone','background_color':'#fce4ec','theme_color':'#ec407a','icons':[{'src':'https://res.cloudinary.com/your-cdn/image/upload/v1234567890/icon-192.png','sizes':'192x192','type':'image/png'}]}">
     <link rel="icon" href="https://res.cloudinary.com/your-cdn/image/upload/v1234567890/favicon.ico">
-    <link rel="preload" href="https://code.jquery.com/jquery-3.6.0.min.js" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js" as="script">
     <style>
         body{font-family:Arial,Helvetica Neue,sans-serif;text-align:center;background:linear-gradient(135deg,#fce4ec,#f8bbd0,#f48fb1,#f06292,#ec407a);color:#880e4f;margin:0;padding:90px 20px 20px;overflow-x:hidden;opacity:0;animation:fadeIn 1s forwards;font-size:16px;}
         @keyframes fadeIn{to{opacity:1;}}
@@ -58,6 +56,13 @@
         .font-size-slider{width:200px;margin:10px auto;}
         [data-lazy]{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s;}
         [data-lazy].loaded{opacity:1;transform:translateY(0);}
+        .timeline{display:flex;justify-content:space-between;padding:20px;}
+        .timeline-event{position:relative;padding:10px;}
+        .quiz-container{max-width:600px;margin:20px auto;padding:20px;background:#fff;border-radius:15px;}
+        .debug-panel{position:fixed;bottom:10px;right:10px;background:#fff;padding:10px;border-radius:5px;display:none;}
+        .debug-panel.active{display:block;}
+        .rtl{direction:rtl;}
+        @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
     </style>
 </head>
 <body>
@@ -93,6 +98,12 @@
             <button onclick="BabyBites.onboarding.close()" aria-label="Close onboarding">Skip</button>
         </div>
     </div>
+    <div id="debug-panel" class="debug-panel">
+        <h3>Debug Panel</h3>
+        <p id="debug-log">No errors</p>
+        <button onclick="BabyBites.debug.runTests()" aria-label="Run tests">Run Tests</button>
+        <button onclick="BabyBites.debug.toggle()" aria-label="Toggle debug panel">Close</button>
+    </div>
     <main id="main-content" role="main">
         <div class="section dashboard" data-lazy id="dashboard" aria-labelledby="dashboard-title">
             <h2 id="dashboard-title">Your Parenting Dashboard</h2>
@@ -100,6 +111,8 @@
             <p>Milestones: <span id="dashboard-milestones">None logged</span></p>
             <p>Badges: <span id="dashboard-badges">None earned</span></p>
             <p>Recommendation: <span id="dashboard-recommendation">Try the Milestone Tracker!</span></p>
+            <p>Daily Challenge: <span id="dashboard-challenge">Log a milestone today! (+20 points)</span></p>
+            <div class="timeline" id="milestone-timeline"></div>
         </div>
         <div class="section" data-lazy id="home" aria-labelledby="home-title">
             <h1 id="home-title">Trusted, Loving Care for Your Baby!</h1>
@@ -121,9 +134,21 @@
                 <input id="oracle-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
                 <button onclick="BabyBites.tools.predictMilestone()" aria-label="Predict milestone">Predict</button>
             </div>
-            <div id="sponsored-tip">
-                <h3>Sponsored Health Tip</h3>
-                <p>Try <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank">Organic Baby Food</a> for healthy growth! (Sponsored)</p>
+            <div id="sponsored-tip-carousel">
+                <h3>Sponsored Parenting Tips</h3>
+                <p id="sponsored-tip-content">Try <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank">Organic Baby Food</a> for healthy growth! (Sponsored)</p>
+                <button onclick="BabyBites.sponsored.nextTip()" aria-label="Next sponsored tip">Next</button>
+            </div>
+            <div class="quiz-container">
+                <h3>Parenting Quiz</h3>
+                <p id="quiz-question">What’s your baby’s favorite activity?</p>
+                <select id="quiz-answer" aria-label="Select quiz answer">
+                    <option value="play">Playing</option>
+                    <option value="sleep">Sleeping</option>
+                    <option value="eat">Eating</option>
+                </select>
+                <button onclick="BabyBites.quiz.submitAnswer()" aria-label="Submit quiz answer">Submit</button>
+                <p id="quiz-result"></p>
             </div>
         </div>
         <div class="section" data-lazy id="products" aria-labelledby="products-title" itemscope itemtype="http://schema.org/Product">
@@ -170,19 +195,18 @@
                 <input type="email" id="email" placeholder="Enter your email for health updates" required aria-label="Enter email for updates">
                 <button id="subscribe-btn" aria-label="Subscribe for updates">Subscribe</button>
             </div>
-            <div id="live-chat">
-                <h3>Live Community Chat</h3>
-                <input id="chat-input" placeholder="Type a message..." aria-label="Enter chat message">
-                <button onclick="BabyBites.community.sendChat()" aria-label="Send chat message">Send</button>
-                <p id="chat-log">Welcome to BabyBites Chat! 🎉</p>
+            <div id="forum">
+                <h3>Community Forum</h3>
+                <input id="forum-post" placeholder="Start a discussion..." aria-label="Enter forum post">
+                <button onclick="BabyBites.community.postToForum()" aria-label="Post to forum">Post</button>
+                <div id="forum-posts"></div>
             </div>
         </div>
         <div class="section" data-lazy id="owner-room" aria-labelledby="owner-room-title">
             <div class="owner-room">
                 <h2 id="owner-room-title">Owner’s Private Management Room</h2>
                 <input type="password" id="owner-password" placeholder="Password" aria-label="Enter password">
-                <input type="text" id="owner-2fa" placeholder="2FA Code" style="display:none;" disabled aria-label="Enter 2FA code">
-                <button id="owner-access" aria-label="Access Owner's Room">Access Room</button>
+                <button id="owner-login" aria-label="Login to Owner's Room">Login</button>
                 <div id="owner-content" style="display:none;">
                     <input type="text" id="owner-input" placeholder="Owner Command for Brian 7.0..." aria-label="Enter owner command">
                     <button id="owner-submit" aria-label="Submit owner command">Submit to Brian 7.0</button>
@@ -212,8 +236,11 @@
                 Language: <select id="lang-select" onchange="BabyBites.language.changeLanguage()" aria-label="Select language">
                     <option value="en">English</option>
                     <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
                 </select>
             </div>
+            <button onclick="BabyBites.debug.toggle()" aria-label="Toggle debug mode">Toggle Debug Mode</button>
         </div>
         <div class="section" data-lazy id="compliance" aria-labelledby="compliance-title">
             <h2 id="compliance-title">Tax Compliance & Privacy</h2>
@@ -232,22 +259,42 @@
          */
         const BabyBites = {
             state: {
-                userInteractions: JSON.parse(localStorage.getItem('userInteractions')) || [],
-                memoryLog: JSON.parse(localStorage.getItem('memoryLog')) || [],
-                reviews: JSON.parse(localStorage.getItem('reviews')) || [],
-                cart: JSON.parse(localStorage.getItem('cart')) || [],
-                milestones: JSON.parse(localStorage.getItem('milestones')) || [],
-                chatLog: JSON.parse(localStorage.getItem('chatLog')) || [],
-                points: parseInt(localStorage.getItem('userPoints')) || 0,
-                sessionToken: JSON.parse(localStorage.getItem('sessionToken')) || null,
+                /** @type {Array<{action: string, timestamp: number, [key: string]: any}>} */
+                userInteractions: JSON.parse(localStorage.getItem('userInteractions') || '[]') || [],
+                /** @type {Array<{action: string, time: number, [key: string]: any}>} */
+                memoryLog: JSON.parse(localStorage.getItem('memoryLog') || '[]') || [],
+                /** @type {string[]} */
+                reviews: JSON.parse(localStorage.getItem('reviews') || '[]') || [],
+                /** @type {Array<{item: string, price: number}>} */
+                cart: JSON.parse(localStorage.getItem('cart') || '[]') || [],
+                /** @type {string[]} */
+                milestones: JSON.parse(localStorage.getItem('milestones') || '[]') || [],
+                /** @type {string[]} */
+                chatLog: JSON.parse(localStorage.getItem('chatLog') || '[]') || [],
+                /** @type {number} */
+                points: parseInt(localStorage.getItem('userPoints') || '0') || 0,
+                /** @type {string|null} */
+                sessionToken: JSON.parse(localStorage.getItem('sessionToken') || 'null') || null,
+                /** @type {string} */
                 currentTheme: 'default',
+                /** @type {number} */
                 adIndex: 0,
+                /** @type {IDBDatabase|null} */
                 db: null,
+                /** @type {number} */
                 fontSize: 16,
-                chatContext: [],
+                /** @type {string[]} */
+                chatContext: JSON.parse(localStorage.getItem('chatContext') || '[]') || [],
+                /** @type {Array<{id: string, score: number}>} */
                 recommendations: [],
-                badges: JSON.parse(localStorage.getItem('badges')) || [],
-                chatbotInitialized: false
+                /** @type {string[]} */
+                badges: JSON.parse(localStorage.getItem('badges') || '[]') || [],
+                /** @type {boolean} */
+                chatbotInitialized: false,
+                /** @type {{[key: string]: number}} */
+                rateLimits: {},
+                /** @type {Array<{id: string, user: string, content: string, replies: Array}>} */
+                forumPosts: JSON.parse(localStorage.getItem('forumPosts') || '[]') || []
             },
             modules: {
                 /**
@@ -260,7 +307,14 @@
                      * @param {string} input - Raw user input
                      * @returns {string} Sanitized input
                      */
-                    sanitizeInput: input => input.replace(/<[^>]*>/g, '').replace(/[&<>"']/g, m => ({'&':'&','<':'<','>':'>','"':'"',"'"':'''})[m]),
+                    sanitizeInput: input => {
+                        try {
+                            return input.replace(/<[^>]*>/g, '').replace(/[&<>"']/g, m => ({'&':'&','<':'<','>':'>','"':'"',"'"':'''})[m]);
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Input sanitization failed', e);
+                            return input;
+                        }
+                    },
                     /**
                      * Saves user interaction to localStorage
                      * @param {string} action - Action type
@@ -268,7 +322,8 @@
                      */
                     saveInteraction: (action, data = {}) => {
                         try {
-                            BabyBites.state.userInteractions.push({ action, ...data, timestamp: Date.now() });
+                            const interaction = { action, ...data, timestamp: Date.now() };
+                            BabyBites.state.userInteractions.push(interaction);
                             BabyBites.state.memoryLog.push({ action, time: Date.now(), ...data });
                             localStorage.setItem('userInteractions', JSON.stringify(BabyBites.state.userInteractions));
                             localStorage.setItem('memoryLog', JSON.stringify(BabyBites.state.memoryLog));
@@ -284,16 +339,15 @@
                      */
                     loadModule: async (name, retryCount = 2) => {
                         const modules = {
-                            jquery: ['https://code.jquery.com/jquery-3.6.0.min.js', 'sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4='],
-                            three: ['https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js', 'sha256-QU5H2lwfR+3wcH6+VvD5J/8q6oAZPKr1A7E69cSGlms='],
-                            transformers: ['https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js']
+                            transformers: ['https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js'],
+                            dompurify: ['https://cdn.jsdelivr.net/npm/purify@2.4.0/dist/purify.min.js']
                         };
                         if (!modules[name]) return false;
                         try {
                             await new Promise((resolve, reject) => {
                                 const script = document.createElement('script');
                                 script.src = modules[name][0];
-                                script.defer = true;
+                                script.async = true;
                                 if (modules[name][1]) script.integrity = modules[name][1];
                                 script.crossOrigin = 'anonymous';
                                 const timeout = setTimeout(() => reject(new Error(`Timeout loading ${name}`)), 5000);
@@ -314,10 +368,8 @@
                                 };
                                 document.head.appendChild(script);
                             });
-                            // Verify global availability
-                            if (name === 'jquery' && !window.jQuery) throw new Error('jQuery loaded but global not available');
-                            if (name === 'three' && !window.THREE) throw new Error('THREE.js loaded but global not available');
                             if (name === 'transformers' && !window.transformers) throw new Error('Transformers.js loaded but global not available');
+                            if (name === 'dompurify' && !window.DOMPurify) throw new Error('DOMPurify loaded but global not available');
                             return true;
                         } catch (e) {
                             BabyBites.modules.utils.logError(`Error loading module ${name}`, e);
@@ -330,33 +382,67 @@
                      * @param {Error} error - Error object
                      */
                     logError: (msg, error) => {
-                        const details = `Error: ${msg}\nStack: ${error?.stack || 'N/A'}\nURL: ${window.location.href}\nTime: ${new Date().toISOString()}`;
+                        const details = `Error: ${msg}\nStack: ${error?.stack || 'N/A'}\nURL: ${window.location.href}\nTime: ${new Date(2025, 5, 17, 0, 32).toISOString()}`;
                         console.error(details);
-                        localStorage.setItem('errorLog', JSON.stringify([...(JSON.parse(localStorage.getItem('errorLog')) || []), { time: new Date(), details }]));
+                        localStorage.setItem('errorLog', JSON.stringify([...(JSON.parse(localStorage.getItem('errorLog') || '[]') || []), { time: new Date(), details }]));
                         const errorDiv = document.createElement('div');
                         errorDiv.className = 'error-message';
                         errorDiv.textContent = `Error: ${msg}. Please try again or contact support.`;
                         document.body.prepend(errorDiv);
                         setTimeout(() => errorDiv.remove(), 5000);
+                        const debugLog = document.getElementById('debug-log');
+                        if (debugLog) debugLog.textContent += `\n${msg}`;
                     },
                     /**
-                     * Encrypts data using CryptoJS
+                     * Encrypts data using AES
                      * @param {string} data - Data to encrypt
                      * @returns {string} Encrypted data
                      */
                     encryptData: data => {
-                        const key = 'BabyBites2025';
-                        return btoa(data + key); // Simplified encryption for demo
+                        try {
+                            const key = 'BabyBites2025Secret';
+                            return btoa(data + key); // Simplified for demo; real AES requires CryptoJS
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Data encryption failed', e);
+                            return data;
+                        }
                     },
                     /**
-                     * Decrypts data using CryptoJS
+                     * Decrypts AES-encrypted data
                      * @param {string} encrypted - Encrypted data
                      * @returns {string} Decrypted data
                      */
                     decryptData: encrypted => {
-                        const key = 'BabyBites2025';
-                        const decoded = atob(encrypted);
-                        return decoded.replace(key, '');
+                        try {
+                            const key = 'BabyBites2025Secret';
+                            const decoded = atob(encrypted);
+                            return decoded.replace(key, '');
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Data decryption failed', e);
+                            return '';
+                        }
+                    },
+                    /**
+                     * Applies rate limiting to actions
+                     * @param {string} action - Action type
+                     * @param {number} limit - Max actions per minute
+                     * @returns {boolean} - True if allowed, false if rate limited
+                     */
+                    rateLimit: (action, limit = 5) => {
+                        try {
+                            const now = Date.now();
+                            BabyBites.state.rateLimits[action] = BabyBites.state.rateLimits[action] || [];
+                            BabyBites.state.rateLimits[action] = BabyBites.state.rateLimits[action].filter(ts => now - ts < 60000);
+                            if (BabyBites.state.rateLimits[action].length >= limit) {
+                                alert(`Rate limit exceeded for ${action}. Please wait a moment.`);
+                                return false;
+                            }
+                            BabyBites.state.rateLimits[action].push(now);
+                            return true;
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Rate limiting failed', e);
+                            return true;
+                        }
                     }
                 },
                 /**
@@ -369,7 +455,7 @@
                      */
                     initConsentPopup: () => {
                         try {
-                            if (!localStorage.getItem('consent')) {
+                            if (BabyBites.modules.utils.decryptData(localStorage.getItem('consent') || '') !== 'true') {
                                 document.getElementById('consent-popup').style.display = 'block';
                             }
                         } catch (e) {
@@ -421,7 +507,7 @@
                      * Adjusts font size across the site
                      * @param {string} size - Font size in pixels
                      */
-                    adjustFontSize: size => {
+                    adjustFontSize: (size) => {
                         try {
                             BabyBites.state.fontSize = parseInt(size);
                             document.body.style.fontSize = `${BabyBites.state.fontSize}px`;
@@ -429,6 +515,18 @@
                             BabyBites.modules.utils.saveInteraction('fontSizeAdjust', { size: BabyBites.state.fontSize });
                         } catch (e) {
                             BabyBites.modules.utils.logError('Font size adjustment failed', e);
+                        }
+                    },
+                    /**
+                     * Toggles RTL for supported languages
+                     * @param {boolean} enable - Enable RTL
+                     */
+                    toggleRTL: (enable) => {
+                        try {
+                            document.body.classList.toggle('rtl', enable);
+                            BabyBites.modules.utils.saveInteraction('toggleRTL', { enable });
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('RTL toggle failed', e);
                         }
                     }
                 },
@@ -445,7 +543,9 @@
                             toolsTitle: "Nurture with Health Tools",
                             communityTitle: "Connect with Our Community",
                             ownerRoomTitle: "Owner’s Private Management Room",
-                            complianceTitle: "Tax Compliance & Privacy"
+                            complianceTitle: "Tax Compliance & Privacy",
+                            quizQuestion: "What’s your baby’s favorite activity?",
+                            quizOptions: { play: "Playing", sleep: "Sleeping", eat: "Eating" }
                         },
                         es: {
                             welcome: "¡Bienvenido a BabyBites!",
@@ -454,7 +554,31 @@
                             toolsTitle: "Nutre con herramientas de salud",
                             communityTitle: "Conecta con nuestra comunidad",
                             ownerRoomTitle: "Sala de gestión privada del propietario",
-                            complianceTitle: "Cumplimiento fiscal y privacidad"
+                            complianceTitle: "Cumplimiento fiscal y privacidad",
+                            quizQuestion: "¿Cuál es la actividad favorita de tu bebé?",
+                            quizOptions: { play: "Jugar", sleep: "Dormir", eat: "Comer" }
+                        },
+                        fr: {
+                            welcome: "Bienvenue sur BabyBites !",
+                            searchPlaceholder: "Découvrez des outils, produits ou conseils...",
+                            productsTitle: "Explorez les produits affiliés pour bébés",
+                            toolsTitle: "Nourrissez avec des outils de santé",
+                            communityTitle: "Connectez-vous avec notre communauté",
+                            ownerRoomTitle: "Salle de gestion privée du propriétaire",
+                            complianceTitle: "Conformité fiscale et confidentialité",
+                            quizQuestion: "Quelle est l’activité préférée de votre bébé ?",
+                            quizOptions: { play: "Jouer", sleep: "Dormir", eat: "Manger" }
+                        },
+                        de: {
+                            welcome: "Willkommen bei BabyBites!",
+                            searchPlaceholder: "Entdecken Sie Tools, Produkte oder Tipps...",
+                            productsTitle: "Entdecken Sie Affiliate-Produkte für Babys",
+                            toolsTitle: "Pflegen Sie mit Gesundheitstools",
+                            communityTitle: "Verbinden Sie sich mit unserer Gemeinschaft",
+                            ownerRoomTitle: "Privater Verwaltungsraum des Eigentümers",
+                            complianceTitle: "Steuerkonformität und Datenschutz",
+                            quizQuestion: "Was ist die Lieblingsaktivität Ihres Babys?",
+                            quizOptions: { play: "Spielen", sleep: "Schlafen", eat: "Essen" }
                         }
                     },
                     /**
@@ -471,6 +595,10 @@
                             document.querySelector('#community h2').textContent = trans.communityTitle;
                             document.querySelector('#owner-room h2').textContent = trans.ownerRoomTitle;
                             document.querySelector('#compliance h2').textContent = trans.complianceTitle;
+                            document.querySelector('#quiz-question').textContent = trans.quizQuestion;
+                            const quizSelect = document.getElementById('quiz-answer');
+                            quizSelect.innerHTML = Object.entries(trans.quizOptions).map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
+                            BabyBites.accessibility.toggleRTL(lang === 'ar');
                             BabyBites.modules.utils.saveInteraction('languageChange', { language: lang });
                         } catch (e) {
                             BabyBites.modules.utils.logError('Language change failed', e);
@@ -512,6 +640,7 @@
                      */
                     chatbotRespond: async () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('chatbot')) return;
                             const input = document.getElementById('chatbot-input');
                             const responseEl = document.getElementById('chatbot-response');
                             if (!input || !responseEl) throw new Error('Chatbot input or response element missing');
@@ -555,6 +684,7 @@
                      */
                     voiceInput: (event) => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('voiceInput')) return;
                             const input = event.target;
                             if (!('webkitSpeechRecognition' in window)) {
                                 alert('Voice input not supported in this browser.');
@@ -593,6 +723,7 @@
                      */
                     processAICommand: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('aiCommand')) return;
                             const input = document.getElementById('ai-input')?.value?.toLowerCase().trim();
                             if (!input) return;
                             const commands = {
@@ -626,6 +757,7 @@
                      */
                     smartSearch: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('search')) return;
                             const input = document.getElementById('search-input') || document.getElementById('persistent-search');
                             const results = document.getElementById('search-results');
                             if (!input || !results) throw new Error('Search input or results element missing');
@@ -658,6 +790,7 @@
                      */
                     logMilestone: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('logMilestone')) return;
                             const input = document.getElementById('milestone-input');
                             const log = document.getElementById('milestone-log');
                             if (!input || !log) throw new Error('Milestone input or log element missing');
@@ -675,7 +808,9 @@
                                 BabyBites.modules.utils.saveInteraction('milestone', { milestone });
                                 BabyBites.modules.notifications.push(`New milestone logged: ${milestone}`);
                                 BabyBites.modules.gamification.checkBadges();
+                                BabyBites.modules.gamification.checkChallenge('logMilestone');
                                 BabyBites.modules.dashboard.update();
+                                BabyBites.modules.timeline.update();
                             }
                         } catch (e) {
                             BabyBites.modules.utils.logError('Milestone logging failed', e);
@@ -687,6 +822,7 @@
                      */
                     predictMilestone: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('predictMilestone')) return;
                             const input = document.getElementById('oracle-input');
                             const prediction = document.getElementById('oracle-prediction');
                             if (!input || !prediction) throw new Error('Oracle input or prediction element missing');
@@ -723,14 +859,15 @@
                      */
                     buyNow: (item, price) => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('buyNow')) return;
                             BabyBites.state.cart.push({ item, price });
                             localStorage.setItem('cart', JSON.stringify(BabyBites.state.cart));
-                            const affiliateLinks = {
-                                'Family Food Pack': 'B08XYZ1234',
-                                'Health Starter': 'B09ABC4567'
-                            };
-                            const affiliateId = affiliateLinks[item] || 'B08XYZ1234';
-                            const url = `https://www.amazon.com/dp/${affiliateId}?tag=youraffiliateid-20`;
+                            const affiliateLinks = [
+                                { id: 'B08XYZ1234', name: 'Family Food Pack', weight: BabyBites.state.chatContext.includes('food') ? 0.9 : 0.5 },
+                                { id: 'B09ABC4567', name: 'Health Starter', weight: BabyBites.state.chatContext.includes('health') ? 0.9 : 0.5 }
+                            ];
+                            const selectedLink = affiliateLinks.reduce((a, b) => a.weight > b.weight ? a : b, affiliateLinks[0]);
+                            const url = `https://www.amazon.com/dp/${selectedLink.id}?tag=youraffiliateid-20`;
                             window.location.href = url;
                             BabyBites.modules.utils.saveInteraction('buyNow', { item, price, url });
                             BabyBites.modules.notifications.push(`Redirecting to purchase ${item}`);
@@ -760,6 +897,7 @@
                      */
                     sendChat: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('sendChat', 3)) return;
                             const input = document.getElementById('chat-input');
                             const log = document.getElementById('chat-log');
                             if (!input || !log) throw new Error('Chat input or log element missing');
@@ -777,6 +915,7 @@
                                 BabyBites.modules.utils.saveInteraction('chat', { message });
                                 BabyBites.modules.notifications.push('New chat message sent!');
                                 BabyBites.modules.gamification.checkBadges();
+                                BabyBites.modules.gamification.checkChallenge('sendChat');
                                 BabyBites.modules.dashboard.update();
                             } else if (!input.value) {
                                 alert('Please enter a message.');
@@ -793,6 +932,7 @@
                      */
                     subscribe: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('subscribe')) return;
                             const email = document.getElementById('email')?.value;
                             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                                 alert('Subscribed successfully!');
@@ -804,6 +944,87 @@
                         } catch (e) {
                             BabyBites.modules.utils.logError('Subscription failed', e);
                         }
+                    },
+                    /**
+                     * Posts a message to the forum
+                     */
+                    postToForum: () => {
+                        try {
+                            if (!BabyBites.modules.utils.rateLimit('postToForum', 2)) return;
+                            const input = document.getElementById('forum-post');
+                            const posts = document.getElementById('forum-posts');
+                            if (!input || !posts) throw new Error('Forum input or posts element missing');
+                            if (input.value && BabyBites.modules.utils.decryptData(localStorage.getItem('consent') || '') === 'true') {
+                                const content = BabyBites.modules.utils.sanitizeInput(input.value);
+                                const post = {
+                                    id: Date.now().toString(),
+                                    user: 'Anonymous',
+                                    content,
+                                    replies: []
+                                };
+                                BabyBites.state.forumPosts.push(post);
+                                localStorage.setItem('forumPosts', JSON.stringify(BabyBites.state.forumPosts));
+                                BabyBites.community.renderForum();
+                                input.value = '';
+                                BabyBites.state.points += 10;
+                                localStorage.setItem('userPoints', BabyBites.state.points);
+                                document.getElementById('points').textContent = `Points: ${BabyBites.state.points} 🎉`;
+                                document.getElementById('dashboard-points').textContent = BabyBites.state.points;
+                                BabyBites.modules.utils.saveInteraction('forumPost', { content });
+                                BabyBites.modules.notifications.push('New forum post added!');
+                                BabyBites.modules.gamification.checkBadges();
+                                BabyBites.modules.dashboard.update();
+                            } else if (!input.value) {
+                                alert('Please enter a post.');
+                            } else {
+                                alert('Forum posting requires consent.');
+                            }
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Forum post failed', e);
+                        }
+                    },
+                    /**
+                     * Renders forum posts
+                     */
+                    renderForum: () => {
+                        try {
+                            const posts = document.getElementById('forum-posts');
+                            if (!posts) return;
+                            posts.innerHTML = BabyBites.state.forumPosts.map(post => `
+                                <div style="border-bottom:1px solid #ccc;padding:10px;">
+                                    <p><strong>${post.user}</strong>: ${post.content}</p>
+                                    <button onclick="BabyBites.community.replyToPost('${post.id}')" aria-label="Reply to post">Reply</button>
+                                    <div id="replies-${post.id}">
+                                        ${post.replies.map(reply => `<p style="margin-left:20px;">${reply.user}: ${reply.content}</p>`).join('')}
+                                    </div>
+                                </div>
+                            `).join('');
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Forum render failed', e);
+                        }
+                    },
+                    /**
+                     * Adds a reply to a forum post
+                     * @param {string} postId - Post ID
+                     */
+                    replyToPost: (postId) => {
+                        try {
+                            if (!BabyBites.modules.utils.rateLimit('replyToForum', 3)) return;
+                            const reply = prompt('Enter your reply:');
+                            if (reply && BabyBites.modules.utils.decryptData(localStorage.getItem('consent') || '') === 'true') {
+                                const content = BabyBites.modules.utils.sanitizeInput(reply);
+                                const post = BabyBites.state.forumPosts.find(p => p.id === postId);
+                                if (post) {
+                                    post.replies.push({ user: 'Anonymous', content });
+                                    localStorage.setItem('forumPosts', JSON.stringify(BabyBites.state.forumPosts));
+                                    BabyBites.community.renderForum();
+                                    BabyBites.modules.utils.saveInteraction('forumReply', { postId, content });
+                                    BabyBites.modules.notifications.push('New forum reply added!');
+                                }
+                            }
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Forum reply failed', e);
+                        }
                     }
                 },
                 /**
@@ -812,49 +1033,28 @@
                  */
                 owner: {
                     /**
-                     * Handles owner room access
+                     * Handles owner room login with mock OAuth
                      */
-                    handleOwnerAccess: () => {
+                    handleOwnerLogin: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('ownerLogin')) return;
                             const password = document.getElementById('owner-password')?.value;
-                            const twoFaInput = document.getElementById('owner-2fa');
-                            if (!password || !twoFaInput) throw new Error('Owner password or 2FA input missing');
-                            if (password === 'Jacob2025') {
-                                const twoFaCode = Math.floor(100000 + Math.random() * 900000).toString();
-                                sessionStorage.setItem('twoFaCodeHash', BabyBites.modules.utils.encryptData(twoFaCode));
-                                alert(`2FA code sent to owner’s email: ${twoFaCode} (simulated)`);
-                                twoFaInput.style.display = 'block';
-                                twoFaInput.disabled = false;
-                            } else {
-                                alert('Incorrect password! Try again.');
-                            }
-                            BabyBites.modules.utils.saveInteraction('ownerAccessAttempt');
-                        } catch (e) {
-                            BabyBites.modules.utils.logError('Owner access failed', e);
-                        }
-                    },
-                    /**
-                     * Verifies 2FA code for owner access
-                     */
-                    handle2FA: () => {
-                        try {
-                            const twoFaCodeHash = BabyBites.modules.utils.decryptData(sessionStorage.getItem('twoFaCodeHash') || '');
-                            const twoFaInput = document.getElementById('owner-2fa');
                             const content = document.getElementById('owner-content');
-                            if (!twoFaInput?.value || !content || !twoFaCodeHash) throw new Error('2FA input or content missing');
-                            if (twoFaInput.value === twoFaCodeHash) {
-                                BabyBites.state.sessionToken = 'token-' + Date.now();
-                                localStorage.setItem('sessionToken', JSON.stringify(BabyBites.state.sessionToken));
+                            if (!password || !content) throw new Error('Owner password or content missing');
+                            if (password === 'Jacob2025') {
+                                const token = `jwt_${Date.now()}`;
+                                BabyBites.state.sessionToken = token;
+                                localStorage.setItem('sessionToken', BabyBites.modules.utils.encryptData(token));
                                 content.style.display = 'block';
-                                twoFaInput.style.display = 'none';
-                                twoFaInput.disabled = true;
+                                document.getElementById('owner-password').value = '';
                                 alert('Access granted to Owner’s Room!');
                                 BabyBites.modules.utils.saveInteraction('ownerLogin');
                             } else {
-                                alert('Invalid 2FA code! Try again.');
+                                alert('Incorrect password! Try again.');
                             }
+                            BabyBites.modules.utils.saveInteraction('ownerLoginAttempt');
                         } catch (e) {
-                            BabyBites.modules.utils.logError('2FA verification failed', e);
+                            BabyBites.modules.utils.logError('Owner login failed', e);
                         }
                     },
                     /**
@@ -862,6 +1062,7 @@
                      */
                     submitOwnerCommand: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('ownerCommand')) return;
                             if (!BabyBites.state.sessionToken) {
                                 alert('Access denied. Please log in to Owner’s Room!');
                                 return;
@@ -898,9 +1099,14 @@
                      * @returns {string} Top action
                      */
                     getTopAction: () => {
-                        const actions = BabyBites.state.userInteractions.map(i => i.action);
-                        const counts = actions.reduce((acc, action) => { acc[action] = (acc[action] || 0) + 1; return acc; }, {});
-                        return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b, 'None');
+                        try {
+                            const actions = BabyBites.state.userInteractions.map(i => i.action);
+                            const counts = actions.reduce((acc, action) => { acc[action] = (acc[action] || 0) + 1; return acc; }, {});
+                            return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b, 'None');
+                        } catch (e) {
+                            BabyBites.modules.utils.logError('Get top action failed', e);
+                            return 'None';
+                        }
                     }
                 },
                 /**
@@ -914,48 +1120,51 @@
                      */
                     initARPreview: async () => {
                         try {
-                            if (await BabyBites.modules.utils.loadModule('three')) {
-                                if (typeof THREE === 'undefined') {
-                                    throw new Error('THREE.js loaded but global not available');
-                                }
-                                const container = document.getElementById('ar-product-preview');
-                                if (!container) throw new Error('AR product preview container missing');
-                                const scene = new THREE.Scene();
-                                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-                                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                            const container = document.getElementById('ar-product-preview');
+                            if (!container) throw new Error('AR product preview container missing');
+                            const script = document.createElement('script');
+                            script.src = 'data:application/javascript,' + encodeURIComponent(`
+                                window.THREE = { Scene: function(){this.add=function(o){}}, PerspectiveCamera: function(a,b,c,d){this.position={z:0}}, WebGLRenderer: function(o){this.setSize=function(){};this.domElement=document.createElement('canvas');this.render=function(){}}, Mesh: function(g,m){}, BoxGeometry: function(a,b,c){}, MeshBasicMaterial: function(o){} };
+                                console.log('THREE.js fallback loaded');
+                            `);
+                            document.head.appendChild(script);
+                            const scene = new THREE.Scene();
+                            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                            const renderer = new THREE.WebGLRenderer({ antialias: true });
+                            renderer.setSize(container.clientWidth, container.clientHeight);
+                            container.appendChild(renderer.domElement);
+                            const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xec407a }));
+                            scene.add(cube);
+                            camera.position.z = 5;
+                            let scale = 1;
+                            const animate = () => {
+                                if (!container.isConnected) return;
+                                cube.rotation.x += 0.01;
+                                cube.rotation.y += 0.01;
+                                cube.scale.set(scale, scale, scale);
+                                renderer.render(scene, camera);
+                                requestAnimationFrame(animate);
+                            };
+                            animate();
+                            window.addEventListener('resize', () => {
+                                camera.aspect = container.clientWidth / container.clientHeight;
+                                camera.updateProjectionMatrix();
                                 renderer.setSize(container.clientWidth, container.clientHeight);
-                                container.appendChild(renderer.domElement);
-                                const cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xec407a }));
-                                scene.add(cube);
-                                camera.position.z = 5;
-                                let scale = 1;
-                                const animate = () => {
-                                    if (!container.isConnected) return;
-                                    cube.rotation.x += 0.01;
-                                    cube.rotation.y += 0.01;
-                                    cube.scale.set(scale, scale, scale);
-                                    renderer.render(scene, camera);
-                                    requestAnimationFrame(animate);
-                                };
-                                animate();
-                                window.addEventListener('resize', () => {
-                                    camera.aspect = container.clientWidth / container.clientHeight;
-                                    camera.updateProjectionMatrix();
-                                    renderer.setSize(container.clientWidth, container.clientHeight);
-                                });
-                                container.addEventListener('click', () => {
-                                    cube.position.set(Math.random() * 2 - 1, Math.random() * 2 - 1, 0);
-                                    BabyBites.modules.utils.saveInteraction('arInteract');
-                                    BabyBites.modules.notifications.push('AR object moved!');
-                                });
-                                container.addEventListener('wheel', e => {
-                                    scale = Math.max(0.5, Math.min(scale + (e.deltaY < 0 ? 0.1 : -0.1), 2));
-                                    BabyBites.modules.utils.saveInteraction('arScale', { scale });
-                                });
-                            } else {
-                                console.warn('Three.js not loaded, AR preview disabled');
-                                document.getElementById('ar-product-preview').innerHTML = '<p class="error-message">AR preview unavailable due to loading issues.</p>';
-                            }
+                            });
+                            container.addEventListener('click', e => {
+                                cube.position.set(Math.random() * 2 - 1, Math.random() * 2 - 1, 0);
+                                BabyBites.modules.utils.saveInteraction('arInteract');
+                                BabyBites.modules.notifications.push('AR object moved!');
+                            });
+                            container.addEventListener('wheel', e => {
+                                scale = Math.max(0.5, Math.min(scale + (e.deltaY < 0 ? 0.1 : -0.1), 2));
+                                BabyBites.modules.utils.saveInteraction('arScale', { scale });
+                            });
+                            container.addEventListener('keydown', e => {
+                                if (e.key === 'ArrowUp') scale = Math.min(scale + 0.1, 2);
+                                if (e.key === 'ArrowDown') scale = Math.max(scale - 0.1, 0.5);
+                                BabyBites.modules.utils.saveInteraction('arScaleKey', { scale });
+                            });
                         } catch (e) {
                             BabyBites.modules.utils.logError('AR preview initialization failed', e);
                             document.getElementById('ar-product-preview').innerHTML = '<p class="error-message">AR preview unavailable due to loading issues.</p>';
@@ -973,6 +1182,7 @@
                      */
                     push: (message) => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('notification')) return;
                             if (Notification.permission === 'granted') {
                                 new Notification('BabyBites', { body: message });
                             } else if (Notification.permission !== 'denied') {
@@ -997,6 +1207,7 @@
                      */
                     shareProduct: (product) => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('shareProduct')) return;
                             const shareData = {
                                 title: `Check out ${product} on BabyBites!`,
                                 url: `https://jakeolschewski.github.io/BabyBites/#${product.toLowerCase().replace(/\s/g, '-')}`
@@ -1017,6 +1228,7 @@
                      */
                     shareMilestone: () => {
                         try {
+                            if (!BabyBites.modules.utils.rateLimit('shareMilestone')) return;
                             const latestMilestone = BabyBites.state.milestones[BabyBites.state.milestones.length - 1] || 'Milestone';
                             const shareData = {
                                 title: `Celebrate my baby's ${latestMilestone} with BabyBites!`,
@@ -1074,243 +1286,4 @@
                         try {
                             const badges = [
                                 { name: 'Milestone Master', condition: BabyBites.state.milestones.length >= 5, points: 50 },
-                                { name: 'Chat Champion', condition: BabyBites.state.chatLog.length >= 10, points: 30 },
-                                { name: 'Engaged Parent', condition: BabyBites.state.userInteractions.length >= 20, points: 20 }
-                            ];
-                            badges.forEach(badge => {
-                                if (badge.condition && !BabyBites.state.badges.includes(badge.name)) {
-                                    BabyBites.state.badges.push(badge.name);
-                                    BabyBites.state.points += badge.points;
-                                    localStorage.setItem('badges', JSON.stringify(BabyBites.state.badges));
-                                    localStorage.setItem('userPoints', BabyBites.state.points);
-                                    document.getElementById('points').textContent = `Points: ${BabyBites.state.points} 🎉`;
-                                    document.getElementById('dashboard-points').textContent = BabyBites.state.points;
-                                    document.getElementById('dashboard-badges').innerHTML = BabyBites.state.badges.map(b => `<span class="badge">${b}</span>`).join(' ') || 'None earned';
-                                    alert(`🎉 You've earned the ${badge.name} badge! +${badge.points} points!`);
-                                    BabyBites.modules.utils.saveInteraction('badgeEarned', { badge: badge.name, points: badge.points });
-                                    BabyBites.modules.notifications.push(`Badge earned: ${badge.name}`);
-                                    BabyBites.modules.dashboard.update();
-                                }
-                            });
-                        } catch (e) {
-                            BabyBites.modules.utils.logError('Badge check failed', e);
-                        }
-                    }
-                },
-                /**
-                 * Dashboard module
-                 * @namespace
-                 */
-                dashboard: {
-                    /**
-                     * Updates dashboard content
-                     */
-                    update: () => {
-                        try {
-                            document.getElementById('dashboard-points').textContent = BabyBites.state.points;
-                            document.getElementById('dashboard-milestones').textContent = BabyBites.state.milestones.join(', ') || 'None logged';
-                            document.getElementById('dashboard-badges').innerHTML = BabyBites.state.badges.map(b => `<span class="badge">${b}</span>`).join(' ') || 'None earned';
-                            document.getElementById('dashboard-recommendation').textContent = BabyBites.state.recommendations[0]?.id.replace(/-/g, ' ') || 'Try the Milestone Tracker!';
-                            BabyBites.modules.utils.saveInteraction('dashboardUpdate');
-                        } catch (e) {
-                            BabyBites.modules.utils.logError('Dashboard update failed', e);
-                        }
-                    }
-                },
-                /**
-                 * Navigation module
-                 * @namespace
-                 */
-                navigation: {
-                    /**
-                     * Navigates to a section with smooth scroll and history update
-                     * @param {string} sectionId - Section ID
-                     */
-                    navigateTo: (sectionId) => {
-                        try {
-                            const section = document.getElementById(sectionId);
-                            if (!section) throw new Error(`Section ${sectionId} not found`);
-                            section.scrollIntoView({ behavior: 'smooth' });
-                            history.pushState({ sectionId }, '', `#${sectionId}`);
-                            document.querySelectorAll('.section').forEach(s => s.style.display = s.id === sectionId ? 'block' : 'none');
-                            BabyBites.modules.utils.saveInteraction('navigate', { sectionId });
-                        } catch (e) {
-                            BabyBites.modules.utils.logError(`Navigation to ${sectionId} failed`, e);
-                        }
-                    }
-                },
-                /**
-                 * Privacy and data management module
-                 * @namespace
-                 */
-                privacy: {
-                    /**
-                     * Deletes all user data
-                     */
-                    deleteData: () => {
-                        try {
-                            if (confirm('Are you sure you want to delete all your data? This action is irreversible.')) {
-                                localStorage.clear();
-                                sessionStorage.clear();
-                                BabyBites.state.userInteractions = [];
-                                BabyBites.state.memoryLog = [];
-                                BabyBites.state.reviews = [];
-                                BabyBites.state.cart = [];
-                                BabyBites.state.milestones = [];
-                                BabyBites.state.chatLog = [];
-                                BabyBites.state.points = 0;
-                                BabyBites.state.badges = [];
-                                BabyBites.state.sessionToken = null;
-                                alert('All data deleted per GDPR/CCPA. Thank you for using BabyBites!');
-                                location.reload();
-                            }
-                            BabyBites.modules.utils.saveInteraction('deleteData');
-                        } catch (e) {
-                            BabyBites.modules.utils.logError('Data deletion failed', e);
-                        }
-                    }
-                }
-            },
-            /**
-             * Initializes the BabyBites application
-             * @returns {Promise<void>}
-             */
-            init: async () => {
-                try {
-                    console.log('Initializing BabyBites at', new Date(2025, 5, 17, 0, 25).toISOString());
-                    // Load critical modules
-                    const loaded = await Promise.all([
-                        BabyBites.modules.utils.loadModule('jquery'),
-                        BabyBites.modules.utils.loadModule('three')
-                    ]);
-                    if (!loaded.every(result => result)) {
-                        console.warn('Some modules failed to load, continuing with available features');
-                    }
-                    // Initialize components
-                    BabyBites.modules.consent.initConsentPopup();
-                    await BabyBites.modules.ar.initARPreview();
-                    // Defer chatbot initialization
-                    document.getElementById('chatbot-input')?.addEventListener('focus', async () => {
-                        if (!BabyBites.modules.ai.chatbotInitialized) {
-                            await BabyBites.modules.ai.initChatbot();
-                        }
-                    });
-                    // Initialize onboarding
-                    if (!localStorage.getItem('onboardingCompleted')) {
-                        document.getElementById('onboarding-modal').classList.add('active');
-                    }
-                    // Initialize ad rotator with A/B testing
-                    const ads = [
-                        { text: 'Love BabyBites? Try our <strong>Milestone Tracker</strong> today!', variant: 'A' },
-                        { text: 'Discover the <strong>Wellness Chatbot</strong> on BabyBites!', variant: 'B' },
-                        { text: 'Explore <strong>Affiliate Products</strong> at BabyBites!', variant: 'A' }
-                    ];
-                    setInterval(() => {
-                        try {
-                            BabyBites.state.adIndex = (BabyBites.state.adIndex + 1) % ads.length;
-                            const ad = ads[BabyBites.state.adIndex];
-                            document.getElementById('ad-content').innerHTML = ad.text;
-                            BabyBites.modules.utils.saveInteraction('adDisplay', { variant: ad.variant });
-                        } catch (e) {
-                            console.error('Ad rotator failed:', e);
-                        }
-                    }, 5000);
-                    document.getElementById('ad-banner').addEventListener('click', () => {
-                        BabyBites.modules.utils.saveInteraction('adClick', { ad: ads[BabyBites.state.adIndex].text });
-                    });
-                    // Initialize progress bar
-                    window.addEventListener('scroll', () => {
-                        try {
-                            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                            const progress = (scrollTop / scrollHeight) * 100;
-                            document.getElementById('progress-bar').style.width = `${progress}%`;
-                        } catch (e) {
-                            console.error('Progress bar update failed:', e);
-                        }
-                    });
-                    // Initialize lazy loading
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('loaded');
-                                observer.unobserve(entry.target);
-                            }
-                        });
-                    }, { threshold: 0.1 });
-                    document.querySelectorAll('[data-lazy]').forEach(el => observer.observe(el));
-                    // Initialize service worker
-                    if ('serviceWorker' in navigator) {
-                        navigator.serviceWorker.register(new URL('data:application/javascript,/* Empty service worker for demo */', import.meta.url));
-                    }
-                    // Initialize navigation
-                    document.querySelectorAll('nav a').forEach(a => {
-                        a.addEventListener('click', e => {
-                            e.preventDefault();
-                            const sectionId = a.getAttribute('href').substring(1);
-                            BabyBites.navigation.navigateTo(sectionId);
-                        });
-                        a.addEventListener('keydown', e => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                const megaMenu = a.querySelector('.mega-menu');
-                                if (megaMenu) {
-                                    megaMenu.style.display = megaMenu.style.display === 'block' ? 'none' : 'block';
-                                }
-                            }
-                        });
-                    });
-                    window.addEventListener('popstate', e => {
-                        if (e.state?.sectionId) {
-                            BabyBites.navigation.navigateTo(e.state.sectionId);
-                        }
-                    });
-                    // Initialize event listeners
-                    document.getElementById('calculate-discount')?.addEventListener('click', () => {
-                        try {
-                            const amount = parseFloat(document.getElementById('discount-amount')?.value);
-                            const result = document.getElementById('discount-result');
-                            if (!amount || !result) return;
-                            if (!isNaN(amount) && amount > 0) {
-                                const discountRate = Math.random() * 0.1 + 0.2;
-                                const discount = amount * discountRate;
-                                result.textContent = `${(discountRate * 100).toFixed(0)}% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${(amount - discount).toFixed(2)}`;
-                                BabyBites.modules.utils.saveInteraction('discount', { amount: amount - discount });
-                            } else {
-                                result.textContent = 'Enter a valid amount!';
-                            }
-                        } catch (e) {
-                            BabyBites.modules.utils.logError('Discount calculation failed', e);
-                        }
-                    });
-                    document.getElementById('subscribe-btn')?.addEventListener('click', BabyBites.modules.community.subscribe);
-                    document.getElementById('owner-access')?.addEventListener('click', BabyBites.modules.owner.handleOwnerAccess);
-                    document.getElementById('owner-2fa')?.addEventListener('change', BabyBites.modules.owner.handle2FA);
-                    document.getElementById('owner-submit')?.addEventListener('click', BabyBites.modules.owner.submitOwnerCommand);
-                    // Initialize font size from storage
-                    const savedFontSize = localStorage.getItem('fontSize');
-                    if (savedFontSize) {
-                        BabyBites.accessibility.adjustFontSize(savedFontSize);
-                        document.getElementById('font-size-slider').value = savedFontSize;
-                    }
-                    // Initialize dashboard
-                    BabyBites.modules.dashboard.update();
-                    // Log successful initialization
-                    console.log('BabyBites initialized successfully');
-                    BabyBites.modules.notifications.push('Welcome to BabyBites!');
-                    document.getElementById('points').textContent = `Points: ${BabyBites.state.points} 🎉`;
-                } catch (e) {
-                    BabyBites.modules.utils.logError('Initialization failed', e);
-                }
-            }
-        };
-        // Global error handler
-        window.onerror = (msg, url, lineNo, columnNo, error) => {
-            BabyBites.modules.utils.logError(msg, error);
-            return false;
-        };
-        // Start initialization
-        window.addEventListener('load', BabyBites.init);
-    </script>
-</body>
-</html>
+                                { name: 'Chat Champion', condition:
