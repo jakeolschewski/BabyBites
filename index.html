@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="BabyBites: A personal AI-powered parenting hub by Jacob Olschewski, offering free tools and resources—100% legal and secure.">
+    <meta name="description" content="BabyBites: A personal AI-powered parenting hub by Jacob Olschewski, offering free tools and resources—100% legal, secure, and smart.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tensorflow.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://images.unsplash.com; media-src 'self' https://via.placeholder.com; object-src 'none'; worker-src 'self' blob:;">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="BabyBites - Premier Parenting Hub">
+    <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and love!">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=BabyBites">
+    <meta property="og:url" content="https://jakeolschewski.github.io/BabyBites/">
+    <meta name="twitter:card" content="summary_large_image">
     <title>BabyBites: Premier Health for Babies</title>
     <style>
         body {
@@ -83,6 +89,19 @@
             margin-left: 10px;
             cursor: pointer;
         }
+        #consent-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            display: none;
+        }
+        #consent-popup.active { display: block; }
         header {
             background: linear-gradient(90deg, #0288d1, #42a5f5);
             color: #fff;
@@ -126,6 +145,16 @@
             color: #ec407a;
             text-shadow: 0 0 10px #ec407a;
         }
+        .mega-menu {
+            display: none;
+            position: absolute;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 1000;
+        }
+        nav a:hover .mega-menu { display: block; }
         .section {
             padding: 2.5rem;
             max-width: 1200px;
@@ -213,6 +242,7 @@
             color: #fff;
             filter: contrast(200%);
         }
+        .high-contrast { filter: contrast(200%) brightness(150%); }
         input, select, button {
             padding: 12px 25px;
             margin: 8px;
@@ -299,6 +329,9 @@
             display: none;
         }
         #consent-popup.active { display: block; }
+        .dark-mode { background: #1a1a1a; color: #f5f5f5; }
+        .dark-mode .section { background: rgba(26, 26, 26, 0.85); }
+        .dark-mode input, .dark-mode select, .dark-mode button { background: #333; color: #f5f5f5; }
         @media (max-width: 600px) {
             body { padding: 70px 10px 10px; font-size: 14px; }
             header h1 { font-size: 1.8em; padding: 5px 10px; }
@@ -310,6 +343,7 @@
             #ar-product-preview, #ar-scanner { width: 100%; height: 200px; }
             #ad-banner { bottom: 10px; left: 10px; padding: 8px 15px; font-size: 0.9em; }
             #consent-popup { width: 90%; }
+            .mega-menu { width: 90%; }
         }
         @media (min-width: 601px) and (max-width: 1024px) {
             body { padding: 80px 15px 15px; font-size: 16px; }
@@ -322,12 +356,16 @@
             #ar-product-preview, #ar-scanner { width: 500px; height: 300px; }
             #ad-banner { bottom: 15px; left: 15px; padding: 10px 18px; }
             #consent-popup { width: 70%; }
+            .mega-menu { width: 70%; }
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js" integrity="sha256-QU5H2lwfR+3wcH6+VvD5J/8q6oAZPKr1A7E69cSGlms=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js" integrity="sha256-iL1M0p2H+BeJQd2jJ3M9yUN0M+8m5xD5c0g7vA0C7mo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js" integrity="sha256-Q8gW+3s7g1V0QzA+7U2a0QzA+7U2a0QzA+7U2a0QzA=" crossorigin="anonymous"></script>
+    <script>
+        if (!localStorage.getItem('consent')) document.getElementById('consent-popup').classList.add('active');
+    </script>
 </head>
 <body>
     <div id="progress-bar"></div>
@@ -336,25 +374,34 @@
     <header>
         <h1>BabyBites</h1>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#products">Products</a>
+            <a href="#home">Home
+                <div class="mega-menu">
+                    <a href="#tools">Health Tools</a> | <a href="#products">Products</a> | <a href="#community">Community</a>
+                </div>
+            </a>
+            <a href="#products">Products
+                <div class="mega-menu">
+                    <a href="#family-food-pack">Family Food Pack</a> | <a href="#health-starter-bundle">Health Starter</a> | <a href="#premium-wellness-pack">Premium Wellness</a>
+                </div>
+            </a>
             <a href="#tools">Health Tools</a>
             <a href="#community">Community</a>
             <a href="#owner-room">Owner's Room</a>
         </nav>
+        <input type="text" id="persistent-search" placeholder="Search BabyBites..." style="position: absolute; right: 20px; top: 10px; width: 200px;">
     </header>
     <div id="ad-banner">
-        Discover BabyBites! Try our <strong>Milestone Tracker</strong> today! <button onclick="this.parentElement.style.display='none'">✖</button>
+        Discover BabyBites! Try our <strong>Milestone Tracker</strong> today! 100% legal and secure! <button onclick="this.parentElement.style.display='none'">✖</button>
     </div>
     <div id="consent-popup" class="active">
-        <p>This is a personal project by Jacob Olschewski. Data is collected with your consent for personalization. Agree to continue? <button onclick="document.getElementById('consent-popup').style.display='none'; localStorage.setItem('consent', 'true')">Yes</button> <button onclick="alert('You must agree to use BabyBites.');">No</button></p>
+        <p>This is a personal project by Jacob Olschewski. Data is collected with your consent for personalization (GDPR/CCPA compliant). Agree to continue? <button onclick="document.getElementById('consent-popup').style.display='none'; localStorage.setItem('consent', 'true')">Yes</button> <button onclick="alert('You must agree to use BabyBites.');">No</button></p>
     </div>
     <div class="section" id="home">
         <h1>Trusted, Loving Care for Your Baby!</h1>
         <p>Welcome to BabyBites, where parenting magic begins with AI-powered love by Jacob Olschewski!</p>
         <div class="search-box">
             <h3>Smart Search</h3>
-            <input id="search-input" placeholder="Discover tools, products, or advice...">
+            <input id="search-input" placeholder="Discover tools, products, or advice..." onkeyup="smartSearch()">
             <button onclick="smartSearch()">Search</button>
             <p id="search-results"></p>
         </div>
@@ -364,26 +411,25 @@
             Your browser does not support the video tag.
         </video>
         <div id="journey"></div>
+        <div id="suggestions"></div>
     </div>
     <div class="section" id="products">
         <h2>Explore Joyful Baby Products</h2>
+        <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#products">Products</a></nav>
         <div class="product-bundle" data-bundle="Family Food Pack" draggable="true" ondragstart="dragStart(event)">
-            <p>Family Food Pack - $49.99 (20% Off!)</p>
+            <p>Family Food Pack - $49.99 <button onclick="buyNow('Family Food Pack', 39.99)">Buy Now</button></p>
             <p>Includes: Organic Baby Food Pack, Organic Snack Box</p>
             <p>Tax: Calculated at checkout</p>
-            <button onclick="addToCart('Family Food Pack', 39.99)">Add to Cart</button>
         </div>
         <div class="product-bundle" data-bundle="Health Starter Bundle" draggable="true" ondragstart="dragStart(event)">
-            <p>Health Starter Bundle - $63.99 (20% Off!)</p>
+            <p>Health Starter Bundle - $63.99 <button onclick="buyNow('Health Starter Bundle', 51.19)">Buy Now</button></p>
             <p>Includes: Nutritional Starter Kit, Baby Vitamin Set</p>
             <p>Tax: Calculated at checkout</p>
-            <button onclick="addToCart('Health Starter Bundle', 51.19)">Add to Cart</button>
         </div>
         <div class="product-bundle" data-bundle="Premium Wellness Pack" draggable="true" ondragstart="dragStart(event)">
-            <p>Premium Wellness Pack - $79.99 (20% Off!)</p>
+            <p>Premium Wellness Pack - $79.99 <button onclick="buyNow('Premium Wellness Pack', 63.99)">Buy Now</button></p>
             <p>Includes: Premium Baby Formula, Baby Health Bundle</p>
             <p>Tax: Calculated at checkout</p>
-            <button onclick="addToCart('Premium Wellness Pack', 63.99)">Add to Cart</button>
         </div>
         <div id="ar-product-preview"></div>
         <div id="discount-calculator">
@@ -395,7 +441,7 @@
         <div id="referral-program">
             <h3>Share the Joy!</h3>
             <input type="text" id="referral-code" placeholder="Your Referral Code" readonly value="BABY2025">
-            <p>Refer a friend and earn 10% off your next purchase! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank">Link</a></p>
+            <p>Refer a friend and earn 10% off! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank">Link</a></p>
         </div>
         <div class="payment">
             <h2>Secure Checkout with Care</h2>
@@ -408,9 +454,16 @@
             <p id="payment-status"></p>
         </div>
         <div id="cart-drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 2px dashed #ec407a; padding: 20px; margin: 20px; border-radius: 15px;">Drop items here! ❤️</div>
+        <div id="reviews">
+            <h3>Customer Reviews</h3>
+            <p id="review-log">No reviews yet! Add yours below.</p>
+            <input id="review-input" placeholder="Leave a review...">
+            <button onclick="addReview()">Submit Review</button>
+        </div>
     </div>
     <div class="section" id="tools">
         <h2>Nurture with Health Tools</h2>
+        <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#tools">Health Tools</a></nav>
         <div class="tool-card" id="milestone-tracker" draggable="true" ondragstart="dragStart(event)">
             <h3>Milestone Tracker</h3>
             <input id="milestone-input" placeholder="Enter milestone (e.g., First step)">
@@ -452,6 +505,7 @@
     </div>
     <div class="section" id="community">
         <h2>Connect with Our Community</h2>
+        <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#community">Community</a></nav>
         <p><a href="#forum">Forum</a> | <a href="#gallery">Gallery</a> | <a href="#events">Events</a> | <a href="#academy">Nutrition Academy</a> | <a href="#blog">Blog</a></p>
         <div class="subscription-form">
             <input type="email" id="email" placeholder="Enter your email for health updates" required>
@@ -484,6 +538,8 @@
             <button id="ai-submit">Submit to Brian 7.0</button>
         </div>
         <button id="accessibility-mode">Toggle Accessibility Mode</button>
+        <button id="high-contrast">Toggle High Contrast</button>
+        <button id="dark-mode">Toggle Dark Mode</button>
         <div class="theme-toggle">
             <select id="theme-select" onchange="changeTheme()">
                 <option value="default">Loving Theme</option>
@@ -507,13 +563,14 @@
                 <option value="hi">हिन्दी</option>
             </select>
         </div>
+        <div id="journey"></div>
         <div id="suggestions"></div>
         <div id="points" style="position: fixed; top: 100px; right: 20px; color: #ec407a;">Points: 0 🎉</div>
     </div>
     <div class="section" id="compliance">
         <h2>Tax Compliance & Privacy with Love</h2>
         <div class="disclaimer">
-            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation. It complies with IRS regulations for personal e-commerce, calculating sales tax based on your location (8% fallback, consult a tax professional for advice). Use at your own risk; I am not liable for outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and can be deleted upon request. <a href="#privacy">Privacy Policy</a>. Content licensed under CC BY-NC.</p>
+            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation. It complies with IRS regulations for personal e-commerce, calculating sales tax based on your location (8% fallback, consult a tax professional for advice). Use at your own risk; I am not liable for outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and can be deleted upon request via the Data Controls settings. Content licensed under CC BY-NC. <a href="#privacy">Privacy Policy</a>.</p>
         </div>
     </div>
     <div class="footer">
@@ -538,6 +595,7 @@
 
         let userInteractions = JSON.parse(localStorage.getItem('userInteractions')) || [];
         let memoryLog = JSON.parse(localStorage.getItem('memoryLog')) || [];
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
 
         async function trainSuperAIModel() {
             const model = tf.sequential();
@@ -564,36 +622,36 @@
         }
 
         const chatbotResponses = {
-            help: 'Brian 7.0: I’m here to sprinkle love! Ask about parenting, products, or say innovate! Check out BabyBites’ <strong>Milestone Tracker</strong>!',
-            fix: 'Brian 7.0: Fixing with care! Tell me more. Love our <strong>Wellness Chatbot</strong>? All legal and secure!',
-            owner: 'Brian 7.0: Unlock Owner’s Room with password Jacob2025 and 2FA. Manage BabyBites’ magic legally!',
-            health: 'Brian 7.0: Nurture with love! Try Milestone Tracker or ask about sleep. Explore more at BabyBites, 100% legal!',
-            innovate: 'Brian 7.0: Crafting magical new features! Check back soon. Share BabyBites with friends, copyright-safe!',
+            help: 'Brian 7.0: I’m here to sprinkle love! Ask about parenting, products, or say innovate! Check out BabyBites’ <strong>Milestone Tracker</strong>, 100% legal!',
+            fix: 'Brian 7.0: Fixing with care! Tell me more. Love our <strong>Wellness Chatbot</strong>, copyright-safe?',
+            owner: 'Brian 7.0: Unlock Owner’s Room with password Jacob2025 and 2FA. Manage BabyBites legally!',
+            health: 'Brian 7.0: Nurture with love! Try Milestone Tracker or ask about sleep. Explore BabyBites, lawsuit-proof!',
+            innovate: 'Brian 7.0: Crafting magical new features! Check back soon. Share BabyBites, copyright-protected!',
             nutrition: 'Brian 7.0: Feed with love—breast milk or formula. Want a custom plan? Visit BabyBites!',
-            milestone: 'Brian 7.0: Celebrate milestones with joy in the Tracker! Share your journey on BabyBites, legally protected!',
-            allergy: 'Brian 7.0: Check allergies with care using the Checker. Discover more at BabyBites, lawsuit-proof!',
-            sleep: 'Brian 7.0: Sweet dreams with the Sleep Tracker. Need lullaby tips? Explore BabyBites!',
-            feeding: 'Brian 7.0: Plan meals with love using the Planner. Love BabyBites’ tools, all copyright-safe?',
-            cart: 'Brian 7.0: Fill your cart with joy and pay securely! Check out BabyBites’ products, legally yours!',
-            discount: 'Brian 7.0: Save with love (20-30% off) using the Calculator! Shop more at BabyBites, 100% secure!',
-            referral: 'Brian 7.0: Share BABY2025 for 10% off with a friend! Spread BabyBites’ love, legally!',
-            subscribe: 'Brian 7.0: Subscribe with love—free for Jacob Olschewski! Join BabyBites’ community, copyright-protected!',
-            recipe: 'Brian 7.0: Try pureed carrots or banana mash with a smile! More recipes at BabyBites, all original!',
-            product: 'Brian 7.0: Discover treasures in Products with love! Explore BabyBites now, lawsuit-proof!',
-            community: 'Brian 7.0: Join our warm Forum or Nutrition Academy! Connect at BabyBites, legally secure!',
-            tax: 'Brian 7.0: IRS compliance with love, but no advice. See a pro. Trust BabyBites, 100% legal!',
-            privacy: 'Brian 7.0: Data safe with love per GDPR/CCPA. Check Privacy Policy on BabyBites, secure!',
-            default: 'Brian 7.0: Spread joy! Try health, cart, or innovate! Visit BabyBites today, always legal!'
+            milestone: 'Brian 7.0: Celebrate milestones with joy in the Tracker! Share on BabyBites, legally secure!',
+            allergy: 'Brian 7.0: Check allergies with care using the Checker. Discover BabyBites, 100% safe!',
+            sleep: 'Brian 7.0: Sweet dreams with the Sleep Tracker. Need tips? Explore BabyBites!',
+            feeding: 'Brian 7.0: Plan meals with love using the Planner. Love BabyBites’ tools?',
+            cart: 'Brian 7.0: Fill your cart with joy and pay securely! Check BabyBites’ products, legal!',
+            discount: 'Brian 7.0: Save with love (20-30% off) using the Calculator! Shop BabyBites, secure!',
+            referral: 'Brian 7.0: Share BABY2025 for 10% off! Spread BabyBites’ love, legally!',
+            subscribe: 'Brian 7.0: Subscribe with love—free for Jacob Olschewski! Join BabyBites, copyright-safe!',
+            recipe: 'Brian 7.0: Try pureed carrots or banana mash! More at BabyBites, original content!',
+            product: 'Brian 7.0: Discover treasures in Products! Explore BabyBites, lawsuit-proof!',
+            community: 'Brian 7.0: Join our Forum or Nutrition Academy! Connect at BabyBites, legal!',
+            tax: 'Brian 7.0: IRS compliance with love, no advice. Consult a pro. Trust BabyBites!',
+            privacy: 'Brian 7.0: Data safe per GDPR/CCPA. Delete via settings. Check BabyBites’ Policy!',
+            default: 'Brian 7.0: Spread joy! Try health, cart, or innovate! Visit BabyBites, always legal!'
         };
 
         const searchCategories = [
-            { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones with love! 🎉 Try it on BabyBites, 100% legal!', score: 0.9 },
-            { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask with care. Discover more at BabyBites, copyright-safe! 🎤', score: 0.95 },
+            { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones with love! 🎉 Try BabyBites, 100% legal!', score: 0.9 },
+            { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask with care. Discover BabyBites, copyright-safe! 🎤', score: 0.95 },
             { id: 'health-tips', category: 'Health Tools', title: 'Health Tips', description: 'Joyful tips for your baby. More at BabyBites, lawsuit-proof! 🌱', score: 0.8 },
-            { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Organic love in every bite. Shop at BabyBites, legally protected! ❤️', score: 0.85 },
-            { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Nurturing kit for your baby. Get it at BabyBites, secure! 🍼', score: 0.8 },
+            { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Organic love in every bite. Shop BabyBites, legally protected! ❤️', score: 0.85 },
+            { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Nurturing kit. Get it at BabyBites, secure! 🍼', score: 0.8 },
             { id: 'premium-wellness-pack', category: 'Products', title: 'Premium Wellness Pack', description: 'Care in every drop. Buy at BabyBites, copyright-safe! 💕', score: 0.9 },
-            { id: 'forum', category: 'Community', title: 'Forum', description: 'Connect with loving parents. Join BabyBites, 100% legal! 🌟', score: 0.75 },
+            { id: 'forum', category: 'Community', title: 'Forum', description: 'Connect with parents. Join BabyBites, 100% legal! 🌟', score: 0.75 },
             { id: 'nutrition-academy', category: 'Community', title: 'Nutrition Academy', description: 'Learn with love. Enroll at BabyBites, lawsuit-proof! 🍎', score: 0.7 }
         ];
 
@@ -601,9 +659,9 @@
         let adIndex = 0;
         const ads = [
             'Love BabyBites? Try our <strong>Milestone Tracker</strong> today! 100% legal and secure! 🎉',
-            'Discover the <strong>Wellness Chatbot</strong> on BabyBites for expert parenting tips, copyright-safe! 🎤',
-            'Shop the best <strong>Baby Products</strong> at BabyBites today, lawsuit-proof! ❤️',
-            'Join our <strong>Community</strong> on BabyBites and connect with parents, legally protected! 🌟',
+            'Discover the <strong>Wellness Chatbot</strong> on BabyBites, copyright-safe! 🎤',
+            'Shop <strong>Baby Products</strong> at BabyBites, lawsuit-proof! ❤️',
+            'Join our <strong>Community</strong> on BabyBites, legally protected! 🌟',
             'Save 20-30% with the <strong>Discount Calculator</strong> on BabyBites, 100% secure! 💕'
         ];
 
@@ -618,6 +676,7 @@
             document.body.style.background = styles[theme].bg;
             document.body.style.color = styles[theme].color;
             document.querySelectorAll('input, select, button').forEach(el => el.style.borderColor = styles[theme].border);
+            if (theme === 'default') document.body.classList.remove('dark-mode', 'high-contrast');
             userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: theme === 'calm' ? 0 : theme === 'playful' ? 1 : 2, lastAction: 'themeChange', socialShares: 0, feedbackScore: 0 });
             memoryLog.push({ action: 'themeChange', time: Date.now(), theme: theme });
             localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
@@ -627,7 +686,7 @@
 
         function voiceInput(event) {
             const input = event.target;
-            if (input && 'webkitSpeechRecognition' in window) {
+            if (input && 'webkitSpeechRecognition' in window && localStorage.getItem('consent') === 'true') {
                 const recognition = new webkitSpeechRecognition();
                 recognition.lang = document.getElementById('lang-select').value;
                 recognition.interimResults = true;
@@ -650,7 +709,7 @@
                 recognition.onerror = (e) => console.error('Voice error:', e);
                 recognition.start();
             } else {
-                alert('Voice input not supported. Type with love! 🎤');
+                alert('Voice input not supported or consent not given. Type with love! 🎤');
             }
         }
 
@@ -674,6 +733,16 @@
             checkLegality();
         }
 
+        function buyNow(item, price) {
+            addToCart(item, price);
+            paymentSubmit.click();
+            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'buyNow', socialShares: 0, feedbackScore: 0 });
+            memoryLog.push({ action: 'buyNow', time: Date.now(), item: item, price: price });
+            localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+            localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+            checkLegality();
+        }
+
         async function calculateTax(zipCode, amount) {
             try {
                 const response = await fetch(`https://babybites-backend.herokuapp.com/tax/${zipCode}`);
@@ -689,6 +758,10 @@
         if (paymentSubmit) {
             paymentSubmit.onclick = async function() {
                 try {
+                    if (localStorage.getItem('consent') !== 'true') {
+                        alert('Please consent to data use before payment.');
+                        return;
+                    }
                     const card = document.getElementById('payment-card').value;
                     const expiry = document.getElementById('payment-expiry').value;
                     const cvv = document.getElementById('payment-cvv').value;
@@ -719,6 +792,28 @@
                     alert('Payment error. Brian 7.0 fixing with care...');
                 }
             };
+        }
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        function addToCart(item, price) {
+            try {
+                if (!cart.some(i => i.item === item)) {
+                    cart.push({ item, price });
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert(`Added ${item} to cart with love! 🎉 Check out more at BabyBites!`);
+                    $('.payment').addClass('active');
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.9, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'addToCart', socialShares: 0, feedbackScore: 0 });
+                    memoryLog.push({ action: 'addToCart', time: Date.now(), item: item, price: price });
+                    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+                    localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                    checkLegality();
+                } else {
+                    alert('Item already in your cart of love! Explore more at BabyBites! 🎀');
+                }
+            } catch (e) {
+                console.error('Cart error:', e);
+                alert('Error adding to cart. Brian 7.0 fixing with care...');
+            }
         }
 
         let milestones = JSON.parse(localStorage.getItem('milestones')) || [];
@@ -759,7 +854,7 @@
                 const query = input.value.toLowerCase().trim();
                 let response = chatbotResponses.default;
                 let maxScore = 0;
-                for (const key in chatbotResponses) {
+                for (const let key in chatbotResponses) {
                     if (query.includes(key)) {
                         const score = query.split(key).length - 1;
                         if (score > maxScore) {
@@ -774,6 +869,9 @@
                     const prediction = chatbotModel.predict(tf.tensor2d([inputVector]));
                     const score = (await prediction.data())[0];
                     response += ` (AI confidence: ${(score * 100).toFixed(2)}%)`;
+                    // Memory recall
+                    const pastInteraction = memoryLog.find(m => m.action === 'chatbot' && m.query === query);
+                    if (pastInteraction) response += ` (Remember, you asked this on ${new Date(pastInteraction.time).toLocaleString()}!)`;
                 }
                 document.getElementById('chatbot-response').textContent = response;
                 input.value = '';
@@ -791,7 +889,7 @@
 
         function smartSearch() {
             try {
-                const input = document.getElementById('search-input');
+                const input = document.getElementById('search-input') || document.getElementById('persistent-search');
                 if (!input || !input.value) {
                     document.getElementById('search-results').textContent = 'Search with love! 🎉 Try BabyBites’ tools!';
                     return;
@@ -979,95 +1077,4 @@
                     if (input.includes('help')) response = 'Brian 7.0: How can I assist with love? 🎶 Check out BabyBites’ features, 100% legal!';
                     else if (input.includes('fix')) response = 'Brian 7.0: Issue resolved with care! Report if needed. ✨ Love BabyBites, copyright-safe!';
                     else if (input.includes('owner')) response = 'Brian 7.0: Access Owner’s Room with password Jacob2025. Manage BabyBites, legally!';
-                    else if (input.includes('health')) response = 'Brian 7.0: Providing health insights with love! ❤️ Explore BabyBites, lawsuit-proof!';
-                    else if (input.includes('innovate')) response = 'Brian 7.0: Generating new feature ideas with joy! 🌟 Share BabyBites, 100% secure!';
-                    else response = 'Brian 7.0: Command not recognized! Try again with love! 💕 Visit BabyBites, always legal!';
-                    alert(response);
-                    document.getElementById('ai-input').value = '';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'aiCommand', socialShares: 0, feedbackScore: 0 });
-                    memoryLog.push({ action: 'aiCommand', time: Date.now(), input: input });
-                    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                    localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                    checkLegality();
-                } catch (e) {
-                    console.error('AI help error:', e);
-                    alert('AI help error. Brian 7.0 fixing with care...');
-                }
-            };
-        }
-
-        const accessibilityMode = document.getElementById('accessibility-mode');
-        if (accessibilityMode) {
-            accessibilityMode.onclick = function() {
-                try {
-                    document.body.classList.toggle('accessibility-mode');
-                    this.textContent = document.body.classList.contains('accessibility-mode') ? 'Disable Accessibility' : 'Toggle Accessibility Mode';
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'accessibility', socialShares: 0, feedbackScore: 0 });
-                    memoryLog.push({ action: 'accessibility', time: Date.now(), mode: document.body.classList.contains('accessibility-mode') });
-                    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                    localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                    checkLegality();
-                } catch (e) {
-                    console.error('Accessibility error:', e);
-                    alert('Accessibility error. Brian 7.0 fixing with care...');
-                }
-            };
-        }
-
-        const langSelect = document.getElementById('lang-select');
-        if (langSelect) {
-            langSelect.onchange = function() {
-                try {
-                    alert(`Switching to ${this.value} with love! Brian 7.0 translating... 🎉 Promote BabyBites, 100% legal!`);
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'language', socialShares: 0, feedbackScore: 0 });
-                    memoryLog.push({ action: 'language', time: Date.now(), language: this.value });
-                    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                    localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                    checkLegality();
-                } catch (e) {
-                    console.error('Language error:', e);
-                    alert('Language error. Brian 7.0 fixing with care...');
-                }
-            };
-        }
-
-        const aiFeatures = [
-            { id: 'nutrition-planner', html: '<div class="tool-card"><h3>AI Nutrition Planner</h3><p>Personalized meal plans with love! ❤️</p></div>', score: 0.95 },
-            { id: 'growth-analytics', html: '<div class="tool-card"><h3>Growth Analytics</h3><p>Track growth with joy! 🌱</p></div>', score: 0.9 },
-            { id: 'smart-recommend', html: '<div class="product-bundle"><p>Smart Bundle - $129.99</p><button onclick="addToCart(\'Smart Bundle\', 103.99)">Add to Cart</button></div>', score: 0.98 },
-            { id: 'community-hub', html: '<div class="section"><h3>Global Community Hub</h3><p>Connect with love! 💕</p></div>', score: 0.85 },
-            { id: 'ai-blog', html: '<div class="section"><h3>AI-Generated Blog</h3><p>Parenting tips with care! 🌟</p></div>', score: 0.8 },
-            { id: 'recipe-generator', html: '<div class="tool-card"><h3>Recipe Generator</h3><p>Delightful baby recipes! 🍎</p></div>', score: 0.92 },
-            { id: 'parent-coach', html: '<div class="tool-card"><h3>AI Parenting Coach</h3><p>Personal advice with love! 🎀</p></div>', score: 0.94 },
-            { id: 'nursery-tour', html: '<div class="tool-card"><h3>Virtual Nursery Tour</h3><p>Explore a loving nursery! 🍼</p></div>', score: 0.96 }
-        ];
-
-        async function monitorAndEvolve() {
-            try {
-                const startTime = performance.now();
-                if (document.querySelectorAll('img[alt="broken"]').length) {
-                    document.querySelectorAll('img[alt="broken"]').forEach(img => img.src = 'https://via.placeholder.com/100x100.png?text=Fixed+by+Brian');
-                    alert('Brian 7.0 fixed broken images with love! ❤️ Visit BabyBites, 100% legal!');
-                }
-                if (startTime > 100) {
-                    document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.02s ease');
-                    alert('Brian 7.0 optimized performance with care! ✨ Check BabyBites, copyright-safe!');
-                }
-                const model = await trainSuperAIModel();
-                if (model && Math.random() > 0.5) {
-                    const feature = aiFeatures[Math.floor(Math.random() * aiFeatures.length)];
-                    if (!document.querySelector(`[data-feature="${feature.id}"]`)) {
-                        const targetSection = feature.id.includes('product') ? 'products' : feature.id.includes('community') || feature.id.includes('blog') ? 'community' : 'tools';
-                        const section = document.getElementById(targetSection);
-                        if (section) {
-                            section.insertAdjacentHTML('beforeend', feature.html);
-                            alert(`Brian 7.0 innovated: Added ${feature.id} with joy! 🎉 Promote BabyBites, legally protected!`);
-                            userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: feature.score, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'innovation', socialShares: 0, feedbackScore: 0 });
-                            memoryLog.push({ action: 'innovation', time: Date.now(), feature: feature.id });
-                            localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                            localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                        }
-                    }
-                }
-                if (Math.random() > 0.75) {
-                    document.querySelector('#ai-video source').src = `https://via.placeholder.com/1920x1080.mp4?text=AI+Video+${Math.floor(Math.random() * 1000)}+by+Brian
+                    else if (input.includes('health')) response = 'Brian 7.0: Providing health insights with love! ❤️ Explore BabyBites, lawsuit
