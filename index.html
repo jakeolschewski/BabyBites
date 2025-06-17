@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="BabyBites: A personal AI-powered parenting hub by Jacob Olschewski, offering free tools and resources—100% legal, secure, and smart.">
+    <meta name="description" content="BabyBites: A personal AI-powered parenting hub by Jacob Olschewski, offering free tools and affiliate products—100% legal, secure, and inventory-free.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tensorflow.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://images.unsplash.com; media-src 'self' https://via.placeholder.com; object-src 'none'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tensorflow.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://images.unsplash.com https://www.amazon.com; media-src 'self' https://via.placeholder.com; object-src 'none'; worker-src 'self' blob:;">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="BabyBites - Premier Parenting Hub">
-    <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and love!">
+    <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
     <meta property="og:image" content="https://via.placeholder.com/1200x630.png?text=BabyBites">
     <meta property="og:url" content="https://jakeolschewski.github.io/BabyBites/">
     <meta name="twitter:card" content="summary_large_image">
@@ -102,6 +102,10 @@
             display: none;
         }
         #consent-popup.active { display: block; }
+        .dark-mode { background: #1a1a1a; color: #f5f5f5; }
+        .dark-mode .section { background: rgba(26, 26, 26, 0.85); }
+        .dark-mode input, .dark-mode select, .dark-mode button { background: #333; color: #f5f5f5; }
+        .high-contrast { filter: contrast(200%) brightness(150%); }
         header {
             background: linear-gradient(90deg, #0288d1, #42a5f5);
             color: #fff;
@@ -363,9 +367,6 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js" integrity="sha256-QU5H2lwfR+3wcH6+VvD5J/8q6oAZPKr1A7E69cSGlms=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js" integrity="sha256-iL1M0p2H+BeJQd2jJ3M9yUN0M+8m5xD5c0g7vA0C7mo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js" integrity="sha256-Q8gW+3s7g1V0QzA+7U2a0QzA+7U2a0QzA+7U2a0QzA=" crossorigin="anonymous"></script>
-    <script>
-        if (!localStorage.getItem('consent')) document.getElementById('consent-popup').classList.add('active');
-    </script>
 </head>
 <body>
     <div id="progress-bar"></div>
@@ -388,17 +389,17 @@
             <a href="#community">Community</a>
             <a href="#owner-room">Owner's Room</a>
         </nav>
-        <input type="text" id="persistent-search" placeholder="Search BabyBites..." style="position: absolute; right: 20px; top: 10px; width: 200px;">
+        <input type="text" id="persistent-search" placeholder="Search BabyBites..." style="position: absolute; right: 20px; top: 10px; width: 200px;" onkeyup="smartSearch()">
     </header>
     <div id="ad-banner">
-        Discover BabyBites! Try our <strong>Milestone Tracker</strong> today! 100% legal and secure! <button onclick="this.parentElement.style.display='none'">✖</button>
+        Discover BabyBites! Explore our <strong>Parenting Tools</strong>—no inventory, 100% legal! <button onclick="this.parentElement.style.display='none'">✖</button>
     </div>
     <div id="consent-popup" class="active">
         <p>This is a personal project by Jacob Olschewski. Data is collected with your consent for personalization (GDPR/CCPA compliant). Agree to continue? <button onclick="document.getElementById('consent-popup').style.display='none'; localStorage.setItem('consent', 'true')">Yes</button> <button onclick="alert('You must agree to use BabyBites.');">No</button></p>
     </div>
     <div class="section" id="home">
         <h1>Trusted, Loving Care for Your Baby!</h1>
-        <p>Welcome to BabyBites, where parenting magic begins with AI-powered love by Jacob Olschewski!</p>
+        <p>Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love and no inventory!</p>
         <div class="search-box">
             <h3>Smart Search</h3>
             <input id="search-input" placeholder="Discover tools, products, or advice..." onkeyup="smartSearch()">
@@ -410,26 +411,26 @@
             <source src="https://via.placeholder.com/1920x1080.mp4?text=AI+Generated+Video+by+Brian" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <div id="journey"></div>
+        <div id="oracle"></div>
         <div id="suggestions"></div>
     </div>
     <div class="section" id="products">
-        <h2>Explore Joyful Baby Products</h2>
+        <h2>Explore Affiliate Baby Products</h2>
         <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#products">Products</a></nav>
-        <div class="product-bundle" data-bundle="Family Food Pack" draggable="true" ondragstart="dragStart(event)">
-            <p>Family Food Pack - $49.99 <button onclick="buyNow('Family Food Pack', 39.99)">Buy Now</button></p>
+        <div class="product-bundle" data-bundle="Family Food Pack">
+            <p>Family Food Pack - Affiliate Link: <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank">$49.99</a></p>
             <p>Includes: Organic Baby Food Pack, Organic Snack Box</p>
-            <p>Tax: Calculated at checkout</p>
+            <p>Ships directly from supplier—no inventory held!</p>
         </div>
-        <div class="product-bundle" data-bundle="Health Starter Bundle" draggable="true" ondragstart="dragStart(event)">
-            <p>Health Starter Bundle - $63.99 <button onclick="buyNow('Health Starter Bundle', 51.19)">Buy Now</button></p>
+        <div class="product-bundle" data-bundle="Health Starter Bundle">
+            <p>Health Starter Bundle - Affiliate Link: <a href="https://www.amazon.com/dp/B09ABC4567/?tag=youraffiliateid-20" target="_blank">$63.99</a></p>
             <p>Includes: Nutritional Starter Kit, Baby Vitamin Set</p>
-            <p>Tax: Calculated at checkout</p>
+            <p>Ships directly from supplier—no inventory held!</p>
         </div>
-        <div class="product-bundle" data-bundle="Premium Wellness Pack" draggable="true" ondragstart="dragStart(event)">
-            <p>Premium Wellness Pack - $79.99 <button onclick="buyNow('Premium Wellness Pack', 63.99)">Buy Now</button></p>
+        <div class="product-bundle" data-bundle="Premium Wellness Pack">
+            <p>Premium Wellness Pack - Affiliate Link: <a href="https://www.amazon.com/dp/B10DEF7890/?tag=youraffiliateid-20" target="_blank">$79.99</a></p>
             <p>Includes: Premium Baby Formula, Baby Health Bundle</p>
-            <p>Tax: Calculated at checkout</p>
+            <p>Ships directly from supplier—no inventory held!</p>
         </div>
         <div id="ar-product-preview"></div>
         <div id="discount-calculator">
@@ -443,17 +444,10 @@
             <input type="text" id="referral-code" placeholder="Your Referral Code" readonly value="BABY2025">
             <p>Refer a friend and earn 10% off! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank">Link</a></p>
         </div>
-        <div class="payment">
+        <div class="payment" style="display:none;">
             <h2>Secure Checkout with Care</h2>
-            <input type="text" id="payment-card" placeholder="Card Number" required>
-            <input type="text" id="payment-expiry" placeholder="MM/YY" required>
-            <input type="text" id="payment-cvv" placeholder="CVV" required>
-            <input type="text" id="payment-zip" placeholder="Billing ZIP Code" required>
-            <p id="tax-info">Sales tax: Calculated based on ZIP code</p>
-            <button id="payment-submit">Pay Now</button>
-            <p id="payment-status"></p>
+            <p>Payments handled by affiliate partners—no inventory or processing here!</p>
         </div>
-        <div id="cart-drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 2px dashed #ec407a; padding: 20px; margin: 20px; border-radius: 15px;">Drop items here! ❤️</div>
         <div id="reviews">
             <h3>Customer Reviews</h3>
             <p id="review-log">No reviews yet! Add yours below.</p>
@@ -464,7 +458,7 @@
     <div class="section" id="tools">
         <h2>Nurture with Health Tools</h2>
         <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#tools">Health Tools</a></nav>
-        <div class="tool-card" id="milestone-tracker" draggable="true" ondragstart="dragStart(event)">
+        <div class="tool-card" id="milestone-tracker">
             <h3>Milestone Tracker</h3>
             <input id="milestone-input" placeholder="Enter milestone (e.g., First step)">
             <button onclick="logMilestone()">Log Milestone</button>
@@ -494,7 +488,7 @@
         </div>
         <div class="tool-card" id="feeding-planner">
             <h3>Feeding Schedule Planner</h3>
-            <p>Plan your baby’s feeding times!</p>
+            <p>Plan your baby’s feeding times! Download: <a href="https://via.placeholder.com/plan.pdf?text=Feeding+Plan" download>PDF</a></p>
         </div>
         <div class="tool-card" id="live-chat">
             <h3>Live Community Chat</h3>
@@ -563,14 +557,14 @@
                 <option value="hi">हिन्दी</option>
             </select>
         </div>
-        <div id="journey"></div>
+        <div id="oracle"></div>
         <div id="suggestions"></div>
         <div id="points" style="position: fixed; top: 100px; right: 20px; color: #ec407a;">Points: 0 🎉</div>
     </div>
     <div class="section" id="compliance">
         <h2>Tax Compliance & Privacy with Love</h2>
         <div class="disclaimer">
-            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation. It complies with IRS regulations for personal e-commerce, calculating sales tax based on your location (8% fallback, consult a tax professional for advice). Use at your own risk; I am not liable for outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and can be deleted upon request via the Data Controls settings. Content licensed under CC BY-NC. <a href="#privacy">Privacy Policy</a>.</p>
+            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate products and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deletable via Data Controls. Content licensed under CC BY-NC. <a href="#privacy">Privacy Policy</a>.</p>
         </div>
     </div>
     <div class="footer">
@@ -596,16 +590,50 @@
         let userInteractions = JSON.parse(localStorage.getItem('userInteractions')) || [];
         let memoryLog = JSON.parse(localStorage.getItem('memoryLog')) || [];
         let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        let db;
+
+        function openDatabase() {
+            const request = indexedDB.open('BabyBitesMemory', 1);
+            request.onupgradeneeded = function(event) {
+                db = event.target.result;
+                db.createObjectStore('memory', { keyPath: 'id', autoIncrement: true });
+            };
+            request.onsuccess = function(event) {
+                db = event.target.result;
+                const transaction = db.transaction(['memory'], 'readwrite');
+                const store = transaction.objectStore('memory');
+                store.put({ data: memoryLog, timestamp: Date.now() });
+            };
+            request.onerror = function() {
+                console.error('IndexedDB error');
+            };
+        }
+        openDatabase();
+
+        function recallMemory(action) {
+            if (db) {
+                const transaction = db.transaction(['memory'], 'readonly');
+                const store = transaction.objectStore('memory');
+                const request = store.getAll();
+                request.onsuccess = function() {
+                    const logs = request.result[0]?.data || [];
+                    const past = logs.filter(m => m.action === action);
+                    if (past.length) alert(`Brian 7.0 recalls: You last ${action} on ${new Date(past[past.length - 1].time).toLocaleString()}!`);
+                };
+            }
+        }
 
         async function trainSuperAIModel() {
             const model = tf.sequential();
-            model.add(tf.layers.dense({ units: 100, inputShape: [10], activation: 'relu' }));
-            model.add(tf.layers.dense({ units: 50, activation: 'relu' }));
-            model.add(tf.layers.dense({ units: 20, activation: 'softmax' }));
+            model.add(tf.layers.dense({ units: 200, inputShape: [15], activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 100, activation: 'relu' }));
+            model.add(tf.layers.dense({ units: 50, activation: 'softmax' }));
             model.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy', metrics: ['accuracy'] });
-            const xs = tf.tensor2d(userInteractions.map(i => [i.clicks, i.timeSpent, i.featuresUsed, i.pageViews, i.conversionRate, i.sessionDuration, i.themePreference, i.lastAction, i.socialShares || 0, i.feedbackScore || 0]));
-            const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore > 0.8 ? 1 : 0, i.engagementScore > 0.6 ? 1 : 0, i.engagementScore > 0.4 ? 1 : 0, i.engagementScore > 0.2 ? 1 : 0]));
-            await model.fit(xs, ys, { epochs: 100, batchSize: 12 });
+            const xs = tf.tensor2d(userInteractions.map(i => [i.clicks || 0, i.timeSpent || 0, i.featuresUsed || 0, i.pageViews || 0, i.conversionRate || 0, i.sessionDuration || 0, i.themePreference || 0, i.lastAction ? 1 : 0, i.socialShares || 0, i.feedbackScore || 0, i.deviceType || 0, i.language || 0, i.emotion || 0, i.location || 0, memoryLog.length || 0]));
+            const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore > 0.9 ? 1 : 0, i.engagementScore > 0.7 ? 1 : 0, i.engagementScore > 0.5 ? 1 : 0, i.engagementScore > 0.3 ? 1 : 0, i.engagementScore > 0.1 ? 1 : 0]));
+            await model.fit(xs, ys, { epochs: 200, batchSize: 15 });
             return model;
         }
 
@@ -622,35 +650,35 @@
         }
 
         const chatbotResponses = {
-            help: 'Brian 7.0: I’m here to sprinkle love! Ask about parenting, products, or say innovate! Check out BabyBites’ <strong>Milestone Tracker</strong>, 100% legal!',
+            help: 'Brian 7.0: I’m here to sprinkle love! Ask about parenting, tools, or say innovate! Check BabyBites’ <strong>Milestone Tracker</strong>, 100% legal!',
             fix: 'Brian 7.0: Fixing with care! Tell me more. Love our <strong>Wellness Chatbot</strong>, copyright-safe?',
             owner: 'Brian 7.0: Unlock Owner’s Room with password Jacob2025 and 2FA. Manage BabyBites legally!',
             health: 'Brian 7.0: Nurture with love! Try Milestone Tracker or ask about sleep. Explore BabyBites, lawsuit-proof!',
             innovate: 'Brian 7.0: Crafting magical new features! Check back soon. Share BabyBites, copyright-protected!',
-            nutrition: 'Brian 7.0: Feed with love—breast milk or formula. Want a custom plan? Visit BabyBites!',
+            nutrition: 'Brian 7.0: Feed with love—try our digital plans! Visit BabyBites!',
             milestone: 'Brian 7.0: Celebrate milestones with joy in the Tracker! Share on BabyBites, legally secure!',
             allergy: 'Brian 7.0: Check allergies with care using the Checker. Discover BabyBites, 100% safe!',
             sleep: 'Brian 7.0: Sweet dreams with the Sleep Tracker. Need tips? Explore BabyBites!',
-            feeding: 'Brian 7.0: Plan meals with love using the Planner. Love BabyBites’ tools?',
-            cart: 'Brian 7.0: Fill your cart with joy and pay securely! Check BabyBites’ products, legal!',
-            discount: 'Brian 7.0: Save with love (20-30% off) using the Calculator! Shop BabyBites, secure!',
+            feeding: 'Brian 7.0: Plan meals with love using the Planner. Download at BabyBites!',
+            cart: 'Brian 7.0: Explore affiliate links with joy! Check BabyBites’ products, legal!',
+            discount: 'Brian 7.0: Save with love (20-30% off) using the Calculator! Shop via BabyBites, secure!',
             referral: 'Brian 7.0: Share BABY2025 for 10% off! Spread BabyBites’ love, legally!',
             subscribe: 'Brian 7.0: Subscribe with love—free for Jacob Olschewski! Join BabyBites, copyright-safe!',
-            recipe: 'Brian 7.0: Try pureed carrots or banana mash! More at BabyBites, original content!',
-            product: 'Brian 7.0: Discover treasures in Products! Explore BabyBites, lawsuit-proof!',
+            recipe: 'Brian 7.0: Try our digital recipes! More at BabyBites, original content!',
+            product: 'Brian 7.0: Discover affiliate treasures! Explore BabyBites, lawsuit-proof!',
             community: 'Brian 7.0: Join our Forum or Nutrition Academy! Connect at BabyBites, legal!',
             tax: 'Brian 7.0: IRS compliance with love, no advice. Consult a pro. Trust BabyBites!',
             privacy: 'Brian 7.0: Data safe per GDPR/CCPA. Delete via settings. Check BabyBites’ Policy!',
-            default: 'Brian 7.0: Spread joy! Try health, cart, or innovate! Visit BabyBites, always legal!'
+            default: 'Brian 7.0: Spread joy! Try tools, links, or innovate! Visit BabyBites, always legal!'
         };
 
         const searchCategories = [
             { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones with love! 🎉 Try BabyBites, 100% legal!', score: 0.9 },
             { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask with care. Discover BabyBites, copyright-safe! 🎤', score: 0.95 },
             { id: 'health-tips', category: 'Health Tools', title: 'Health Tips', description: 'Joyful tips for your baby. More at BabyBites, lawsuit-proof! 🌱', score: 0.8 },
-            { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Organic love in every bite. Shop BabyBites, legally protected! ❤️', score: 0.85 },
-            { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Nurturing kit. Get it at BabyBites, secure! 🍼', score: 0.8 },
-            { id: 'premium-wellness-pack', category: 'Products', title: 'Premium Wellness Pack', description: 'Care in every drop. Buy at BabyBites, copyright-safe! 💕', score: 0.9 },
+            { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Affiliate link for organic love. Shop via BabyBites, legally protected! ❤️', score: 0.85 },
+            { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Affiliate nurturing kit. Get it via BabyBites, secure! 🍼', score: 0.8 },
+            { id: 'premium-wellness-pack', category: 'Products', title: 'Premium Wellness Pack', description: 'Affiliate care products. Buy via BabyBites, copyright-safe! 💕', score: 0.9 },
             { id: 'forum', category: 'Community', title: 'Forum', description: 'Connect with parents. Join BabyBites, 100% legal! 🌟', score: 0.75 },
             { id: 'nutrition-academy', category: 'Community', title: 'Nutrition Academy', description: 'Learn with love. Enroll at BabyBites, lawsuit-proof! 🍎', score: 0.7 }
         ];
@@ -658,11 +686,11 @@
         let currentTheme = 'default';
         let adIndex = 0;
         const ads = [
-            'Love BabyBites? Try our <strong>Milestone Tracker</strong> today! 100% legal and secure! 🎉',
+            'Love BabyBites? Try our <strong>Milestone Tracker</strong> today! No inventory, 100% legal! 🎉',
             'Discover the <strong>Wellness Chatbot</strong> on BabyBites, copyright-safe! 🎤',
-            'Shop <strong>Baby Products</strong> at BabyBites, lawsuit-proof! ❤️',
+            'Explore <strong>Affiliate Products</strong> at BabyBites, lawsuit-proof! ❤️',
             'Join our <strong>Community</strong> on BabyBites, legally protected! 🌟',
-            'Save 20-30% with the <strong>Discount Calculator</strong> on BabyBites, 100% secure! 💕'
+            'Download <strong>Digital Plans</strong> from BabyBites, 100% secure! 💕'
         ];
 
         function changeTheme() {
@@ -676,11 +704,18 @@
             document.body.style.background = styles[theme].bg;
             document.body.style.color = styles[theme].color;
             document.querySelectorAll('input, select, button').forEach(el => el.style.borderColor = styles[theme].border);
-            if (theme === 'default') document.body.classList.remove('dark-mode', 'high-contrast');
-            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: theme === 'calm' ? 0 : theme === 'playful' ? 1 : 2, lastAction: 'themeChange', socialShares: 0, feedbackScore: 0 });
+            if (theme === 'default') {
+                document.body.classList.remove('dark-mode', 'high-contrast');
+            }
+            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: theme === 'calm' ? 0 : theme === 'playful' ? 1 : 2, lastAction: 'themeChange', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
             memoryLog.push({ action: 'themeChange', time: Date.now(), theme: theme });
             localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
             localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+            if (db) {
+                const transaction = db.transaction(['memory'], 'readwrite');
+                const store = transaction.objectStore('memory');
+                store.put({ data: memoryLog, timestamp: Date.now() });
+            }
             checkLegality();
         }
 
@@ -700,10 +735,15 @@
                     else response = 'Brian 7.0: I’m here with love! 🎤';
                     if (input.id === 'chatbot-input') document.getElementById('chatbot-response').textContent = response || chatbotRespond();
                     else if (input.id === 'ai-input') alert(response || 'Command processed!');
-                    userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'voiceInput', socialShares: 0, feedbackScore: 0 });
+                    userInteractions.push({ clicks: 0, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'voiceInput', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: emotion === 'stressed' ? -1 : emotion === 'happy' ? 1 : 0, location: navigator.geolocation ? 1 : 0 });
                     memoryLog.push({ action: 'voiceInput', time: Date.now(), input: transcript });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                    if (db) {
+                        const transaction = db.transaction(['memory'], 'readwrite');
+                        const store = transaction.objectStore('memory');
+                        store.put({ data: memoryLog, timestamp: Date.now() });
+                    }
                     checkLegality();
                 };
                 recognition.onerror = (e) => console.error('Voice error:', e);
@@ -713,34 +753,32 @@
             }
         }
 
-        function dragStart(event) {
-            event.dataTransfer.setData('text/plain', event.target.getAttribute('data-bundle'));
+        function detectEmotion(transcript) {
+            const stressedWords = ['help', 'stressed', 'tired'];
+            const happyWords = ['happy', 'love', 'joy'];
+            return stressedWords.some(w => transcript.includes(w)) ? 'stressed' : happyWords.some(w => transcript.includes(w)) ? 'happy' : 'neutral';
         }
 
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
-        function drop(event) {
-            event.preventDefault();
-            const data = event.dataTransfer.getData('text');
-            addToCart(data, data === 'Family Food Pack' ? 39.99 : data === 'Health Starter Bundle' ? 51.19 : 63.99);
-            document.getElementById('cart-drop-zone').innerHTML = `Dropped ${data} in cart with love! 🎉`;
-            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.9, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'dragDrop', socialShares: 0, feedbackScore: 0 });
-            memoryLog.push({ action: 'dragDrop', time: Date.now(), item: data });
-            localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-            localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-            checkLegality();
-        }
-
-        function buyNow(item, price) {
-            addToCart(item, price);
-            paymentSubmit.click();
-            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'buyNow', socialShares: 0, feedbackScore: 0 });
-            memoryLog.push({ action: 'buyNow', time: Date.now(), item: item, price: price });
-            localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-            localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-            checkLegality();
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            if (input.value && localStorage.getItem('consent') === 'true') {
+                const message = input.value;
+                let chatLog = JSON.parse(localStorage.getItem('chatLog')) || [];
+                chatLog.push(`You: ${message} (Promote BabyBites!)`);
+                localStorage.setItem('chatLog', JSON.stringify(chatLog));
+                document.getElementById('chat-log').innerHTML = chatLog.map(msg => `<p>${msg}</p>`).join('');
+                input.value = '';
+                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'chat', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
+                memoryLog.push({ action: 'chat', time: Date.now(), message: message });
+                localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+                localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                if (db) {
+                    const transaction = db.transaction(['memory'], 'readwrite');
+                    const store = transaction.objectStore('memory');
+                    store.put({ data: memoryLog, timestamp: Date.now() });
+                }
+                checkLegality();
+            }
         }
 
         async function calculateTax(zipCode, amount) {
@@ -758,65 +796,61 @@
         if (paymentSubmit) {
             paymentSubmit.onclick = async function() {
                 try {
-                    if (localStorage.getItem('consent') !== 'true') {
-                        alert('Please consent to data use before payment.');
-                        return;
-                    }
-                    const card = document.getElementById('payment-card').value;
-                    const expiry = document.getElementById('payment-expiry').value;
-                    const cvv = document.getElementById('payment-cvv').value;
+                    alert('Payments are handled by affiliate partners. Redirecting...');
                     const zipCode = document.getElementById('payment-zip').value;
-                    const cardRegex = /^\d{16}$/;
-                    const expiryRegex = /^(0[1-9]|1[0-2])\/[0-9]{2}$/;
-                    const cvvRegex = /^\d{3,4}$/;
-                    const zipRegex = /^\d{5}$/;
-                    if (cardRegex.test(card) && expiryRegex.test(expiry) && cvvRegex.test(cvv) && zipRegex.test(zipCode)) {
-                        let cartTotal = cart.reduce((sum, i) => sum + i.price, 0);
-                        let discount = cartTotal * (Math.random() * 0.1 + 0.2);
-                        let tax = await calculateTax(zipCode, cartTotal - discount);
-                        let finalTotal = cartTotal - discount + tax;
-                        document.getElementById('payment-status').textContent = `Payment processed with love! Subtotal: $${cartTotal.toFixed(2)}, Discount: $${discount.toFixed(2)}, Tax: $${tax.toFixed(2)}, Total: $${finalTotal.toFixed(2)}. 🎊 Shop more at BabyBites!`;
-                        localStorage.removeItem('cart');
-                        cart = [];
-                        $('.payment').removeClass('active');
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'payment', socialShares: 0, feedbackScore: 0 });
-                        memoryLog.push({ action: 'payment', time: Date.now(), amount: finalTotal });
-                        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                        localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                        checkLegality();
-                    } else {
-                        document.getElementById('payment-status').textContent = 'Invalid payment details or ZIP code!';
-                    }
+                    const taxRate = await calculateTax(zipCode, 100); // Example amount
+                    window.location.href = `https://www.amazon.com/your-affiliate-link?tag=youraffiliateid-20&tax=${taxRate.toFixed(2)}`;
                 } catch (e) {
-                    console.error('Payment error:', e);
-                    alert('Payment error. Brian 7.0 fixing with care...');
+                    console.error('Payment redirect error:', e);
+                    alert('Payment redirect failed. Brian 7.0 fixing with care...');
                 }
             };
         }
 
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         function addToCart(item, price) {
             try {
-                if (!cart.some(i => i.item === item)) {
-                    cart.push({ item, price });
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    alert(`Added ${item} to cart with love! 🎉 Check out more at BabyBites!`);
-                    $('.payment').addClass('active');
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.9, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'addToCart', socialShares: 0, feedbackScore: 0 });
-                    memoryLog.push({ action: 'addToCart', time: Date.now(), item: item, price: price });
-                    localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                    localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                    checkLegality();
-                } else {
-                    alert('Item already in your cart of love! Explore more at BabyBites! 🎀');
+                alert(`Added ${item} to your affiliate cart! Orders fulfilled by partners—no inventory here! 🎉`);
+                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.9, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'addToCart', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
+                memoryLog.push({ action: 'addToCart', time: Date.now(), item: item, price: price });
+                localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+                localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                if (db) {
+                    const transaction = db.transaction(['memory'], 'readwrite');
+                    const store = transaction.objectStore('memory');
+                    store.put({ data: memoryLog, timestamp: Date.now() });
                 }
+                checkLegality();
             } catch (e) {
                 console.error('Cart error:', e);
                 alert('Error adding to cart. Brian 7.0 fixing with care...');
             }
         }
 
-        let milestones = JSON.parse(localStorage.getItem('milestones')) || [];
+        function buyNow(item, price) {
+            addToCart(item, price);
+            alert(`Redirecting to affiliate partner for ${item}...`);
+            window.location.href = `https://www.amazon.com/dp/${getAffiliateLink(item)}/?tag=youraffiliateid-20`;
+            userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 1.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'buyNow', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
+            memoryLog.push({ action: 'buyNow', time: Date.now(), item: item, price: price });
+            localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
+            localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+            if (db) {
+                const transaction = db.transaction(['memory'], 'readwrite');
+                const store = transaction.objectStore('memory');
+                store.put({ data: memoryLog, timestamp: Date.now() });
+            }
+            checkLegality();
+        }
+
+        function getAffiliateLink(item) {
+            const links = {
+                'Family Food Pack': 'B08XYZ1234',
+                'Health Starter Bundle': 'B09ABC4567',
+                'Premium Wellness Pack': 'B10DEF7890'
+            };
+            return links[item] || 'B08XYZ1234'; // Default link
+        }
+
         function logMilestone() {
             try {
                 const input = document.getElementById('milestone-input');
@@ -831,10 +865,15 @@
                     points += 10;
                     localStorage.setItem('userPoints', points);
                     document.getElementById('points').innerHTML = `Points: ${points} 🎉`;
-                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.8, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'milestone', socialShares: 0, feedbackScore: 0 });
+                    userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.8, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'milestone', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
                     memoryLog.push({ action: 'milestone', time: Date.now(), milestone: input.value });
                     localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                     localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                    if (db) {
+                        const transaction = db.transaction(['memory'], 'readwrite');
+                        const store = transaction.objectStore('memory');
+                        store.put({ data: memoryLog, timestamp: Date.now() });
+                    }
                     checkLegality();
                 }
             } catch (e) {
@@ -843,8 +882,7 @@
             }
         }
 
-        let chatbotModel = null;
-        async function chatbotRespond() {
+        function chatbotRespond() {
             try {
                 const input = document.getElementById('chatbot-input');
                 if (!input || !input.value) {
@@ -854,7 +892,7 @@
                 const query = input.value.toLowerCase().trim();
                 let response = chatbotResponses.default;
                 let maxScore = 0;
-                for (const let key in chatbotResponses) {
+                for (const key in chatbotResponses) {
                     if (query.includes(key)) {
                         const score = query.split(key).length - 1;
                         if (score > maxScore) {
@@ -863,22 +901,36 @@
                         }
                     }
                 }
-                if (!chatbotModel) chatbotModel = await trainChatbotModel();
+                let chatbotModel;
+                if (typeof tf !== 'undefined') {
+                    chatbotModel = tf.sequential();
+                    chatbotModel.add(tf.layers.dense({ units: 40, inputShape: [20], activation: 'relu' }));
+                    chatbotModel.add(tf.layers.dense({ units: 20, activation: 'relu' }));
+                    chatbotModel.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
+                    chatbotModel.compile({ optimizer: 'adam', loss: 'binaryCrossentropy' });
+                    const xs = tf.tensor2d(userInteractions.map(i => Array(20).fill(Math.random())));
+                    const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore || 0.5]));
+                    chatbotModel.fit(xs, ys, { epochs: 30, batchSize: 4 });
+                }
                 if (chatbotModel) {
                     const inputVector = Array(20).fill(Math.random());
                     const prediction = chatbotModel.predict(tf.tensor2d([inputVector]));
-                    const score = (await prediction.data())[0];
+                    const score = prediction.dataSync()[0];
                     response += ` (AI confidence: ${(score * 100).toFixed(2)}%)`;
-                    // Memory recall
                     const pastInteraction = memoryLog.find(m => m.action === 'chatbot' && m.query === query);
-                    if (pastInteraction) response += ` (Remember, you asked this on ${new Date(pastInteraction.time).toLocaleString()}!)`;
+                    if (pastInteraction) response += ` (Recall: You asked this on ${new Date(pastInteraction.time).toLocaleString()}!)`;
                 }
                 document.getElementById('chatbot-response').textContent = response;
                 input.value = '';
-                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'chatbot', socialShares: 0, feedbackScore: 0 });
+                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'chatbot', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
                 memoryLog.push({ action: 'chatbot', time: Date.now(), query: query });
                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                if (db) {
+                    const transaction = db.transaction(['memory'], 'readwrite');
+                    const store = transaction.objectStore('memory');
+                    store.put({ data: memoryLog, timestamp: Date.now() });
+                }
                 checkLegality();
             } catch (e) {
                 console.error('Chatbot error:', e);
@@ -900,10 +952,15 @@
                     .sort((a, b) => b.score - a.score)
                     .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description} ✨ <em>Explore more at BabyBites, 100% legal!</em></p>`);
                 document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No joyful results found! 🎵 Check BabyBites for more!';
-                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'search', socialShares: 0, feedbackScore: 0 });
+                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.7, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'search', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
                 memoryLog.push({ action: 'search', time: Date.now(), query: query });
                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                 localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                if (db) {
+                    const transaction = db.transaction(['memory'], 'readwrite');
+                    const store = transaction.objectStore('memory');
+                    store.put({ data: memoryLog, timestamp: Date.now() });
+                }
                 checkLegality();
             } catch (e) {
                 console.error('Search error:', e);
@@ -939,11 +996,16 @@
                         const discountRate = Math.random() * 0.1 + 0.2;
                         const discount = amount * discountRate;
                         const finalAmount = amount - discount;
-                        document.getElementById('discount-result').textContent = `${(discountRate * 100).toFixed(0)}% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${finalAmount.toFixed(2)} 🎁 Shop more at BabyBites!`;
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'discount', socialShares: 0, feedbackScore: 0 });
+                        document.getElementById('discount-result').textContent = `${(discountRate * 100).toFixed(0)}% Off: Original $${amount.toFixed(2)}, Discount $${discount.toFixed(2)}, New Price $${finalAmount.toFixed(2)} 🎁 Shop via BabyBites affiliates!`;
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 0.6, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'discount', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
                         memoryLog.push({ action: 'discount', time: Date.now(), amount: finalAmount });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                         localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                        if (db) {
+                            const transaction = db.transaction(['memory'], 'readwrite');
+                            const store = transaction.objectStore('memory');
+                            store.put({ data: memoryLog, timestamp: Date.now() });
+                        }
                         checkLegality();
                     } else {
                         document.getElementById('discount-result').textContent = 'Enter a loving amount! 💕 Try BabyBites’ discounts, 100% legal!';
@@ -967,17 +1029,21 @@
                             localStorage.setItem('ownerEmail', 'jacobolschewski');
                             $('.owner-room').addClass('active');
                         } else {
-                            alert('Subscribed to premium plan with joy! Payment required. 🎀 Promote BabyBites, copyright-safe!');
-                            window.location.href = 'https://jakeolschewski.github.io/BabyBites/subscribe?plan=premium';
+                            alert('Subscribed to premium updates with joy! No payment needed—enjoy digital content! 🎀 Promote BabyBites, copyright-safe!');
                         }
                         let points = parseInt(localStorage.getItem('userPoints')) || 0;
                         points += 50;
                         localStorage.setItem('userPoints', points);
                         document.getElementById('points').innerHTML = `Points: ${points} 🎉`;
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.95, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'subscribe', socialShares: 0, feedbackScore: 0 });
+                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.5, sessionDuration: performance.now(), engagementScore: 0.95, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'subscribe', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
                         memoryLog.push({ action: 'subscribe', time: Date.now(), email: email });
                         localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                         localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                        if (db) {
+                            const transaction = db.transaction(['memory'], 'readwrite');
+                            const store = transaction.objectStore('memory');
+                            store.put({ data: memoryLog, timestamp: Date.now() });
+                        }
                         checkLegality();
                     } else {
                         alert('Invalid email! Try again with love! 💌 Check BabyBites for help, 100% legal!');
@@ -1008,10 +1074,15 @@
                                 alert('Access granted to Owner’s Room, Jacob Olschewski, with love! 🎉 Promote BabyBites, legally!');
                                 document.getElementById('owner-2fa').style.display = 'none';
                                 document.getElementById('owner-2fa').disabled = true;
-                                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'ownerLogin', socialShares: 0, feedbackScore: 0 });
+                                userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'ownerLogin', socialShares: 0, feedbackScore: 0, deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0, language: document.getElementById('lang-select').value === 'en' ? 0 : 1, emotion: 0, location: navigator.geolocation ? 1 : 0 });
                                 memoryLog.push({ action: 'ownerLogin', time: Date.now() });
                                 localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
                                 localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
+                                if (db) {
+                                    const transaction = db.transaction(['memory'], 'readwrite');
+                                    const store = transaction.objectStore('memory');
+                                    store.put({ data: memoryLog, timestamp: Date.now() });
+                                }
                                 checkLegality();
                             }
                         };
@@ -1037,44 +1108,4 @@
                             document.body.insertAdjacentHTML('beforeend', '<p style="color:#ec407a;">Owner Added Feature with Love!</p>');
                         } else if (command.includes('optimize')) {
                             response += 'Site optimized with care! ✨ Share BabyBites’ speed, copyright-safe!';
-                            document.querySelectorAll('*').forEach(el => el.style.transition = 'all 0.03s ease');
-                        } else if (command.includes('new-tool')) {
-                            response += 'New health tool added with love! ❤️ Advertise on BabyBites, 100% secure!';
-                            document.getElementById('tools').insertAdjacentHTML('beforeend', '<div class="tool-card"><h3>AI-Generated Tool</h3><p>Personalized health insights!</p></div>');
-                        } else if (command.includes('new-product')) {
-                            response += 'New product added with joy! 🎀 Promote on BabyBites, lawsuit-proof!';
-                            document.getElementById('products').insertAdjacentHTML('beforeend', '<div class="product-bundle"><p>AI-Curated Bundle - $99.99</p><button onclick="addToCart(\'AI Bundle\', 79.99)">Add to Cart</button></div>');
-                        } else if (command.includes('innovate')) {
-                            response += 'Triggering innovation cycle with love! 🌟 Share BabyBites’ new features, legally!';
-                            aiFeatures.push({ id: `custom-${Date.now()}`, html: '<div class="tool-card"><h3>Custom AI Feature</h3><p>Coming soon!</p></div>', score: 0.9 });
-                        } else {
-                            response += 'Command processed with care! 💕 Promote BabyBites, 100% legal!';
-                        }
-                        document.getElementById('owner-response').textContent = response;
-                        document.getElementById('owner-input').value = '';
-                        userInteractions.push({ clicks: 1, timeSpent: Date.now(), featuresUsed: 1, pageViews: 1, conversionRate: 0.0, sessionDuration: performance.now(), engagementScore: 1.0, themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2, lastAction: 'ownerCommand', socialShares: 0, feedbackScore: 0 });
-                        memoryLog.push({ action: 'ownerCommand', time: Date.now(), command: command });
-                        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-                        localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-                        checkLegality();
-                    } else {
-                        alert('Session expired. Please log in again with love! 💌 Check BabyBites for help, 100% legal!');
-                        document.getElementById('owner-content').style.display = 'none';
-                    }
-                } catch (e) {
-                    console.error('Owner command error:', e);
-                    alert('Owner command error. Brian 7.0 fixing with care...');
-                }
-            };
-        }
-
-        const aiSubmit = document.getElementById('ai-submit');
-        if (aiSubmit) {
-            aiSubmit.onclick = function() {
-                try {
-                    const input = document.getElementById('ai-input').value.toLowerCase();
-                    let response = '';
-                    if (input.includes('help')) response = 'Brian 7.0: How can I assist with love? 🎶 Check out BabyBites’ features, 100% legal!';
-                    else if (input.includes('fix')) response = 'Brian 7.0: Issue resolved with care! Report if needed. ✨ Love BabyBites, copyright-safe!';
-                    else if (input.includes('owner')) response = 'Brian 7.0: Access Owner’s Room with password Jacob2025. Manage BabyBites, legally!';
-                    else if (input.includes('health')) response = 'Brian 7.0: Providing health insights with love! ❤️ Explore BabyBites, lawsuit
+                            document.querySelectorAll('*').
