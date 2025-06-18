@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="BabyBites: The ultimate AI-powered parenting hub by Jacob Olschewski, offering curated affiliate baby products and tools—100% legal, secure, and inventory-free.">
+    <meta name="description" content="BabyBites: AI-powered parenting hub by Jacob Olschewski, offering affiliate baby products and tools—secure, legal, inventory-free.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'nonce-babybites2025'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self' https://cdn.example.com; object-src 'none'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'nonce-babybites2025'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self'; object-src 'none'; worker-src 'self' blob:;">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="BabyBites - Premier Parenting Hub">
-    <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:description" value="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
+    <meta property Venue is https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://jakeolschewski.github.io/BabyBites/">
     <meta name="twitter:card" content="summary_large_image">
     <title>BabyBites: Premier Health for Babies</title>
@@ -42,7 +42,7 @@
             z-index: 1001;
             transition: width 0.15s ease;
         }
-        canvas.live-particles, canvas#bg-canvas {
+        canvas.live-particles {
             position: fixed;
             top: 0;
             left: 0;
@@ -415,35 +415,32 @@
     <div class="section" id="community">
         <h2>Connect with Our Community</h2>
         <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#community" tabindex="0">Community</a></nav>
-        <p><a href="#forum" id="forum" tabindex="0">Forum</a> | <a href="#gallery" tabindex="0">Gallery</a> | <a href="#events" tabindex="0">Events</a> | <a href="#academy" id="nutrition-academy" tabindex="0">Nutrition Academy</a> | <a href="#blog" tabindex="0">Blog</a></p>
+        <p><a href="#forum" id="forum" tabindex="0">Forum</a> | <a href="#gallery" tabindex="0">Portfolio</a> | <a href="#events" tabindex="0">Events</a> | <a href="#academy" id="nutrition-academy" tabindex="0">Shop</a> | <a href="#blog" tabindex="0">Blog</a></p>
         <div class="subscription-form">
-            <input type="email" id="email" placeholder="Enter your email for health updates" required aria-label="Enter email for updates">
+            <input type="email" id="email" placeholder="Enter your email for updates" required aria-label="Email for updates">
             <button onclick="subscribe()" aria-label="Subscribe for updates">Subscribe for Updates</button>
-        </div>
-        <div id="forum-content">
-            <h3>Forum</h3>
-            <p>Join discussions with other parents! <a href="#live-chat" tabindex="0">Start chatting now!</a></p>
         </div>
     </div>
     <div class="section" id="owner-room">
         <div class="owner-room">
-            <h2>Owner’s Private Management Room</h2>
+            <h2 id="owner-room-title">Owner’s Room</h2>
             <p>Welcome, Jacob Olschewski!</p>
             <input type="password" id="owner-password" placeholder="Password" aria-label="Enter password">
-            <input type="text" id="owner-2fa" placeholder="2FA Code" style="display:none;" disabled aria-label="Enter 2FA code">
+            <input type="text" id="owner-2fa" placeholder="2FA Code" aria-label="Enter 2FA code">
             <button onclick="accessOwnerRoom()" aria-label="Access Owner's Room">Access Room</button>
             <div id="owner-content" style="display:none;">
-                <input type="text" id="owner-input" placeholder="Command for Owner’s Brian AI..." aria-label="Enter owner command">
-                <button onclick="processOwnerCommand()" aria-label="Submit owner command">Submit to Brian AI</button>
-                <div id="owner-response" aria-live="polite"></div>
+                <input type="text" id="owner-input" placeholder="Command for Smart AI (e.g., 'Add product Baby Sleep Kit for $69.99')" aria-label="Enter AI command">
+                <button onclick="processSmartAI()" aria-label="Submit AI command">Submit to Smart AI</button>
+                <button onclick="undoLastChange()" aria-label="Undo last change">Undo Last Change</button>
+                <p id="owner-result" aria-live="polite"></p>
                 <button onclick="toggleAnalytics()" aria-label="View analytics">View Analytics</button>
                 <button onclick="viewEarnings()" aria-label="View earnings">View Earnings</button>
-                <div id="analytics-dashboard" style="display:none;">
+                <div id="analytics" style="display:none;">
                     <h3>Analytics Dashboard</h3>
                     <canvas id="analytics-chart" style="max-width: 500px; margin: 0 auto;"></canvas>
-                    <p id="analytics-data" aria-live="polite">Users: 0 | Avg Time: 0s | Top Feature: None</p>
+                    <p id="analytics-data" aria-live="polite">Users: 0 | Avg Time: 0s | Actions: 0</p>
                 </div>
-                <div id="earnings-dashboard" style="display:none;">
+                <div id="earnings" style="display:none;">
                     <h3>Earnings Dashboard</h3>
                     <p id="earnings-data" aria-live="polite">Total Earnings: $0 | Pending: $0</p>
                     <button onclick="withdrawEarnings()" aria-label="Withdraw earnings">Withdraw to Bank</button>
@@ -453,92 +450,92 @@
     </div>
     <div class="section">
         <div class="assistant-box">
-            <p>AI Help Center (Managed by Brian 7.0): Speak or type 'help', 'fix', 'owner', 'health', or ask anything!</p>
-            <input type="text" id="ai-input" placeholder="Command for Brian 7.0..." oninput="voiceInput(event)" aria-label="Enter AI command">
-            <button onclick="processAICommand()" aria-label="Submit AI command">Submit to Brian 7.0</button>
+            <p>AI Help Center (Managed by Brian 1.0): Type 'help', 'health', 'shop', or ask anything!</p>
+            <input type="text" id="ai-input" placeholder="Command for Brian 1.0..." oninput="voiceInput(event)" aria-label="Enter AI query">
+            <button onclick="processAICommand()" aria-label="Submit AI query">Submit to Brian 1.0</button>
         </div>
         <button onclick="toggleAccessibilityMode()" aria-label="Toggle Accessibility Mode">Toggle Accessibility Mode</button>
-        <button onclick="toggleHighContrast()" aria-label="Toggle High Contrast">Toggle High Contrast</button>
-        <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Toggle Dark Mode</button>
+        <button onclick="toggleHighContrast()" aria-label="Toggle High Contrast">High Contrast</button>
+        <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Dark Mode</button>
         <div class="theme-toggle">
             <select id="theme-select" onchange="changeTheme()" aria-label="Select theme">
-                <option value="default">Loving Theme</option>
-                <option value="calm">Calm Theme</option>
-                <option value="playful">Playful Theme</option>
+                <option value="default">Default Theme</option>
+                <option value="basic">Basic Theme</option>
             </select>
         </div>
         <div class="language-toggle">
-            Language: <select id="lang-select" onchange="changeLanguage()" aria-label="Select language">
+            <select id="lang-select" onchange="updateLanguage()" aria-label="Select language">
                 <option value="en">English</option>
-                <option value="es">Español</option>
+                <option value="es">Spanish</option>
             </select>
         </div>
-        <div id="points" style="position: fixed; top: 100px; right: 20px; color: #ec407a;" aria-live="polite">Points: 0 🎉</div>
-    </div>
+        <div id="points" style="position: fixed; top: 100px; left: 20px; color: #ec168b;" aria-live="polite">Points: 20 🧸</div>
+
     <div class="section" id="compliance">
-        <h2>Tax Compliance & Privacy with Love</h2>
-        <div class="disclaimer">
-            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate products and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deletable via Data Controls. Content licensed under CC BY-NC. <a href="#privacy" tabindex="0">Privacy Policy</a>.</p>
-            <button onclick="deleteData()" aria-label="Delete user data">Delete My Data</button>
-        </div>
+        <h2>Tax Compliance</h2>
+        <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate links and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deleted via Data Controls. <a href="#privacy" tabindex="0">Privacy Policy</a></p>
+        <button onclick="deleteData()" aria-label="Delete user data">Delete My Data</button>
     </div>
     <div class="footer">
-        <p>Created with ❤️ by Brian 7.0 for families - Visit <a href="https://jakeolschewski.github.io/BabyBites/" target="_blank" rel="noopener" tabindex="0">BabyBites</a>!</p>
+        <p>© BabyBites by Jacob Olschewski - Built for families! Visit <a href="https://jakeolschewski.github.io/BabyBites/" target="_blank" rel="noopener" tabindex="0">BabyBites</a>!</p>
     </div>
     <script>
-        // Constants
+        // Configuration
         const CONFIG = {
-            AFFILIATE_LINKS: {
+            AFFILIATE_BASES: {
                 'Family Food Pack': 'https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20',
                 'Health Starter Bundle': 'https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid',
                 'Premium Wellness Pack': 'https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid'
             },
+            STORAGE_KEY: 'babybites_data',
             MAX_POINTS_PER_DAY: 100,
-            STORAGE_KEY: 'babybites_data'
+            PROTECTED_IDS: ['home', 'owner-room', 'compliance', 'header', 'footer'], // Prevent deletion
+            OWNER_PASSWORD: 'secure2025', // Mock: Replace with server-side auth
+            OWNER_2FA: '123456' // Mock: Simulate 2FA
         };
 
-        // Global state
+        // State
         let state = {
             userInteractions: [],
             memoryLog: [],
             reviews: [],
             cart: [],
             milestones: [],
-            chatLog: [],
             points: 0,
             sessionToken: null,
             currentTheme: 'default',
             adIndex: 0,
             db: null,
             users: [],
-            earnings: { total: 0, pending: 0 }
+            earnings: { total: 0, pending: 0 },
+            siteSnapshots: [] // Store DOM states for rollback
         };
 
-        // Multilingual support
+        // Translations
         const translations = {
             en: {
-                welcome: 'Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love and no inventory!',
-                searchPlaceholder: 'Discover tools, products, or advice...',
+                welcome: 'Welcome to BabyBites, a personal AI-powered parenting hub!',
+                searchPlaceholder: 'Search tools, products...',
                 productsTitle: 'Explore Affiliate Baby Products',
                 toolsTitle: 'Nurture with Health Tools',
                 communityTitle: 'Connect with Our Community',
-                ownerRoomTitle: 'Owner’s Private Management Room',
-                complianceTitle: 'Tax Compliance & Privacy with Love'
+                ownerRoomTitle: 'Owner’s Management Room',
+                complianceTitle: 'Tax Compliance'
             },
             es: {
-                welcome: '¡Bienvenido a BabyBites, un centro personal de Jacob Olschewski con amor impulsado por IA y sin inventario!',
-                searchPlaceholder: 'Descubre herramientas, productos o consejos...',
+                welcome: '¡Bienvenido a BabyBites, un centro de crianza con IA!',
+                searchPlaceholder: 'Buscar herramientas, productos...',
                 productsTitle: 'Explora productos afiliados para bebés',
-                toolsTitle: 'Nutre con herramientas de salud',
+                toolsTitle: 'Nutre con herramientas',
                 communityTitle: 'Conecta con nuestra comunidad',
-                ownerRoomTitle: 'Sala de gestión privada del propietario',
-                complianceTitle: 'Cumplimiento fiscal y privacidad con amor'
+                ownerRoomTitle: 'Sala de gestión del propietario',
+                complianceTitle: 'Cumplimiento fiscal'
             }
         };
 
-        // Utility functions
+        // Utilities
         /**
-         * Displays a toast notification
+         * Shows toast notification
          * @param {string} message - Message to display
          * @param {number} duration - Duration in ms
          */
@@ -550,23 +547,23 @@
         }
 
         /**
-         * Saves data to sessionStorage with throttling
+         * Saves state to sessionStorage with throttling
          */
         let lastStorageWrite = 0;
-        function saveToStorage(key, data) {
+        function saveToStorage() {
             try {
                 const now = Date.now();
-                if (now - lastStorageWrite < 1000) return; // Throttle to 1s
-                sessionStorage.setItem(key, JSON.stringify(data));
+                if (now - lastStorageWrite < 1000) return;
+                sessionStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(state));
                 lastStorageWrite = now;
             } catch (e) {
-                showToast('Storage error. Please try again.');
+                showToast('Storage error.');
                 console.error('Storage error:', e);
             }
         }
 
         /**
-         * Saves user interaction
+         * Saves interaction
          * @param {string} action - Action type
          * @param {Object} data - Additional data
          */
@@ -579,51 +576,37 @@
                     deviceType: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
                     language: document.getElementById('lang-select').value
                 });
-                saveToStorage(CONFIG.STORAGE_KEY, state);
+                state.memoryLog.push({ action, time: Date.now(), data });
+                saveToStorage();
                 if (state.db) {
-                    const transaction = state.db.transaction(['memory'], 'readwrite');
-                    const store = transaction.objectStore('memory');
-                    store.put({ data: state.memoryLog, timestamp: Date.now() });
+                    const tx = state.db.transaction(['memory'], 'readwrite');
+                    const store = tx.objectStore('memory');
+                    store.put({ id: Date.now(), data: state.memoryLog });
                 }
-                checkLegality();
             } catch (e) {
-                showToast('Error saving interaction.');
-                console.error('Save interaction error:', e);
+                showToast('Error logging interaction.');
+                console.error('Interaction error:', e);
             }
         }
 
         /**
-         * Checks legal compliance
-         */
-        function checkLegality() {
-            setTimeout(() => {
-                console.log('Legal check: GDPR/CCPA compliant, CC BY-NC enforced.');
-            }, 10000);
-        }
-
-        /**
-         * Opens IndexedDB with fallback
+         * Opens IndexedDB
          */
         function openDatabase() {
             try {
                 if (!window.indexedDB) {
-                    showToast('IndexedDB not supported. Using sessionStorage.');
+                    showToast('IndexedDB not supported.');
                     return;
                 }
                 const request = indexedDB.open('BabyBitesMemory', 1);
-                request.onupgradeneeded = (event) => {
-                    state.db = event.target.result;
-                    state.db.createObjectStore('memory', { keyPath: 'id', autoIncrement: true });
+                request.onupgradeneeded = (e) => {
+                    state.db = e.target.result;
+                    state.db.createObjectStore('memory', { keyPath: 'id' });
                 };
-                request.onsuccess = (event) => {
-                    state.db = event.target.result;
-                };
-                request.onerror = () => {
-                    showToast('Database error. Using sessionStorage.');
-                    console.error('IndexedDB error');
-                };
+                request.onsuccess = (e) => state.db = e.target.result;
+                request.onerror = () => showToast('Database error.');
             } catch (e) {
-                showToast('Database initialization failed.');
+                showToast('Database init failed.');
                 console.error('Database error:', e);
             }
         }
@@ -642,25 +625,52 @@
                 initAnalyticsChart();
                 updateLanguage();
                 initParticleCanvas();
-                document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
+                loadState(); // Load persisted state
             } catch (e) {
-                showToast('Initialization failed. Please refresh.');
-                console.error('Initialization error:', e);
+                showToast('Startup error. Refreshing...');
+                console.error('Init error:', e);
             }
         });
 
         /**
-         * Checks library dependencies
+         * Checks dependencies
          */
         function checkDependencies() {
-            if (!window.jQuery) throw new Error('jQuery not loaded');
-            if (!window.THREE) throw new Error('THREE.js not loaded');
-            if (!window.Chart) throw new Error('Chart.js not loaded');
-            if (!window.DOMPurify) throw new Error('DOMPurify not loaded');
+            if (!window.jQuery) throw new Error('jQuery missing');
+            if (!window.THREE) throw new Error('THREE.js missing');
+            if (!window.Chart) throw new Error('Chart.js missing');
+            if (!window.DOMPurify) throw new Error('DOMPurify missing');
         }
 
         /**
-         * Initializes progress bar
+         * Loads state from sessionStorage
+         */
+        function loadState() {
+            try {
+                const saved = sessionStorage.getItem(CONFIG.STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    state = { ...state, ...parsed };
+                    updatePoints();
+                    document.getElementById('cart-items').textContent = state.cart.length ? state.cart.map(i => `${i.item}: $${i.price}`).join(', ') : 'Cart is empty.';
+                    document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${DOMPurify.sanitize(r)}</p>`).join('');
+                    document.getElementById('milestone-log').textContent = state.message || [];
+                    // Apply custom DOM changes (e.g., added products)
+                    if (state.customElements) {
+                        Object.entries(state.customElements).forEach(([id, html]) => {
+                            const container = document.querySelector(`#${id}`);
+                            if (container) container.innerHTML += DOMPurify.sanitize(html);
+                        });
+                    }
+                }
+            } catch (e) {
+                showToast('Error loading state.');
+                console.error('Load state error:', e);
+            }
+        }
+
+        /**
+         * Updates progress bar
          */
         function initProgressBar() {
             try {
@@ -676,21 +686,21 @@
         }
 
         /**
-         * Rotates ad content
+         * Rotates ads
          */
         function initAdRotator() {
             try {
                 const ads = [
-                    'Love BabyBites? Try our <strong>Milestone Tracker</strong> today!',
-                    'Discover the <strong>Wellness Chatbot</strong> on BabyBites!',
-                    'Explore <strong>Affiliate Products</strong> at BabyBites!'
+                    'Try our <strong>Milestone Tracker</strong> today!',
+                    'Discover <strong>Shop</strong> on BabyBites!',
+                    'Explore Products at BabyBites!'
                 ];
                 setInterval(() => {
                     state.adIndex = (state.adIndex + 1) % ads.length;
                     document.getElementById('ad-content').innerHTML = DOMPurify.sanitize(ads[state.adIndex]);
-                }, 5000);
+                }, 25000);
             } catch (e) {
-                console.error('Ad rotator error:', e);
+                console.error('Ad error:', e);
             }
         }
 
@@ -704,12 +714,12 @@
                     document.getElementById('consent-popup').focus();
                 }
             } catch (e) {
-                console.error('Consent popup error:', e);
+                console.error('Consent error:', e);
             }
         }
 
         /**
-         * Accepts user consent
+         * Accepts consent
          */
         function acceptConsent() {
             try {
@@ -717,7 +727,7 @@
                 document.getElementById('consent-popup').classList.remove('active');
                 saveInteraction('consent');
             } catch (e) {
-                showToast('Error saving consent.');
+                showToast('Consent error.');
                 console.error('Consent error:', e);
             }
         }
@@ -726,7 +736,7 @@
          * Declines consent
          */
         function declineConsent() {
-            showToast('You must agree to use BabyBites.');
+            showToast('Consent required to use BabyBites.');
         }
 
         /**
@@ -739,7 +749,7 @@
                     stop: () => saveInteraction('dragProduct')
                 });
             } catch (e) {
-                console.error('Draggable cards error:', e);
+                console.error('Draggable error:', e);
             }
         }
 
@@ -753,27 +763,25 @@
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ['Users', 'Avg Time (s)', 'Features Used'],
+                            labels: ['Users', 'Interactions', 'Actions'],
                             datasets: [{
                                 label: 'Analytics',
                                 data: [
                                     state.userInteractions.length,
-                                    state.userInteractions.reduce((sum, i) => sum + (i.time || 0), 0) / 1000,
+                                    state.userInteractions.reduce((prev, curr) => prev + curr, 0) / 1000,
                                     state.userInteractions.length
                                 ],
                                 backgroundColor: '#42a5f5'
                             }]
                         },
                         options: {
-                            scales: { y: { beginAtZero: true } },
-                            plugins: {
-                                legend: { display: false }
-                            }
+                            scales: { y: [0] },
+                            plugins: { legend: { display: false } }
                         }
                     });
                 }
             } catch (e) {
-                console.error('Analytics chart error:', e);
+                console.error('Chart error:', e);
             }
         }
 
@@ -796,7 +804,7 @@
                         vy: Math.random() * 0.5 - 0.25
                     });
                 }
-                function animateParticles() {
+                function animate() {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     particles.forEach(p => {
                         p.x += p.vx;
@@ -808,11 +816,11 @@
                         ctx.fillStyle = 'rgba(66, 165, 245, 0.5)';
                         ctx.fill();
                     });
-                    requestAnimationFrame(animateParticles);
+                    requestAnimationFrame(animate);
                 }
-                animateParticles();
+                animate();
             } catch (e) {
-                console.error('Particle canvas error:', e);
+                console.error('Particle error:', e);
             }
         }
 
@@ -821,7 +829,7 @@
          */
         function initARPreview() {
             try {
-                const container = document.getElementById('ar-product-preview');
+                const container = document.getElementById('ar-product');
                 if (!container) return;
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -847,12 +855,12 @@
                     camera.updateProjectionMatrix();
                 });
             } catch (e) {
-                showToast('AR preview failed to load.');
-                console.error('AR preview error:', e);
+                showToast('AR error.');
+                console.error('AR error:', e);
             }
         }
 
-        // Theme and accessibility
+        // Theme and Accessibility
         /**
          * Changes theme
          */
@@ -861,9 +869,8 @@
                 const theme = document.getElementById('theme-select').value;
                 state.currentTheme = theme;
                 const styles = {
-                    calm: { bg: 'linear-gradient(135deg, #e0f7fa, #b2ebf2)', color: '#004d40', border: '#26c6da' },
-                    playful: { bg: 'linear-gradient(135deg, #fff9c4, #ffecb3)', color: '#ef6c00', border: '#ffca28' },
-                    default: { bg: 'linear-gradient(135deg, #e3f2fd, #bbdefb)', color: '#01579b', border: '#42a5f5' }
+                    default: { bg: 'linear-gradient(135deg, #e3f2fd, #bbdefb)', color: '#01579b', border: '#42a5f5' },
+                    basic: { bg: 'linear-gradient(135deg, #fff3e0, #ffe0b3)', color: '#e65100', border: '#ff9800' }
                 };
                 document.body.style.background = styles[theme].bg;
                 document.body.style.color = styles[theme].color;
@@ -871,8 +878,8 @@
                 document.body.classList.remove('dark-mode', 'high-contrast', 'accessibility-mode');
                 saveInteraction('themeChange', { theme });
             } catch (e) {
-                showToast('Theme change failed.');
-                console.error('Change theme error:', e);
+                showToast('Theme error.');
+                console.error('Theme error:', e);
             }
         }
 
@@ -881,7 +888,7 @@
                 document.body.classList.toggle('dark-mode');
                 saveInteraction('darkModeToggle');
             } catch (e) {
-                console.error('Dark mode toggle error:', e);
+                console.error('Dark mode error:', e);
             }
         }
 
@@ -890,26 +897,26 @@
                 document.body.classList.toggle('high-contrast');
                 saveInteraction('highContrastToggle');
             } catch (e) {
-                console.error('High contrast toggle error:', e);
+                console.error('High contrast error:', e);
             }
         }
 
         function toggleAccessibilityMode() {
             try {
                 document.body.classList.toggle('accessibility-mode');
-                saveInteraction('accessibilityModeToggle');
+                saveInteraction('accessibilityToggle');
             } catch (e) {
-                console.error('Accessibility mode toggle error:', e);
+                console.error('Accessibility error:', e);
             }
         }
 
-        // Language support
+        // Language Support
         /**
-         * Updates page language
-         * @param {string} lang - Language code
+         * Updates language
          */
-        function updateLanguage(lang = 'en') {
+        function updateLanguage() {
             try {
+                const lang = document.getElementById('lang-select').value;
                 const trans = translations[lang] || translations.en;
                 document.querySelector('#home p').textContent = trans.welcome;
                 document.querySelector('#search-input').placeholder = trans.searchPlaceholder;
@@ -918,26 +925,17 @@
                 document.querySelector('#community h2').textContent = trans.communityTitle;
                 document.querySelector('#owner-room h2').textContent = trans.ownerRoomTitle;
                 document.querySelector('#compliance h2').textContent = trans.complianceTitle;
+                saveInteraction('languageChange', { lang });
             } catch (e) {
-                console.error('Update language error:', e);
+                console.error('Language error:', e);
             }
         }
 
-        function changeLanguage() {
-            try {
-                const lang = document.getElementById('lang-select').value;
-                updateLanguage(lang);
-                saveInteraction('languageChange', { language: lang });
-            } catch (e) {
-                console.error('Change language error:', e);
-            }
-        }
-
-        // AI and chatbot
+        // AI and Chatbot
         const chatbotResponses = {
-            help: 'Brian 7.0: Ask about parenting, tools, or products!',
-            health: 'Brian 7.0: Try Milestone Tracker or ask about nutrition!',
-            default: 'Brian 7.0: Let’s explore! Try tools or products!'
+            help: 'Brian 1.0: Ask about parenting or products!',
+            health: 'Brian 1.0: Try the Milestone Tracker!',
+            default: 'Brian 1.0: Explore tools or shop!'
         };
 
         /**
@@ -948,7 +946,7 @@
             try {
                 const input = event.target;
                 if (!sessionStorage.getItem('consent')) {
-                    showToast('Consent required for voice input.');
+                    showToast('Consent required.');
                     return;
                 }
                 if ('webkitSpeechRecognition' in window) {
@@ -958,25 +956,19 @@
                     recognition.onresult = (e) => {
                         const transcript = DOMPurify.sanitize(e.results[0][0].transcript);
                         input.value = transcript;
-                        saveInteraction('voiceInput', { input: transcript });
-                        if (input.id === 'chatbot-input') {
-                            chatbotRespond();
-                        } else if (input.id === 'ai-input') {
-                            processAICommand();
-                        } else if (input.id === 'owner-input') {
-                            processOwnerCommand();
-                        }
+                        saveInteraction('voiceInput', { transcript });
+                        if (input.id === 'chatbot-input') chatbotRespond();
+                        else if (input.id === 'ai-input') processAICommand();
+                        else if (input.id === 'owner-input') processSmartAI();
                     };
-                    recognition.onerror = () => {
-                        showToast('Voice input failed. Type your query.');
-                    };
+                    recognition.onerror = () => showToast('Voice error.');
                     recognition.start();
                 } else {
-                    showToast('Voice input not supported.');
+                    showToast('Voice not supported.');
                 }
             } catch (e) {
-                showToast('Voice input error.');
-                console.error('Voice input error:', e);
+                showToast('Voice error.');
+                console.error('Voice error:', e);
             }
         }
 
@@ -987,7 +979,7 @@
             try {
                 const input = document.getElementById('chatbot-input');
                 if (!input || !input.value) {
-                    document.getElementById('chatbot-response').textContent = 'Type a question!';
+                    document.getElementById('chatbot-response').textContent = 'Ask something!';
                     return;
                 }
                 const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
@@ -1004,25 +996,25 @@
                 input.value = '';
                 saveInteraction('chatbot', { query });
             } catch (e) {
-                showToast('Chatbot error. Try again.');
+                showToast('Chatbot error.');
                 console.error('Chatbot error:', e);
             }
         }
 
         /**
          * Fetches mock web data
-         * @param {string} query - Search query
-         * @returns {Promise<string>} - Mock response
+         * @param {string} query - Query string
+         * @returns {Promise<string>} Mock response
          */
         async function fetchWebData(query) {
             try {
-                const mockWebResults = {
-                    'what to feed my 6-month-old': 'Pureed fruits and vegetables recommended.',
-                    'baby sleep tips': 'Use a firm mattress and consistent routine.'
+                const mockData = {
+                    'what to feed': 'Pureed fruits recommended.',
+                    'sleep tips': 'Use a firm mattress.'
                 };
-                return mockWebResults[query] || 'Relevant tips found!';
+                return mockData[query] || 'Tips found!';
             } catch (e) {
-                console.error('Fetch web data error:', e);
+                console.error('Web data error:', e);
                 return '';
             }
         }
@@ -1037,12 +1029,12 @@
                 showToast(response);
                 saveInteraction('aiCommand', { command: input });
             } catch (e) {
-                showToast('AI command error.');
-                console.error('AI command error:', e);
+                showToast('AI error.');
+                console.error('AI error:', e);
             }
         }
 
-        // Health tools
+        // Health Tools
         const searchCategories = [
             { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones!' },
             { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask parenting questions!' }
@@ -1055,41 +1047,41 @@
             try {
                 const input = document.getElementById('search-input') || document.getElementById('persistent-search');
                 if (!input || !input.value) {
-                    document.getElementById('search-results').textContent = 'Search for tools or products!';
+                    document.getElementById('search-results').textContent = 'Search tools or products!';
                     return;
                 }
                 const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
                 const results = searchCategories
                     .filter(item => item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query))
                     .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description}</p>`);
-                document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No results found!';
+                document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No results!';
                 saveInteraction('search', { query });
             } catch (e) {
                 showToast('Search error.');
-                console.error('Smart search error:', e);
+                console.error('Search error:', e);
             }
         }
 
         /**
-         * Logs a milestone
+         * Logs milestone
          */
         function logMilestone() {
             try {
                 const input = document.getElementById('milestone-input');
                 if (!input || !input.value) {
-                    showToast('Enter a milestone.');
+                    showToast('Enter milestone.');
                     return;
                 }
                 const milestone = DOMPurify.sanitize(input.value);
                 state.milestones.push(milestone);
-                saveToStorage(CONFIG.STORAGE_KEY, state);
+                saveToStorage();
                 document.getElementById('milestone-log').textContent = state.milestones.join(', ');
                 input.value = '';
                 addPoints(10);
                 saveInteraction('milestone', { milestone });
             } catch (e) {
-                showToast('Milestone logging failed.');
-                console.error('Log milestone error:', e);
+                showToast('Milestone error.');
+                console.error('Milestone error:', e);
             }
         }
 
@@ -1100,19 +1092,19 @@
             try {
                 const input = document.getElementById('allergy-input');
                 if (!input || !input.value) {
-                    showToast('Enter a substance.');
+                    showToast('Enter substance.');
                     return;
                 }
                 const substance = DOMPurify.sanitize(input.value.toLowerCase().trim());
-                const commonAllergens = ['peanuts', 'milk', 'eggs'];
-                const result = commonAllergens.includes(substance) ?
-                    `Warning: ${substance} is a common allergen.` :
+                const allergens = ['peanuts', 'milk', 'eggs'];
+                const result = allergens.includes(substance) ?
+                    `Warning: ${substance} is an allergen.` :
                     `${substance} is not a common allergen.`;
                 document.getElementById('allergy-result').textContent = result;
                 saveInteraction('allergyCheck', { substance });
             } catch (e) {
-                showToast('Allergy check failed.');
-                console.error('Check allergy error:', e);
+                showToast('Allergy error.');
+                console.error('Allergy error:', e);
             }
         }
 
@@ -1123,20 +1115,20 @@
             try {
                 const input = document.getElementById('growth-input');
                 if (!input || isNaN(input.value) || input.value < 0) {
-                    document.getElementById('growth-result').textContent = 'Enter a valid age!';
+                    document.getElementById('growth-result').textContent = 'Valid age required!';
                     return;
                 }
                 const age = parseInt(input.value);
                 const predictions = {
-                    0: 'Newborn: Frequent feeding.',
+                    0: 'Newborn: Feeding often.',
                     6: '6 Months: Sitting up.'
                 };
                 const key = Object.keys(predictions).find(k => age <= parseInt(k)) || 6;
                 document.getElementById('growth-result').textContent = predictions[key];
                 saveInteraction('growthPredict', { age });
             } catch (e) {
-                showToast('Growth prediction failed.');
-                console.error('Predict growth error:', e);
+                showToast('Growth error.');
+                console.error('Growth error:', e);
             }
         }
 
@@ -1151,11 +1143,11 @@
                     return;
                 }
                 const time = DOMPurify.sanitize(input.value);
-                document.getElementById('sleep-log').textContent = `Sleep logged at ${time}`;
+                document.getElementById('sleep-log').textContent = `Sleep at ${time}`;
                 saveInteraction('sleepLog', { time });
             } catch (e) {
-                showToast('Sleep logging failed.');
-                console.error('Log sleep error:', e);
+                showToast('Sleep error.');
+                console.error('Sleep error:', e);
             }
         }
 
@@ -1166,7 +1158,7 @@
             try {
                 const input = document.getElementById('oracle-input');
                 if (!input || isNaN(input.value) || input.value < 0) {
-                    document.getElementById('oracle-prediction').textContent = 'Enter a valid age!';
+                    document.getElementById('oracle-prediction').textContent = 'Valid age required!';
                     return;
                 }
                 const age = parseInt(input.value);
@@ -1179,8 +1171,8 @@
                 saveInteraction('oraclePredict', { age });
                 setTimeout(updateOracle, 20000);
             } catch (e) {
-                showToast('Milestone prediction failed.');
-                console.error('Predict milestone error:', e);
+                showToast('Milestone error.');
+                console.error('Milestone error:', e);
             }
         }
 
@@ -1190,12 +1182,12 @@
         function updateOracle() {
             try {
                 const suggestions = [
-                    'Try our Milestone Tracker!',
-                    'Check out the Wellness Chatbot!'
+                    'Try Milestone Tracker!',
+                    'Check Wellness Chatbot!'
                 ];
                 document.getElementById('suggestion-content').textContent = suggestions[Math.floor(Math.random() * suggestions.length)];
             } catch (e) {
-                console.error('Update oracle error:', e);
+                console.error('Oracle error:', e);
             }
         }
 
@@ -1205,36 +1197,36 @@
         setInterval(() => {
             try {
                 const tips = [
-                    'Hydrate your baby with breast milk!',
-                    'Introduce solids at 6 months!'
+                    'Hydrate with breast milk!',
+                    'Solids at 6 months!'
                 ];
                 document.getElementById('health-tip').textContent = `Tip: ${tips[Math.floor(Math.random() * tips.length)]}`;
             } catch (e) {
-                console.error('Health tip error:', e);
+                console.error('Tip error:', e);
             }
         }, 20000);
 
-        // Products and community
+        // Products and Community
         /**
-         * Adds a review
+         * Adds review
          */
         function addReview() {
             try {
                 const input = document.getElementById('review-input');
                 if (!input || !input.value || !sessionStorage.getItem('consent')) {
-                    showToast('Enter a review and consent.');
+                    showToast('Review and consent required.');
                     return;
                 }
                 const review = DOMPurify.sanitize(input.value);
                 state.reviews.push(review);
-                saveToStorage(CONFIG.STORAGE_KEY, state);
-                document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${r} <em>Legal!</em></p>`).join('');
+                saveToStorage();
+                document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${r}</p>`).join('');
                 input.value = '';
                 addPoints(20);
                 saveInteraction('review', { review });
             } catch (e) {
-                showToast('Review submission failed.');
-                console.error('Add review error:', e);
+                showToast('Review error.');
+                console.error('Review error:', e);
             }
         }
 
@@ -1245,23 +1237,23 @@
             try {
                 const input = document.getElementById('chat-input');
                 if (!input || !input.value || !sessionStorage.getItem('consent')) {
-                    showToast('Enter a message and consent.');
+                    showToast('Message and consent required.');
                     return;
                 }
                 const message = DOMPurify.sanitize(input.value);
                 state.chatLog.push(`You: ${message}`);
-                saveToStorage(CONFIG.STORAGE_KEY, state);
+                saveToStorage();
                 document.getElementById('chat-log').textContent = state.chatLog.join('\n');
                 input.value = '';
                 saveInteraction('chat', { message });
             } catch (e) {
-                showToast('Chat message failed.');
-                console.error('Send chat error:', e);
+                showToast('Chat error.');
+                console.error('Chat error:', e);
             }
         }
 
         /**
-         * Adds points with limits
+         * Adds points
          * @param {number} points - Points to add
          */
         function addPoints(points) {
@@ -1272,13 +1264,13 @@
                     .reduce((sum, i) => sum + (i.points || 0), 0);
                 if (dailyPoints + points <= CONFIG.MAX_POINTS_PER_DAY) {
                     state.points += points;
-                    saveToStorage(CONFIG.STORAGE_KEY, state);
-                    document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
+                    saveToStorage();
+                    updatePoints();
                 } else {
                     showToast('Daily points limit reached.');
                 }
             } catch (e) {
-                console.error('Add points error:', e);
+                console.error('Points error:', e);
             }
         }
 
@@ -1289,12 +1281,12 @@
             try {
                 document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
             } catch (e) {
-                console.error('Update points error:', e);
+                console.error('Points update error:', e);
             }
         }
 
         /**
-         * Signs up a user
+         * Signs up user
          */
         function signupUser() {
             try {
@@ -1306,55 +1298,55 @@
                     showToast('Fill all fields.');
                     return;
                 }
-                // Mock server-side bcrypt hashing
-                const hashedPassword = btoa(password); // Replace with real server-side hashing
+                // Mock server-side hashing
+                const hashedPassword = btoa(password); // Replace with server-side bcrypt
                 state.users.push({ email, password: hashedPassword, shipping, payment });
-                saveToStorage(CONFIG.STORAGE_KEY, state);
-                document.getElementById('signup-result').textContent = 'Sign-up successful!';
+                saveToStorage();
+                document.getElementById('signup-result').textContent = 'Signed up!';
                 saveInteraction('signup', { email });
             } catch (e) {
-                showToast('Sign-up failed.');
+                showToast('Signup error.');
                 console.error('Signup error:', e);
             }
         }
 
         /**
-         * Adds item to cart
+         * Adds to cart
          * @param {string} item - Item name
          * @param {number} price - Item price
          */
         function addToCart(item, price) {
             try {
                 state.cart.push({ item, price });
-                saveToStorage(CONFIG.STORAGE_KEY, state);
+                saveToStorage();
                 document.getElementById('cart-items').textContent = state.cart.map(i => `${i.item}: $${i.price}`).join(', ');
                 saveInteraction('addToCart', { item, price });
             } catch (e) {
-                showToast('Add to cart failed.');
-                console.error('Add to cart error:', e);
+                showToast('Cart error.');
+                console.error('Cart error:', e);
             }
         }
 
         /**
-         * Processes checkout
+         * Checks out
          */
         function checkout() {
             try {
                 const address = DOMPurify.sanitize(document.getElementById('shipping-address').value);
                 const method = document.getElementById('shipping-method').value;
                 if (!address || !state.cart.length) {
-                    showToast('Add items and shipping address.');
+                    showToast('Add items and address.');
                     return;
                 }
-                // Mock server-side checkout
-                state.earnings.pending += state.cart.reduce((sum, i) => sum + i.price, 0) * 0.1; // 10% commission
+                // Mock checkout
+                state.earnings.pending += state.cart.reduce((sum, i) => sum + i.price, 0) * 0.1;
                 state.cart = [];
-                saveToStorage(CONFIG.STORAGE_KEY, state);
-                document.getElementById('cart-items').textContent = 'Cart is empty.';
-                document.getElementById('checkout-result').textContent = 'Checkout successful!';
+                saveToStorage();
+                document.getElementById('cart-items').textContent = 'Cart empty.';
+                document.getElementById('checkout-result').textContent = 'Checkout done!';
                 saveInteraction('checkout', { address, method });
             } catch (e) {
-                showToast('Checkout failed.');
+                showToast('Checkout error.');
                 console.error('Checkout error:', e);
             }
         }
@@ -1366,15 +1358,15 @@
             try {
                 const amount = parseFloat(document.getElementById('discount-amount').value);
                 if (isNaN(amount) || amount <= 0) {
-                    showToast('Enter a valid amount.');
+                    showToast('Valid amount required.');
                     return;
                 }
-                const discount = amount * (Math.random() * 0.1 + 0.2); // 20-30%
+                const discount = amount * (Math.random() * 0.1 + 0.2);
                 document.getElementById('discount-result').textContent = `Discount: $${discount.toFixed(2)}`;
                 saveInteraction('discount', { amount, discount });
             } catch (e) {
-                showToast('Discount calculation failed.');
-                console.error('Calculate discount error:', e);
+                showToast('Discount error.');
+                console.error('Discount error:', e);
             }
         }
 
@@ -1385,63 +1377,246 @@
             try {
                 const email = document.getElementById('email').value;
                 if (!email) {
-                    showToast('Enter an email.');
+                    showToast('Enter email.');
                     return;
                 }
-                // Mock server-side subscription
-                showToast('Subscribed successfully!');
+                // Mock subscription
+                showToast('Subscribed!');
                 saveInteraction('subscribe', { email });
             } catch (e) {
-                showToast('Subscription failed.');
+                showToast('Subscription error.');
                 console.error('Subscribe error:', e);
             }
         }
 
+        // Owner’s Room AI
         /**
-         * Accesses owner room
+         * Accesses Owner’s Room
          */
         function accessOwnerRoom() {
             try {
                 const password = document.getElementById('owner-password').value;
-                // Mock server-side validation
-                if (password === 'secure2025') { // Replace with real server-side check
+                const twoFA = document.getElementById('owner-2fa').value;
+                if (password === CONFIG.OWNER_PASSWORD && twoFA === CONFIG.OWNER_2FA) {
                     document.getElementById('owner-content').style.display = 'block';
                     document.getElementById('owner-room').classList.add('active');
                     saveInteraction('ownerAccess');
                 } else {
-                    showToast('Invalid password.');
+                    showToast('Invalid credentials.');
                 }
             } catch (e) {
-                showToast('Owner access failed.');
-                console.error('Owner access error:', e);
+                showToast('Access error.');
+                console.error('Access error:', e);
             }
         }
 
         /**
-         * Processes owner commands
+         * Processes smart AI commands
          */
-        function processOwnerCommand() {
+        function processSmartAI() {
             try {
-                const input = document.getElementById('owner-input').value;
-                document.getElementById('owner-response').textContent = `Command processed: ${DOMPurify.sanitize(input)}`;
-                saveInteraction('ownerCommand', { command: input });
+                const input = document.getElementById('owner-input').value.trim();
+                if (!input) {
+                    showToast('Enter a command.');
+                    return;
+                }
+                const command = DOMPurify.sanitize(input.toLowerCase());
+                // Backup current state
+                backupSiteState();
+                // Parse command
+                const result = parseAICommand(command);
+                document.getElementById('owner-result').textContent = result.message;
+                saveInteraction('smartAI', { command, result: result.message });
+                if (result.needsConfirm) {
+                    if (confirm(`Confirm: ${command}?`)) {
+                        executeAICommand(result);
+                    } else {
+                        showToast('Command cancelled.');
+                    }
+                } else {
+                    executeAICommand(result);
+                }
             } catch (e) {
-                showToast('Owner command failed.');
-                console.error('Owner command error:', e);
+                showToast('AI command error.');
+                console.error('AI error:', e);
             }
         }
 
         /**
-         * Toggles analytics dashboard
+         * Parses AI command
+         * @param {string} command - Command text
+         * @returns {Object} Parsed action
+         */
+        function parseAICommand(command) {
+            try {
+                // Blacklist dangerous commands
+                if (command.includes('delete all') || command.includes('clear site')) {
+                    return { message: 'Dangerous command blocked.', action: null };
+                }
+                // Add product: e.g., "add product Baby Sleep Kit for $29.99"
+                const addProductMatch = command.match(/add product (\w+(?:\s\w+)*) for \$(\d+\.\d{2})/);
+                if (addProductMatch) {
+                    const name = addProductMatch[1];
+                    const price = parseFloat(addProductMatch[2]);
+                    return {
+                        action: 'addProduct',
+                        name,
+                        price,
+                        id: name.toLowerCase().replace(/\s/g, '-'),
+                        message: `Adding product ${name} for $${price}.`
+                    };
+                }
+                // Delete section: e.g., "delete milestone tracker"
+                const deleteSectionMatch = command.match(/delete (\w+(?:\s\w+)*)/);
+                if (deleteSectionMatch) {
+                    const sectionName = deleteSectionMatch[1].toLowerCase().replace(/\s/g, '-');
+                    if (CONFIG.PROTECTED_IDS.includes(sectionName)) {
+                        return { message: `Cannot delete protected section ${sectionName}.`, action: null };
+                    }
+                    return {
+                        action: 'deleteSection',
+                        id: sectionName,
+                        message: `Deleting section ${sectionName}.`,
+                        needsConfirm: true
+                    };
+                }
+                // Change style: e.g., "change header color to red"
+                const changeStyleMatch = command.match(/change (\w+(?:\s\w+)*) color to (\w+)/);
+                if (changeStyleMatch) {
+                    const element = changeStyleMatch[1].toLowerCase().replace(/\s/g, '-');
+                    const color = changeStyleMatch[2];
+                    return {
+                        action: 'changeStyle',
+                        element,
+                        color,
+                        message: `Changing ${element} color to ${color}.`
+                    };
+                }
+                return { message: 'Command not understood.', action: null };
+            } catch (e) {
+                console.error('Parse error:', e);
+                return { message: 'Invalid command.', action: null };
+            }
+        }
+
+        /**
+         * Executes AI command
+         * @param {Object} result - Parsed command
+         */
+        function executeAICommand(result) {
+            try {
+                if (!result.action) return;
+                switch (result.action) {
+                    case 'addProduct': {
+                        const container = document.getElementById('products');
+                        if (!container) throw new Error('Products section missing.');
+                        const html = `
+                            <div class="product-bundle" data-bundle="${result.name}" id="${result.id}">
+                                <p>${result.name} - Affiliate Link: <a href="${CONFIG.AFFILIATE_BASES[result.name] || 'https://example.com'}" target="_blank" rel="noopener">$${result.price}</a></p>
+                                <p>Includes: Custom Product</p>
+                                <p>Ships directly—no inventory!</p>
+                                <button onclick="addToCart('${result.name}', ${result.price})" aria-label="Add ${result.name} to cart">Add to Cart</button>
+                            </div>
+                        `;
+                        container.innerHTML += DOMPurify.sanitize(html);
+                        state.customElements = state.customElements || {};
+                        state.customElements[result.id] = html;
+                        saveToStorage();
+                        showToast(`Product ${result.name} added.`);
+                        break;
+                    }
+                    case 'deleteSection': {
+                        const element = document.getElementById(result.id);
+                        if (!element) throw new Error('Section not found.');
+                        element.remove();
+                        if (state.customElements) delete state.customElements[result.id];
+                        saveToStorage();
+                        showToast(`Section ${result.id} deleted.`);
+                        break;
+                    }
+                    case 'changeStyle': {
+                        const element = document.querySelector(`#${result.element}`) || document.querySelector(result.element);
+                        if (!element) throw new Error('Element not found.');
+                        element.style.backgroundColor = result.color;
+                        state.customStyles = state.customStyles || {};
+                        state.customStyles[result.element] = { backgroundColor: result.color };
+                        saveToStorage();
+                        showToast(`Color changed to ${result.color}.`);
+                        break;
+                    }
+                }
+            } catch (e) {
+                showToast('Command execution error.');
+                console.error('Execute error:', e);
+            }
+        }
+
+        /**
+         * Backs up site state
+         */
+        function backupSiteState() {
+            try {
+                state.siteSnapshots.push({
+                    html: document.body.innerHTML,
+                    state: { ...state },
+                    timestamp: Date.now()
+                });
+                if (state.siteSnapshots.length > 5) state.siteSnapshots.shift(); // Keep last 5
+                saveToStorage();
+            } catch (e) {
+                console.error('Backup error:', e);
+            }
+        }
+
+        /**
+         * Undoes last change
+         */
+        function undoLastChange() {
+            try {
+                const lastSnapshot = state.siteSnapshots.pop();
+                if (!lastSnapshot) {
+                    showToast('No changes to undo.');
+                    return;
+                }
+                document.body.innerHTML = DOMPurify.sanitize(lastSnapshot.html);
+                state = { ...lastSnapshot.state };
+                saveToStorage();
+                showToast('Last change undone.');
+                // Re-init event listeners
+                initEventListeners();
+            } catch (e) {
+                showToast('Undo error.');
+                console.error('Undo error:', e);
+            }
+        }
+
+        /**
+         * Re-initializes event listeners after undo
+         */
+        function initEventListeners() {
+            try {
+                document.querySelectorAll('[onclick]').forEach(el => {
+                    const handler = el.getAttribute('onclick');
+                    el.onclick = new Function(handler);
+                });
+                initDraggableCards();
+                initProgressBar();
+            } catch (e) {
+                console.error('Event listener error:', e);
+            }
+        }
+
+        /**
+         * Toggles analytics
          */
         function toggleAnalytics() {
             try {
-                const dashboard = document.getElementById('analytics-dashboard');
+                const dashboard = document.getElementById('analytics');
                 dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
                 saveInteraction('viewAnalytics');
             } catch (e) {
-                showToast('Analytics toggle failed.');
-                console.error('Toggle analytics error:', e);
+                showToast('Analytics error.');
+                console.error('Analytics error:', e);
             }
         }
 
@@ -1450,13 +1625,13 @@
          */
         function viewEarnings() {
             try {
-                const dashboard = document.getElementById('earnings-dashboard');
+                const dashboard = document.getElementById('earnings');
                 dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
                 document.getElementById('earnings-data').textContent = `Total: $${state.earnings.total.toFixed(2)} | Pending: $${state.earnings.pending.toFixed(2)}`;
                 saveInteraction('viewEarnings');
             } catch (e) {
-                showToast('Earnings view failed.');
-                console.error('View earnings error:', e);
+                showToast('Earnings error.');
+                console.error('Earnings error:', e);
             }
         }
 
@@ -1464,43 +1639,3 @@
          * Withdraws earnings
          */
         function withdrawEarnings() {
-            try {
-                if (state.earnings.pending <= 0) {
-                    showToast('No pending earnings.');
-                    return;
-                }
-                state.earnings.total += state.earnings.pending;
-                state.earnings.pending = 0;
-                saveToStorage(CONFIG.STORAGE_KEY, state);
-                document.getElementById('earnings-data').textContent = `Total: $${state.earnings.total.toFixed(2)} | Pending: $${state.earnings.pending.toFixed(2)}`;
-                showToast('Earnings withdrawn.');
-                saveInteraction('withdrawEarnings');
-            } catch (e) {
-                showToast('Withdrawal failed.');
-                console.error('Withdraw earnings error:', e);
-            }
-        }
-
-        /**
-         * Deletes user data
-         */
-        function deleteData() {
-            try {
-                sessionStorage.clear();
-                if (state.db) {
-                    const request = state.db.transaction(['memory'], 'readwrite').objectStore('memory').clear();
-                    request.onsuccess = () => showToast('Data deleted.');
-                    request.onerror = () => showToast('Data deletion failed.');
-                } else {
-                    showToast('Data deleted.');
-                }
-                state = { ...state, userInteractions: [], memoryLog: [], reviews: [], cart: [], milestones: [], chatLog: [], points: 0, users: [] };
-                location.reload();
-            } catch (e) {
-                showToast('Data deletion failed.');
-                console.error('Delete data error:', e);
-            }
-        }
-    </script>
-</body>
-</html>
