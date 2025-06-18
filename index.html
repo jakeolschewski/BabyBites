@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="BabyBites: AI-powered parenting hub by Jacob Olschewski, offering affiliate baby products, advanced tools, and a revolutionary SmartBrain AI.">
+    <meta name="description" content="BabyBites: AI-powered parenting hub by Jacob Olschewski, offering affiliate baby products and tools—secure, legal, inventory-free.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self' https://cdn.pixabay.com; object-src 'none'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'nonce-babybites2025'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self'; object-src 'none'; worker-src 'self' blob:;">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="BabyBites - Premier Parenting Hub">
-    <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:description" value="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
+    <meta property Venue is https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://jakeolschewski.github.io/BabyBites/">
     <meta name="twitter:card" content="summary_large_image">
     <title>BabyBites: Premier Health for Babies</title>
-    <!-- External Libraries -->
-    <script defer src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script defer src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/three@0.137.0/examples/js/controls/OrbitControls.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
-    <script defer src="https://unpkg.com/compromise@latest/builds/compromise.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js" integrity="sha256-QU5H2lwfR+3wcH6+VvD5J/8q6oAZPKr1A7E69cSGlms=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/examples/js/controls/OrbitControls.js" integrity="sha256-0x1y2z3x4w5x6y7z8x9a0b1c2d3e4f5g6h7i8j9k0l1=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYr6RV1b9k/B6ZQbYx3m5F5U5jYbO3E5W5gY5U5gY5U5gY5U5gY5U5gY5U5gY5U5gY5==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
     <style nonce="babybites2025">
         body {
-            font-family: Arial, Helvetica Neue, sans-serif;
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
             text-align: center;
             background: linear-gradient(135deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5);
             background-size: cover;
@@ -43,7 +40,7 @@
             top: 0;
             left: 0;
             z-index: 1001;
-            transition: width .15s ease;
+            transition: width 0.15s ease;
         }
         canvas.live-particles {
             position: fixed;
@@ -52,7 +49,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: .5;
+            opacity: 0.5;
             pointer-events: none;
         }
         #ad-banner {
@@ -60,10 +57,10 @@
             bottom: 20px;
             left: 20px;
             padding: 10px 20px;
-            background: rgba(66, 165, 245, .9);
+            background: rgba(66, 165, 245, 0.9);
             color: #fff;
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             cursor: pointer;
         }
@@ -81,36 +78,19 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.2);
+            background: #fff;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             z-index: 1001;
             display: none;
-            backdrop-filter: blur(10px);
         }
-        #consent-popup.active {
-            display: block;
-        }
-        .dark-mode {
-            background: #121212;
-            color: #e0e0e0;
-        }
-        .dark-mode .section, .dark-mode .product-bundle, .dark-mode .tool-card {
-            background: rgba(30, 30, 30, .85);
-        }
-        .dark-mode input, .dark-mode select, .dark-mode button {
-            background: #333;
-            color: #e0e0e0;
-        }
-        .high-contrast {
-            filter: contrast(200%) brightness(150%);
-        }
-        .accessibility-mode {
-            background: #000;
-            color: #fff;
-            filter: contrast(200%);
-        }
+        #consent-popup.active { display: block; }
+        .dark-mode { background: #121212; color: #e0e0e0; }
+        .dark-mode .section { background: rgba(30, 30, 30, 0.85); }
+        .dark-mode input, .dark-mode select, .dark-mode button { background: #333; color: #e0e0e0; }
+        .high-contrast { filter: contrast(200%) brightness(150%); }
+        .accessibility-mode { background: #000; color: #fff; filter: contrast(200%); }
         header {
             background: linear-gradient(90deg, #0288d1, #42a5f5);
             color: #fff;
@@ -120,7 +100,7 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, .3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -129,7 +109,7 @@
             font-size: 2.8em;
             padding: 10px 20px;
             margin: 0;
-            background: rgba(255, 255, 255, .2);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 25px;
         }
         nav {
@@ -141,8 +121,8 @@
             margin: 0 20px;
             text-decoration: none;
             font-size: 1.2em;
-            font-weight: 700;
-            transition: color .3s;
+            font-weight: bold;
+            transition: color 0.3s;
         }
         nav a:hover, nav a:focus {
             color: #42a5f5;
@@ -155,40 +135,28 @@
             left: 0;
             background: #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             padding: 10px;
             z-index: 1000;
         }
-        nav a:hover > .mega-menu, nav a:focus > .mega-menu {
-            display: block;
-        }
+        nav a:hover > .mega-menu, nav a:focus > .mega-menu { display: block; }
         .section {
             padding: 2.5rem;
             max-width: 1200px;
             margin: 0 auto 30px;
-            background: rgba(255, 255, 255, .85);
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s ease;
-        }
-        .section:hover {
-            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
         .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box {
             display: inline-block;
             margin: 20px;
             padding: 25px;
-            background: rgba(255, 255, 255, .95);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, .1);
-            backdrop-filter: blur(10px);
-            transition: transform 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
-        .product-bundle:hover, .tool-card:hover, .signup-form:hover, .subscription-form:hover, .owner-room:hover, .assistant-box:hover, .search-box:hover {
-            transform: translateY(-5px);
-        }
-        #ar-product-preview, #ar-scanner, #nursery-planner {
+        #ar-product-preview, #ar-scanner {
             margin: 20px auto;
             width: 900px;
             height: 400px;
@@ -196,12 +164,8 @@
             border-radius: 15px;
             background: linear-gradient(135deg, #e3f2fd, #bbdefb);
         }
-        .owner-room {
-            display: none;
-        }
-        .owner-room.active {
-            display: inline-block;
-        }
+        .owner-room { display: none; }
+        .owner-room.active { display: inline-block; }
         input, select, button {
             padding: 12px 25px;
             margin: 8px;
@@ -210,7 +174,6 @@
             font-size: 1.2em;
             width: 350px;
             background: #fff;
-            transition: border-color 0.3s ease;
         }
         input:focus, select:focus, button:focus {
             border-color: #0288d1;
@@ -241,19 +204,19 @@
             border-radius: 15px;
         }
         .footer {
-            font-size: .9em;
+            font-size: 0.9em;
             color: #666;
             margin-top: 20px;
             padding: 10px;
-            background: rgba(255, 255, 255, .8);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
         }
         .disclaimer {
-            font-size: .9em;
+            font-size: 0.9em;
             color: #01579b;
             margin: 20px;
             padding: 15px;
-            background: rgba(227, 242, 253, .9);
+            background: rgba(227, 242, 253, 0.9);
             border-radius: 15px;
         }
         #toast {
@@ -267,102 +230,20 @@
             display: none;
             z-index: 1002;
         }
-        #back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #42a5f5;
-            color: #fff;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-        }
-        #featured-carousel {
-            max-width: 800px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        .carousel-item {
-            display: none;
-            padding: 10px;
-            background: #fff;
-            border-radius: 10px;
-        }
-        .carousel-item.active {
-            display: block;
-        }
-        #search-suggestions {
-            position: absolute;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
-            max-width: 350px;
-            padding: 10px;
-            display: none;
-        }
-        #search-suggestions p {
-            margin: 5px;
-            cursor: pointer;
-        }
-        #search-suggestions p:hover {
-            background: #e3f2fd;
-        }
-        .leaderboard {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #42a5f5;
-            color: #fff;
-            border-radius: 10px;
-            margin: 5px;
-        }
         @media (max-width: 600px) {
-            body {
-                padding: 70px 10px 10px;
-                font-size: 14px;
-            }
-            header h1 {
-                font-size: 1.8em;
-            }
-            nav a {
-                font-size: .9em;
-                margin: 0 8px;
-            }
-            .section {
-                padding: 1rem;
-            }
-            .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box {
-                width: 100%;
-                padding: 15px;
-            }
-            input, select, button {
-                font-size: 16px;
-                width: 100%;
-            }
-            #ar-product-preview, #ar-scanner, #nursery-planner {
-                width: 100%;
-                height: 200px;
-            }
-            #ad-banner {
-                bottom: 10px;
-                left: 10px;
-                font-size: .9em;
-            }
-            #consent-popup {
-                width: 90%;
-            }
+            body { padding: 70px 10px 10px; font-size: 14px; }
+            header h1 { font-size: 1.8em; }
+            nav a { font-size: 0.9em; margin: 0 8px; }
+            .section { padding: 1rem; }
+            .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box { width: 100%; padding: 15px; }
+            input, select, button { font-size: 16px; width: 100%; }
+            #ar-product-preview, #ar-scanner { width: 100%; height: 200px; }
+            #ad-banner { bottom: 10px; left: 10px; font-size: 0.9em; }
+            #consent-popup { width: 90%; }
         }
     </style>
 </head>
 <body>
-    <a href="#main-content" class="sr-only focus:not-sr-only bg-blue-500 text-white p-2">Skip to Content</a>
     <div id="progress-bar"></div>
     <canvas class="live-particles" id="particle-canvas"></canvas>
     <header>
@@ -383,8 +264,7 @@
             <a href="#signup" tabindex="0">Sign Up</a>
             <a href="#owner-room" tabindex="0">Owner's Room</a>
         </nav>
-        <input type="text" id="persistent-search" placeholder="Search BabyBites..." class="absolute right-4 top-2 w-48" oninput="smartSearch()" aria-label="Search BabyBites">
-        <div id="search-suggestions"></div>
+        <input type="text" id="persistent-search" placeholder="Search BabyBites..." style="position: absolute; right: 20px; top: 10px; width: 200px;" onkeyup="smartSearch()" aria-label="Search BabyBites">
     </header>
     <div id="ad-banner">
         <span id="ad-content">Discover BabyBites! Explore our <strong>Parenting Tools</strong>—no inventory, 100% legal!</span>
@@ -392,251 +272,210 @@
     </div>
     <div id="consent-popup" role="dialog" aria-labelledby="consent-title">
         <h2 id="consent-title">Privacy Consent</h2>
-        <p>Data is collected with your consent for personalization (GDPR/CCPA compliant). Agree to continue?</p>
+        <p>This is a personal project by Jacob Olschewski. Data is collected with your consent for personalization (GDPR/CCPA compliant). Agree to continue?</p>
         <button onclick="acceptConsent()" aria-label="Accept consent">Yes</button>
         <button onclick="declineConsent()" aria-label="Decline consent">No</button>
     </div>
     <div id="toast" role="alert" aria-live="assertive"></div>
-    <button id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to Top">↑</button>
-    <main id="main-content">
-        <div class="section" id="home">
-            <h1>Trusted, Loving Care for Your Baby!</h1>
-            <p>Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love!</p>
-            <div class="search-box">
-                <h3>Smart Search</h3>
-                <input id="search-input" placeholder="Discover tools, products, or advice..." oninput="smartSearch()" aria-label="Search tools, products, or advice">
-                <button onclick="smartSearch()" aria-label="Submit search">Search</button>
-                <p id="search-results" aria-live="polite"></p>
-            </div>
-            <div id="ar-scanner"></div>
-            <video autoplay loop muted id="ai-video" loading="lazy" poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
-                <source src="https://cdn.pixabay.com/video/2024/10/17/233159_tiny.mp4" type="video/mp4">
-                Video not supported.
-            </video>
-            <div id="oracle">
-                <h3>Parenting Oracle</h3>
-                <p id="oracle-prediction" aria-live="polite">Enter your baby's age to predict milestones!</p>
-                <input id="oracle-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
-                <button onclick="predictMilestone()" aria-label="Predict milestone">Predict</button>
-            </div>
-            <div id="suggestions">
-                <h3>Personalized Suggestions</h3>
-                <p id="suggestion-content" aria-live="polite">Try our Milestone Tracker to celebrate your baby's growth! ❤️</p>
-            </div>
-            <div class="tool-card" id="nursery-planner">
-                <h3>3D Nursery Planner</h3>
-                <p>Design your dream nursery in 3D!</p>
-                <div id="nursery-canvas"></div>
-            </div>
+    <div class="section" id="home">
+        <h1>Trusted, Loving Care for Your Baby!</h1>
+        <p>Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love and no inventory!</p>
+        <div class="search-box">
+            <h3>Smart Search</h3>
+            <input id="search-input" placeholder="Discover tools, products, or advice..." onkeyup="smartSearch()" aria-label="Search tools, products, or advice">
+            <button onclick="smartSearch()" aria-label="Submit search">Search</button>
+            <p id="search-results" aria-live="polite"></p>
         </div>
-        <div class="section" id="signup">
-            <h2>Join BabyBites</h2>
-            <div class="signup-form">
-                <input type="email" id="signup-email" placeholder="Email" required aria-label="Enter email">
-                <input type="password" id="signup-password" placeholder="Password" required aria-label="Enter password">
-                <input type="text" id="signup-shipping" placeholder="Shipping Address" required aria-label="Enter shipping address">
-                <input type="text" id="signup-payment" placeholder="Payment Method (e.g., Visa ****1234)" required aria-label="Enter payment method">
-                <input type="hidden" id="csrf-token" value="">
-                <button onclick="signupUser()" aria-label="Sign up">Sign Up</button>
-                <p id="signup-result" aria-live="polite"></p>
-            </div>
+        <div id="ar-scanner"></div>
+        <video autoplay loop muted id="ai-video" loading="lazy" poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+            <source src="https://cdn.example.com/babybites-welcome.mp4" type="video/mp4">
+            Video not supported.
+        </video>
+        <div id="oracle">
+            <h3>Parenting Oracle</h3>
+            <p id="oracle-prediction" aria-live="polite">Enter your baby's age to predict milestones!</p>
+            <input id="oracle-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
+            <button onclick="predictMilestone()" aria-label="Predict milestone">Predict</button>
         </div>
-        <div class="section" id="products">
-            <h2>Explore Affiliate Baby Products</h2>
-            <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#products" tabindex="0">Products</a></nav>
-            <div id="featured-carousel">
-                <div class="carousel-item" data-bundle="Family Food Pack">
-                    <p>Family Food Pack - <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank" rel="noopener">$49.99</a></p>
-                    <p>Organic Baby Food Pack, Snack Box</p>
+        <div id="suggestions">
+            <h3>Personalized Suggestions</h3>
+            <p id="suggestion-content" aria-live="polite">Try our Milestone Tracker to celebrate your baby's growth! ❤️</p>
+        </div>
+    </div>
+    <div class="section" id="signup">
+        <h2>Join BabyBites</h2>
+        <div class="signup-form">
+            <input type="email" id="signup-email" placeholder="Email" required aria-label="Enter email">
+            <input type="password" id="signup-password" placeholder="Password" required aria-label="Enter password">
+            <input type="text" id="signup-shipping" placeholder="Shipping Address" required aria-label="Enter shipping address">
+            <input type="text" id="signup-payment" placeholder="Payment Method (e.g., Visa ****1234)" required aria-label="Enter payment method">
+            <button onclick="signupUser()" aria-label="Sign up">Sign Up</button>
+            <p id="signup-result" aria-live="polite"></p>
+        </div>
+    </div>
+    <div class="section" id="products">
+        <h2>Explore Affiliate Baby Products</h2>
+        <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#products" tabindex="0">Products</a></nav>
+        <div class="product-bundle" data-bundle="Family Food Pack" id="family-food-pack">
+            <p>Family Food Pack - Affiliate Link: <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank" rel="noopener">$49.99</a></p>
+            <p>Includes: Organic Baby Food Pack, Organic Snack Box</p>
+            <p>Ships directly from Amazon—no inventory held!</p>
+            <button onclick="addToCart('Family Food Pack', 49.99)" aria-label="Add Family Food Pack to cart">Add to Cart</button>
+        </div>
+        <div class="product-bundle" data-bundle="Health Starter Bundle" id="health-starter-bundle">
+            <p>Health Starter Bundle - Affiliate Link: <a href="https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid" target="_blank" rel="noopener">$63.99</a></p>
+            <p>Includes: Nutritional Starter Kit, Baby Vitamin Set</p>
+            <p>Ships directly from Target—no inventory held!</p>
+            <button onclick="addToCart('Health Starter Bundle', 63.99)" aria-label="Add Health Starter Bundle to cart">Add to Cart</button>
+        </div>
+        <div class="product-bundle" data-bundle="Premium Wellness Pack" id="premium-wellness-pack">
+            <p>Premium Wellness Pack - Affiliate Link: <a href="https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid" target="_blank" rel="noopener">$79.99</a></p>
+            <p>Includes: Premium Baby Formula, Baby Health Bundle</p>
+            <p>Ships directly from Walmart—no inventory held!</p>
+            <button onclick="addToCart('Premium Wellness Pack', 79.99)" aria-label="Add Premium Wellness Pack to cart">Add to Cart</button>
+        </div>
+        <div id="ar-product-preview"></div>
+        <div id="cart">
+            <h3>Your Cart</h3>
+            <p id="cart-items" aria-live="polite">Cart is empty.</p>
+            <input type="text" id="shipping-address" placeholder="Enter shipping address" aria-label="Enter shipping address">
+            <select id="shipping-method" aria-label="Select shipping method">
+                <option value="standard">Standard (3-5 days)</option>
+                <option value="express">Express (1-2 days)</option>
+            </select>
+            <button onclick="checkout()" aria-label="Checkout">Checkout</button>
+            <p id="checkout-result" aria-live="polite"></p>
+        </div>
+        <div id="discount-calculator">
+            <h3>Save with Love!</h3>
+            <input type="number" id="discount-amount" placeholder="Enter Amount" min="0" aria-label="Enter amount for discount">
+            <button onclick="calculateDiscount()" aria-label="Calculate discount">Calculate 20-30% Off</button>
+            <p id="discount-result" aria-live="polite"></p>
+        </div>
+        <div id="referral-program">
+            <h3>Share the Joy!</h3>
+            <input type="text" id="referral-code" placeholder="Your Referral Code" readonly value="BABY2025" aria-label="Referral code">
+            <p>Refer a friend and earn 10% off! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank" rel="noopener">Link</a></p>
+        </div>
+        <div id="reviews">
+            <h3>Customer Reviews</h3>
+            <p id="review-log" aria-live="polite">No reviews yet! Add yours below. <em>Legal & Original!</em></p>
+            <input id="review-input" placeholder="Leave a review..." aria-label="Enter review">
+            <button onclick="addReview()" aria-label="Submit review">Submit Review</button>
+        </div>
+    </div>
+    <div class="section" id="tools">
+        <h2>Nurture with Health Tools</h2>
+        <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#tools" tabindex="0">Health Tools</a></nav>
+        <div class="tool-card" id="milestone-tracker">
+            <h3>Milestone Tracker</h3>
+            <input id="milestone-input" placeholder="Enter milestone (e.g., First step)" aria-label="Enter milestone">
+            <button onclick="logMilestone()" aria-label="Log milestone">Log Milestone</button>
+            <p id="milestone-log" aria-live="polite">No milestones logged</p>
+        </div>
+        <div class="tool-card" id="wellness-chatbot">
+            <h3>Wellness Chatbot</h3>
+            <input id="chatbot-input" placeholder="Ask anything about parenting..." oninput="voiceInput(event)" aria-label="Ask parenting question">
+            <button onclick="chatbotRespond()" aria-label="Submit chatbot query">Ask</button>
+            <p id="chatbot-response" aria-live="polite">Ask away!</p>
+        </div>
+        <div class="tool-card" id="health-tips">
+            <h3>Real-Time Health Tips</h3>
+            <p id="health-tip" aria-live="polite">Tip: Hydrate your baby with breast milk!</p>
+        </div>
+        <div class="tool-card" id="allergy-checker">
+            <h3>Allergy Checker</h3>
+            <input id="allergy-input" placeholder="Enter food or substance" aria-label="Enter food or substance">
+            <button onclick="checkAllergy()" aria-label="Check allergy">Check</button>
+            <p id="allergy-result" aria-live="polite">Enter a substance to check for allergies.</p>
+        </div>
+        <div class="tool-card" id="growth-predictor">
+            <h3>Growth Predictor</h3>
+            <input id="growth-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
+            <button onclick="predictGrowth()" aria-label="Predict growth">Predict</button>
+            <p id="growth-result" aria-live="polite">Enter age to predict growth stages.</p>
+        </div>
+        <div class="tool-card" id="sleep-tracker">
+            <h3>Sleep Tracker</h3>
+            <input id="sleep-input" type="time" aria-label="Enter sleep time">
+            <button onclick="logSleep()" aria-label="Log sleep">Log Sleep</button>
+            <p id="sleep-log" aria-live="polite">No sleep logged yet.</p>
+        </div>
+        <div class="tool-card" id="feeding-planner">
+            <h3>Feeding Schedule Planner</h3>
+            <p>Plan your baby’s feeding times! Download: <a href="https://cdn.example.com/feeding-plan.pdf" download aria-label="Download feeding plan">PDF</a></p>
+        </div>
+        <div class="tool-card" id="live-chat">
+            <h3>Live Community Chat</h3>
+            <input id="chat-input" placeholder="Type a message..." aria-label="Enter chat message">
+            <button onclick="sendChat()" aria-label="Send chat message">Send</button>
+            <p id="chat-log" aria-live="polite">Welcome to BabyBites Chat! 🎉</p>
+        </div>
+    </div>
+    <div class="section" id="community">
+        <h2>Connect with Our Community</h2>
+        <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#community" tabindex="0">Community</a></nav>
+        <p><a href="#forum" id="forum" tabindex="0">Forum</a> | <a href="#gallery" tabindex="0">Portfolio</a> | <a href="#events" tabindex="0">Events</a> | <a href="#academy" id="nutrition-academy" tabindex="0">Shop</a> | <a href="#blog" tabindex="0">Blog</a></p>
+        <div class="subscription-form">
+            <input type="email" id="email" placeholder="Enter your email for updates" required aria-label="Email for updates">
+            <button onclick="subscribe()" aria-label="Subscribe for updates">Subscribe for Updates</button>
+        </div>
+    </div>
+    <div class="section" id="owner-room">
+        <div class="owner-room">
+            <h2 id="owner-room-title">Owner’s Room</h2>
+            <p>Welcome, Jacob Olschewski!</p>
+            <input type="password" id="owner-password" placeholder="Password" aria-label="Enter password">
+            <input type="text" id="owner-2fa" placeholder="2FA Code" aria-label="Enter 2FA code">
+            <button onclick="accessOwnerRoom()" aria-label="Access Owner's Room">Access Room</button>
+            <div id="owner-content" style="display:none;">
+                <input type="text" id="owner-input" placeholder="Command for Smart AI (e.g., 'Add product Baby Sleep Kit for $69.99')" aria-label="Enter AI command">
+                <button onclick="processSmartAI()" aria-label="Submit AI command">Submit to Smart AI</button>
+                <button onclick="undoLastChange()" aria-label="Undo last change">Undo Last Change</button>
+                <p id="owner-result" aria-live="polite"></p>
+                <button onclick="toggleAnalytics()" aria-label="View analytics">View Analytics</button>
+                <button onclick="viewEarnings()" aria-label="View earnings">View Earnings</button>
+                <div id="analytics" style="display:none;">
+                    <h3>Analytics Dashboard</h3>
+                    <canvas id="analytics-chart" style="max-width: 500px; margin: 0 auto;"></canvas>
+                    <p id="analytics-data" aria-live="polite">Users: 0 | Avg Time: 0s | Actions: 0</p>
                 </div>
-                <div class="carousel-item" data-bundle="Health Starter Bundle">
-                    <p>Health Starter Bundle - <a href="https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid" target="_blank" rel="noopener">$63.99</a></p>
-                    <p>Nutritional Starter Kit, Vitamins</p>
-                </div>
-                <div class="carousel-item" data-bundle="Premium Wellness Pack">
-                    <p>Premium Wellness Pack - <a href="https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid" target="_blank" rel="noopener">$79.99</a></p>
-                    <p>Premium Formula, Health Bundle</p>
-                </div>
-            </div>
-            <div class="product-bundle" data-bundle="Family Food Pack" id="family-food-pack">
-                <p>Family Food Pack - Affiliate Link: <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank" rel="noopener">$49.99</a></p>
-                <p>Includes: Organic Baby Food Pack, Organic Snack Box</p>
-                <p>Ships directly from Amazon—no inventory held!</p>
-                <button onclick="addToCart('Family Food Pack', 49.99)" aria-label="Add Family Food Pack to cart">Add to Cart</button>
-            </div>
-            <div class="product-bundle" data-bundle="Health Starter Bundle" id="health-starter-bundle">
-                <p>Health Starter Bundle - Affiliate Link: <a href="https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid" target="_blank" rel="noopener">$63.99</a></p>
-                <p>Includes: Nutritional Starter Kit, Baby Vitamin Set</p>
-                <p>Ships directly from Target—no inventory held!</p>
-                <button onclick="addToCart('Health Starter Bundle', 63.99)" aria-label="Add Health Starter Bundle to cart">Add to Cart</button>
-            </div>
-            <div class="product-bundle" data-bundle="Premium Wellness Pack" id="premium-wellness-pack">
-                <p>Premium Wellness Pack - Affiliate Link: <a href="https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid" target="_blank" rel="noopener">$79.99</a></p>
-                <p>Includes: Premium Baby Formula, Baby Health Bundle</p>
-                <p>Ships directly from Walmart—no inventory held!</p>
-                <button onclick="addToCart('Premium Wellness Pack', 79.99)" aria-label="Add Premium Wellness Pack to cart">Add to Cart</button>
-            </div>
-            <div id="ar-product-preview"></div>
-            <div id="cart">
-                <h3>Your Cart</h3>
-                <p id="cart-items" aria-live="polite">Cart is empty.</p>
-                <input type="text" id="shipping-address" placeholder="Enter shipping address" aria-label="Enter shipping address">
-                <select id="shipping-method" aria-label="Select shipping method">
-                    <option value="standard">Standard (3-5 days)</option>
-                    <option value="express">Express (1-2 days)</option>
-                </select>
-                <button onclick="checkout()" aria-label="Checkout">Checkout</button>
-                <p id="checkout-result" aria-live="polite"></p>
-            </div>
-            <div id="discount-calculator">
-                <h3>Save with Love!</h3>
-                <input type="number" id="discount-amount" placeholder="Enter Amount" min="0" aria-label="Enter amount for discount">
-                <button onclick="calculateDiscount()" aria-label="Calculate discount">Calculate 20-30% Off</button>
-                <p id="discount-result" aria-live="polite"></p>
-            </div>
-            <div id="referral-program">
-                <h3>Share the Joy!</h3>
-                <input type="text" id="referral-code" placeholder="Your Referral Code" readonly value="BABY2025" aria-label="Referral code">
-                <p>Refer a friend and earn 10% off! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank" rel="noopener">Link</a></p>
-            </div>
-            <div id="reviews">
-                <h3>Customer Reviews</h3>
-                <p id="review-log" aria-live="polite">No reviews yet! Add yours below. <em>Legal & Original!</em></p>
-                <input id="review-input" placeholder="Leave a review..." aria-label="Enter review">
-                <button onclick="addReview()" aria-label="Submit review">Submit Review</button>
-            </div>
-        </div>
-        <div class="section" id="tools">
-            <h2>Nurture with Health Tools</h2>
-            <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#tools" tabindex="0">Health Tools</a></nav>
-            <div class="tool-card" id="milestone-tracker">
-                <h3>Milestone Tracker</h3>
-                <input id="milestone-input" placeholder="Enter milestone (e.g., First step)" aria-label="Enter milestone">
-                <button onclick="logMilestone()" aria-label="Log milestone">Log Milestone</button>
-                <p id="milestone-log" aria-live="polite">No milestones logged</p>
-            </div>
-            <div class="tool-card" id="wellness-chatbot">
-                <h3>Wellness Chatbot</h3>
-                <input id="chatbot-input" placeholder="Ask anything about parenting..." oninput="voiceInput(event)" aria-label="Ask parenting question">
-                <button onclick="chatbotRespond()" aria-label="Submit chatbot query">Ask</button>
-                <p id="chatbot-response" aria-live="polite">Ask away!</p>
-            </div>
-            <div class="tool-card" id="health-tips">
-                <h3>Real-Time Health Tips</h3>
-                <p id="health-tip" aria-live="polite">Tip: Hydrate your baby with breast milk!</p>
-            </div>
-            <div class="tool-card" id="allergy-checker">
-                <h3>Allergy Checker</h3>
-                <input id="allergy-input" placeholder="Enter food or substance" aria-label="Enter food or substance">
-                <button onclick="checkAllergy()" aria-label="Check allergy">Check</button>
-                <p id="allergy-result" aria-live="polite">Enter a substance to check for allergies.</p>
-            </div>
-            <div class="tool-card" id="growth-predictor">
-                <h3>Growth Predictor</h3>
-                <input id="growth-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
-                <button onclick="predictGrowth()" aria-label="Predict growth">Predict</button>
-                <p id="growth-result" aria-live="polite">Enter age to predict growth stages.</p>
-            </div>
-            <div class="tool-card" id="sleep-tracker">
-                <h3>Sleep Tracker</h3>
-                <input id="sleep-input" type="time" aria-label="Enter sleep time">
-                <button onclick="logSleep()" aria-label="Log sleep">Log Sleep</button>
-                <p id="sleep-log" aria-live="polite">No sleep logged yet.</p>
-            </div>
-            <div class="tool-card" id="feeding-planner">
-                <h3>Feeding Schedule Planner</h3>
-                <p>Plan your baby’s feeding times! Download: <a href="https://cdn.example.com/feeding-plan.pdf" download aria-label="Download feeding plan">PDF</a></p>
-            </div>
-            <div class="tool-card" id="live-chat">
-                <h3>Live Community Chat</h3>
-                <input id="chat-input" placeholder="Type a message..." aria-label="Enter chat message">
-                <button onclick="sendChat()" aria-label="Send chat message">Send</button>
-                <p id="chat-log" aria-live="polite">Welcome to BabyBites Chat! 🎉</p>
-            </div>
-            <div class="tool-card" id="diaper-tracker">
-                <h3>Diaper Change Tracker</h3>
-                <input id="diaper-input" type="datetime-local" aria-label="Enter diaper change time">
-                <button onclick="logDiaper()" aria-label="Log diaper change">Log Change</button>
-                <p id="diaper-log" aria-live="polite">No diaper changes logged yet.</p>
-            </div>
-        </div>
-        <div class="section" id="community">
-            <h2>Connect with Our Community</h2>
-            <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#community" tabindex="0">Community</a></nav>
-            <p><a href="#forum" id="forum" tabindex="0">Forum</a> | <a href="#gallery" tabindex="0">Portfolio</a> | <a href="#events" tabindex="0">Events</a> | <a href="#academy" id="nutrition-academy" tabindex="0">Shop</a> | <a href="#blog" tabindex="0">Blog</a></p>
-            <div class="subscription-form">
-                <input type="email" id="email" placeholder="Enter your email for updates" required aria-label="Email for updates">
-                <button onclick="subscribe()" aria-label="Subscribe for updates">Subscribe for Updates</button>
-            </div>
-            <div class="leaderboard">
-                <h3>Community Leaderboard</h3>
-                <p id="leaderboard-content" aria-live="polite">Top Users: None yet! Engage to rank up!</p>
-            </div>
-        </div>
-        <div class="section" id="owner-room">
-            <div class="owner-room">
-                <h2 id="owner-room-title">Owner’s Room</h2>
-                <p>Welcome, Jacob Olschewski!</p>
-                <input type="password" id="owner-password" placeholder="Password" aria-label="Enter password">
-                <input type="text" id="owner-2fa" placeholder="2FA Code" aria-label="Enter 2FA code">
-                <button onclick="accessOwnerRoom()" aria-label="Access Owner's Room">Access Room</button>
-                <div id="owner-content" style="display:none;">
-                    <h3>SmartBrain 2.0 AI</h3>
-                    <p>Ask SmartBrain to modify the site (e.g., "Add product Baby Sleep Kit for $29.99", "Change header color to green", "Rewrite footer HTML")</p>
-                    <input type="text" id="smartbrain-input" placeholder="Talk to SmartBrain..." oninput="voiceInput(event)" aria-label="Enter SmartBrain command">
-                    <button onclick="processSmartBrain()" aria-label="Submit to SmartBrain">Submit</button>
-                    <button onclick="toggleVoiceOutput()" aria-label="Toggle voice output">Toggle Voice Output</button>
-                    <p id="smartbrain-response" aria-live="polite">Ready to assist!</p>
-                    <button onclick="undoLastChange()" aria-label="Undo last change">Undo Last Change</button>
-                    <button onclick="commitToGitHub()" aria-label="Commit changes to GitHub">Commit to GitHub</button>
-                    <div id="change-log">
-                        <h3>Change Log</h3>
-                        <p id="change-log-content" aria-live="polite">No changes yet.</p>
-                    </div>
-                    <div id="analytics">
-                        <h3>Analytics Dashboard</h3>
-                        <canvas id="analytics-chart" style="max-width:500px;margin:0 auto;"></canvas>
-                        <p id="analytics-data" aria-live="polite">Users: 0 | Avg Time: 0s | Actions: 0</p>
-                    </div>
-                    <div id="earnings">
-                        <h3>Earnings Dashboard</h3>
-                        <p id="earnings-data" aria-live="polite">Total Earnings: $0 | Pending: $0</p>
-                        <button onclick="withdrawEarnings()" aria-label="Withdraw earnings">Withdraw to Bank</button>
-                    </div>
+                <div id="earnings" style="display:none;">
+                    <h3>Earnings Dashboard</h3>
+                    <p id="earnings-data" aria-live="polite">Total Earnings: $0 | Pending: $0</p>
+                    <button onclick="withdrawEarnings()" aria-label="Withdraw earnings">Withdraw to Bank</button>
                 </div>
             </div>
         </div>
-        <div class="section">
-            <div class="assistant-box">
-                <p>AI Help Center (Managed by Brian 2.0): Type 'help', 'health', 'shop', or ask anything!</p>
-                <input type="text" id="ai-input" placeholder="Command for Brian 2.0..." oninput="voiceInput(event)" aria-label="Enter AI query">
-                <button onclick="processAICommand()" aria-label="Submit AI query">Submit to Brian 2.0</button>
-            </div>
-            <button onclick="toggleAccessibilityMode()" aria-label="Toggle Accessibility Mode">Toggle Accessibility Mode</button>
-            <button onclick="toggleHighContrast()" aria-label="Toggle High Contrast">High Contrast</button>
-            <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Dark Mode</button>
-            <div class="theme-toggle">
-                <select id="theme-select" onchange="changeTheme()" aria-label="Select theme">
-                    <option value="default">Default Theme</option>
-                    <option value="basic">Basic Theme</option>
-                </select>
-            </div>
-            <div class="language-toggle">
-                <select id="lang-select" onchange="updateLanguage()" aria-label="Select language">
-                    <option value="en">English</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                    <option value="de">German</option>
-                </select>
-            </div>
-            <div id="points" class="fixed top-24 left-4 text-pink-600" aria-live="polite">Points: 20 🧸</div>
+    </div>
+    <div class="section">
+        <div class="assistant-box">
+            <p>AI Help Center (Managed by Brian 1.0): Type 'help', 'health', 'shop', or ask anything!</p>
+            <input type="text" id="ai-input" placeholder="Command for Brian 1.0..." oninput="voiceInput(event)" aria-label="Enter AI query">
+            <button onclick="processAICommand()" aria-label="Submit AI query">Submit to Brian 1.0</button>
         </div>
-        <div class="section" id="compliance">
-            <h2>Tax Compliance</h2>
-            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate links and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deleted via Data Controls. <a href="#privacy" tabindex="0">Privacy Policy</a></p>
-            <button onclick="deleteData()" aria-label="Delete user data">Delete My Data</button>
+        <button onclick="toggleAccessibilityMode()" aria-label="Toggle Accessibility Mode">Toggle Accessibility Mode</button>
+        <button onclick="toggleHighContrast()" aria-label="Toggle High Contrast">High Contrast</button>
+        <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Dark Mode</button>
+        <div class="theme-toggle">
+            <select id="theme-select" onchange="changeTheme()" aria-label="Select theme">
+                <option value="default">Default Theme</option>
+                <option value="basic">Basic Theme</option>
+            </select>
         </div>
-    </main>
+        <div class="language-toggle">
+            <select id="lang-select" onchange="updateLanguage()" aria-label="Select language">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+            </select>
+        </div>
+        <div id="points" style="position: fixed; top: 100px; left: 20px; color: #ec168b;" aria-live="polite">Points: 20 🧸</div>
+
+    <div class="section" id="compliance">
+        <h2>Tax Compliance</h2>
+        <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate links and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deleted via Data Controls. <a href="#privacy" tabindex="0">Privacy Policy</a></p>
+        <button onclick="deleteData()" aria-label="Delete user data">Delete My Data</button>
+    </div>
     <div class="footer">
         <p>© BabyBites by Jacob Olschewski - Built for families! Visit <a href="https://jakeolschewski.github.io/BabyBites/" target="_blank" rel="noopener" tabindex="0">BabyBites</a>!</p>
     </div>
@@ -649,14 +488,10 @@
                 'Premium Wellness Pack': 'https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid'
             },
             STORAGE_KEY: 'babybites_data',
-            LEARNING_KEY: 'babybites_learning',
             MAX_POINTS_PER_DAY: 100,
-            PROTECTED_IDS: ['home', 'owner-room', 'compliance', 'header', 'footer', 'main-content'],
-            OWNER_PASSWORD: 'secure2025',
-            OWNER_2FA: '123456',
-            CSRF_TOKEN: 'csrf-' + Math.random().toString(36).slice(2),
-            EVOLUTION_INTERVAL: 30 * 60 * 1000,
-            NETLIFY_FUNCTION_URL: 'https://your-netlify-function-url.netlify.app/.netlify/functions/github-commit' // Replace with your deployed function URL
+            PROTECTED_IDS: ['home', 'owner-room', 'compliance', 'header', 'footer'], // Prevent deletion
+            OWNER_PASSWORD: 'secure2025', // Mock: Replace with server-side auth
+            OWNER_2FA: '123456' // Mock: Simulate 2FA
         };
 
         // State
@@ -666,23 +501,14 @@
             reviews: [],
             cart: [],
             milestones: [],
-            chatLog: [],
-            diaperLog: [],
-            points: 20,
+            points: 0,
             sessionToken: null,
             currentTheme: 'default',
             adIndex: 0,
             db: null,
             users: [],
             earnings: { total: 0, pending: 0 },
-            siteSnapshots: [],
-            customElements: {},
-            customStyles: {},
-            knowledgeBase: [],
-            voiceOutputEnabled: true,
-            changeLog: [],
-            pendingChanges: [],
-            isVoiceActive: false // Flag to prevent voice recognition overlap
+            siteSnapshots: [] // Store DOM states for rollback
         };
 
         // Translations
@@ -704,80 +530,43 @@
                 communityTitle: 'Conecta con nuestra comunidad',
                 ownerRoomTitle: 'Sala de gestión del propietario',
                 complianceTitle: 'Cumplimiento fiscal'
-            },
-            fr: {
-                welcome: 'Bienvenue à BabyBites, un centre de parenting alimenté par IA !',
-                searchPlaceholder: 'Rechercher des outils, produits...',
-                productsTitle: 'Explorez les produits affiliés pour bébés',
-                toolsTitle: 'Nourrissez avec des outils',
-                communityTitle: 'Connectez-vous avec notre communauté',
-                ownerRoomTitle: 'Salle de gestion du propriétaire',
-                complianceTitle: 'Conformité fiscale'
-            },
-            de: {
-                welcome: 'Willkommen bei BabyBites, einem KI-gestützten Elternzentrum!',
-                searchPlaceholder: 'Suche nach Tools, Produkten...',
-                productsTitle: 'Entdecke Affiliate-Produkte für Babys',
-                toolsTitle: 'Pflege mit Tools',
-                communityTitle: 'Verbinde dich mit unserer Gemeinschaft',
-                ownerRoomTitle: 'Verwaltungsraum des Eigentümers',
-                complianceTitle: 'Steuerkonformität'
             }
-        };
-
-        // Chatbot Responses
-        const chatbotResponses = {
-            help: 'Brian 2.0: Ask about parenting, products, or tools!',
-            health: 'Brian 2.0: Try the Milestone Tracker or Allergy Checker!',
-            shop: 'Brian 2.0: Check out our Family Food Pack or Premium Wellness Pack!',
-            feed: 'Brian 2.0: Start solids at 6 months with pureed fruits!',
-            sleep: 'Brian 2.0: Use a firm mattress and keep the crib clear!',
-            default: 'Brian 2.0: Not sure? Try our tools or browse products!'
         };
 
         // Utilities
+        /**
+         * Shows toast notification
+         * @param {string} message - Message to display
+         * @param {number} duration - Duration in ms
+         */
         function showToast(message, duration = 3000) {
-            try {
-                const toast = document.getElementById('toast');
-                if (!toast) throw new Error('Toast element missing');
-                toast.textContent = DOMPurify.sanitize(message);
-                toast.style.display = 'block';
-                setTimeout(() => {
-                    if (toast) toast.style.display = 'none';
-                }, duration);
-            } catch (e) {
-                console.error('Toast error:', e);
-                logError('showToast', e.message);
-            }
+            const toast = document.getElementById('toast');
+            toast.textContent = DOMPurify.sanitize(message);
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', duration);
         }
 
-        function logError(functionName, errorMessage) {
-            try {
-                if (state.db) {
-                    const tx = state.db.transaction(['errors'], 'readwrite');
-                    const store = tx.objectStore('errors');
-                    store.put({ id: Date.now(), functionName, errorMessage });
-                }
-            } catch (e) {
-                console.error('Error logging failed:', e);
-            }
-        }
-
+        /**
+         * Saves state to sessionStorage with throttling
+         */
         let lastStorageWrite = 0;
         function saveToStorage() {
             try {
                 const now = Date.now();
                 if (now - lastStorageWrite < 1000) return;
                 sessionStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(state));
-                localStorage.setItem(CONFIG.LEARNING_KEY, JSON.stringify({ knowledgeBase: state.knowledgeBase }));
                 lastStorageWrite = now;
             } catch (e) {
-                showToast('Storage error. Changes may not persist.');
+                showToast('Storage error.');
                 console.error('Storage error:', e);
-                logError('saveToStorage', e.message);
             }
         }
 
+        /**
+         * Saves interaction
+         * @param {string} action - Action type
+         * @param {Object} data - Additional data
+         */
         function saveInteraction(action, data = {}) {
             try {
                 state.userInteractions.push({
@@ -785,7 +574,7 @@
                     time: Date.now(),
                     ...data,
                     deviceType: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
-                    language: document.getElementById('lang-select')?.value || 'en'
+                    language: document.getElementById('lang-select').value
                 });
                 state.memoryLog.push({ action, time: Date.now(), data });
                 saveToStorage();
@@ -795,129 +584,30 @@
                     store.put({ id: Date.now(), data: state.memoryLog });
                 }
             } catch (e) {
-                showToast('Interaction logging error.');
+                showToast('Error logging interaction.');
                 console.error('Interaction error:', e);
-                logError('saveInteraction', e.message);
             }
         }
 
+        /**
+         * Opens IndexedDB
+         */
         function openDatabase() {
             try {
                 if (!window.indexedDB) {
-                    showToast('IndexedDB not supported. Some features may be limited.');
+                    showToast('IndexedDB not supported.');
                     return;
                 }
-                const request = indexedDB.open('BabyBitesMemory', 2);
+                const request = indexedDB.open('BabyBitesMemory', 1);
                 request.onupgradeneeded = (e) => {
                     state.db = e.target.result;
-                    if (!state.db.objectStoreNames.contains('memory')) {
-                        state.db.createObjectStore('memory', { keyPath: 'id' });
-                    }
-                    if (!state.db.objectStoreNames.contains('knowledge')) {
-                        state.db.createObjectStore('knowledge', { keyPath: 'id' });
-                    }
-                    if (!state.db.objectStoreNames.contains('changes')) {
-                        state.db.createObjectStore('changes', { keyPath: 'id' });
-                    }
-                    if (!state.db.objectStoreNames.contains('errors')) {
-                        state.db.createObjectStore('errors', { keyPath: 'id' });
-                    }
+                    state.db.createObjectStore('memory', { keyPath: 'id' });
                 };
-                request.onsuccess = (e) => {
-                    state.db = e.target.result;
-                    loadKnowledgeBase();
-                    loadChangeLog();
-                };
-                request.onerror = () => {
-                    showToast('Database initialization failed.');
-                    logError('openDatabase', 'IndexedDB open failed');
-                };
+                request.onsuccess = (e) => state.db = e.target.result;
+                request.onerror = () => showToast('Database error.');
             } catch (e) {
-                showToast('Database setup error.');
+                showToast('Database init failed.');
                 console.error('Database error:', e);
-                logError('openDatabase', e.message);
-            }
-        }
-
-        function loadKnowledgeBase() {
-            try {
-                if (!state.db) return;
-                const tx = state.db.transaction(['knowledge'], 'readonly');
-                const store = tx.objectStore('knowledge');
-                const request = store.getAll();
-                request.onsuccess = (e) => {
-                    state.knowledgeBase = e.target.result.map(item => item.data) || [];
-                };
-                request.onerror = () => {
-                    console.error('Knowledge base load error.');
-                    logError('loadKnowledgeBase', 'Failed to load knowledge base');
-                };
-            } catch (e) {
-                console.error('Knowledge base error:', e);
-                logError('loadKnowledgeBase', e.message);
-            }
-        }
-
-        function loadChangeLog() {
-            try {
-                if (!state.db) return;
-                const tx = state.db.transaction(['changes'], 'readonly');
-                const store = tx.objectStore('changes');
-                const request = store.getAll();
-                request.onsuccess = (e) => {
-                    state.changeLog = e.target.result.map(item => item.data) || [];
-                    updateChangeLog();
-                };
-                request.onerror = () => {
-                    console.error('Change log load error.');
-                    logError('loadChangeLog', 'Failed to load change log');
-                };
-            } catch (e) {
-                console.error('Change log error:', e);
-                logError('loadChangeLog', e.message);
-            }
-        }
-
-        function saveKnowledge(data) {
-            try {
-                if (!state.db) return;
-                const tx = state.db.transaction(['knowledge'], 'readwrite');
-                const store = tx.objectStore('knowledge');
-                store.put({ id: Date.now(), data });
-                state.knowledgeBase.push(data);
-                saveToStorage();
-            } catch (e) {
-                console.error('Knowledge save error:', e);
-                logError('saveKnowledge', e.message);
-            }
-        }
-
-        function saveChange(change) {
-            try {
-                if (!state.db) throw new Error('Database not initialized');
-                const tx = state.db.transaction(['changes'], 'readwrite');
-                const store = tx.objectStore('changes');
-                const changeData = { id: Date.now(), data: change };
-                store.put(changeData);
-                state.changeLog.push(change);
-                state.pendingChanges.push(change);
-                updateChangeLog();
-                saveToStorage();
-            } catch (e) {
-                showToast('Failed to save change.');
-                console.error('Change save error:', e);
-                logError('saveChange', e.message);
-            }
-        }
-
-        function updateChangeLog() {
-            try {
-                const logContent = document.getElementById('change-log-content');
-                if (!logContent) throw new Error('Change log element missing');
-                logContent.textContent = state.changeLog.length ? state.changeLog.map(c => `${new Date(c.time).toLocaleString()}: ${c.command}`).join('\n') : 'No changes yet.';
-            } catch (e) {
-                console.error('Change log update error:', e);
-                logError('updateChangeLog', e.message);
             }
         }
 
@@ -928,7 +618,6 @@
                 openDatabase();
                 updatePoints();
                 initARPreview();
-                initNurseryPlanner();
                 initProgressBar();
                 initAdRotator();
                 initConsentPopup();
@@ -936,63 +625,37 @@
                 initAnalyticsChart();
                 updateLanguage();
                 initParticleCanvas();
-                loadState();
-                initSmoothScroll();
-                initBackToTop();
-                initCarousel();
-                initContinuousLearning();
-                generateCsrfToken();
-                initServiceWorker();
-                initVoiceNavigation();
+                loadState(); // Load persisted state
             } catch (e) {
-                showToast('Startup error. Try refreshing.');
+                showToast('Startup error. Refreshing...');
                 console.error('Init error:', e);
-                logError('window.onload', e.message);
             }
         });
 
+        /**
+         * Checks dependencies
+         */
         function checkDependencies() {
-            try {
-                if (!window.jQuery) throw new Error('jQuery missing');
-                if (!window.THREE) throw new Error('THREE.js missing');
-                if (!window.Chart) throw new Error('Chart.js missing');
-                if (!window.DOMPurify) throw new Error('DOMPurify missing');
-                if (!window.nlp) throw new Error('Compromise.js missing');
-            } catch (e) {
-                showToast('Dependency missing. Some features may not work.');
-                console.error('Dependency error:', e);
-                logError('checkDependencies', e.message);
-            }
+            if (!window.jQuery) throw new Error('jQuery missing');
+            if (!window.THREE) throw new Error('THREE.js missing');
+            if (!window.Chart) throw new Error('Chart.js missing');
+            if (!window.DOMPurify) throw new Error('DOMPurify missing');
         }
 
+        /**
+         * Loads state from sessionStorage
+         */
         function loadState() {
             try {
                 const saved = sessionStorage.getItem(CONFIG.STORAGE_KEY);
-                const learning = localStorage.getItem(CONFIG.LEARNING_KEY);
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     state = { ...state, ...parsed };
                     updatePoints();
-                    const cartItems = document.getElementById('cart-items');
-                    if (cartItems) {
-                        cartItems.textContent = state.cart.length ? state.cart.map(i => `${i.item}: $${i.price}`).join(', ') : 'Cart is empty.';
-                    }
-                    const reviewLog = document.getElementById('review-log');
-                    if (reviewLog) {
-                        reviewLog.innerHTML = state.reviews.map(r => `<p>${DOMPurify.sanitize(r)}</p>`).join('');
-                    }
-                    const milestoneLog = document.getElementById('milestone-log');
-                    if (milestoneLog) {
-                        milestoneLog.textContent = state.milestones?.length ? state.milestones.join(', ') : 'No milestones logged';
-                    }
-                    const chatLog = document.getElementById('chat-log');
-                    if (chatLog) {
-                        chatLog.textContent = state.chatLog.join('\n');
-                    }
-                    const diaperLog = document.getElementById('diaper-log');
-                    if (diaperLog) {
-                        diaperLog.textContent = state.diaperLog.length ? state.diaperLog.join(', ') : 'No diaper changes logged yet.';
-                    }
+                    document.getElementById('cart-items').textContent = state.cart.length ? state.cart.map(i => `${i.item}: $${i.price}`).join(', ') : 'Cart is empty.';
+                    document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${DOMPurify.sanitize(r)}</p>`).join('');
+                    document.getElementById('milestone-log').textContent = state.message || [];
+                    // Apply custom DOM changes (e.g., added products)
                     if (state.customElements) {
                         Object.entries(state.customElements).forEach(([id, html]) => {
                             const container = document.querySelector(`#${id}`);
@@ -1000,48 +663,31 @@
                         });
                     }
                 }
-                if (learning) {
-                    const parsedLearning = JSON.parse(learning);
-                    state.knowledgeBase = parsedLearning.knowledgeBase || [];
-                }
-                const savedTheme = localStorage.getItem('theme');
-                const savedLang = localStorage.getItem('lang');
-                if (savedTheme) {
-                    const themeSelect = document.getElementById('theme-select');
-                    if (themeSelect) {
-                        themeSelect.value = savedTheme;
-                        changeTheme();
-                    }
-                }
-                if (savedLang) {
-                    const langSelect = document.getElementById('lang-select');
-                    if (langSelect) {
-                        langSelect.value = savedLang;
-                        updateLanguage();
-                    }
-                }
             } catch (e) {
                 showToast('Error loading state.');
                 console.error('Load state error:', e);
-                logError('loadState', e.message);
             }
         }
 
+        /**
+         * Updates progress bar
+         */
         function initProgressBar() {
             try {
                 window.addEventListener('scroll', () => {
                     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                    const progress = scrollHeight ? (scrollTop / scrollHeight) * 100 : 0;
-                    const progressBar = document.getElementById('progress-bar');
-                    if (progressBar) progressBar.style.width = `${progress}%`;
+                    const progress = (scrollTop / scrollHeight) * 100;
+                    document.getElementById('progress-bar').style.width = `${progress}%`;
                 });
             } catch (e) {
                 console.error('Progress bar error:', e);
-                logError('initProgressBar', e.message);
             }
         }
 
+        /**
+         * Rotates ads
+         */
         function initAdRotator() {
             try {
                 const ads = [
@@ -1051,97 +697,111 @@
                 ];
                 setInterval(() => {
                     state.adIndex = (state.adIndex + 1) % ads.length;
-                    const adContent = document.getElementById('ad-content');
-                    if (adContent) adContent.innerHTML = DOMPurify.sanitize(ads[state.adIndex]);
+                    document.getElementById('ad-content').innerHTML = DOMPurify.sanitize(ads[state.adIndex]);
                 }, 25000);
             } catch (e) {
-                console.error('Ad rotator error:', e);
-                logError('initAdRotator', e.message);
+                console.error('Ad error:', e);
             }
         }
 
+        /**
+         * Shows consent popup
+         */
         function initConsentPopup() {
             try {
                 if (!sessionStorage.getItem('consent')) {
-                    const consentPopup = document.getElementById('consent-popup');
-                    if (consentPopup) {
-                        consentPopup.classList.add('active');
-                        consentPopup.focus();
-                    } else {
-                        throw new Error('Consent popup element missing');
-                    }
+                    document.getElementById('consent-popup').classList.add('active');
+                    document.getElementById('consent-popup').focus();
                 }
             } catch (e) {
-                console.error('Consent popup error:', e);
-                logError('initConsentPopup', e.message);
+                console.error('Consent error:', e);
             }
         }
 
+        /**
+         * Accepts consent
+         */
+        function acceptConsent() {
+            try {
+                sessionStorage.setItem('consent', 'true');
+                document.getElementById('consent-popup').classList.remove('active');
+                saveInteraction('consent');
+            } catch (e) {
+                showToast('Consent error.');
+                console.error('Consent error:', e);
+            }
+        }
+
+        /**
+         * Declines consent
+         */
+        function declineConsent() {
+            showToast('Consent required to use BabyBites.');
+        }
+
+        /**
+         * Makes product cards draggable
+         */
         function initDraggableCards() {
             try {
-                if (window.jQuery) {
-                    $('.product-bundle, .tool-card').draggable({
-                        containment: 'parent',
-                        stop: () => saveInteraction('dragCard')
-                    });
-                } else {
-                    showToast('jQuery not loaded. Draggable cards disabled.');
-                }
+                $('.product-bundle').draggable({
+                    containment: 'parent',
+                    stop: () => saveInteraction('dragProduct')
+                });
             } catch (e) {
-                console.error('Draggable cards error:', e);
-                logError('initDraggableCards', e.message);
+                console.error('Draggable error:', e);
             }
         }
 
+        /**
+         * Initializes analytics chart
+         */
         function initAnalyticsChart() {
             try {
                 const ctx = document.getElementById('analytics-chart')?.getContext('2d');
-                if (!ctx) throw new Error('Analytics chart canvas missing');
-                if (!window.Chart) throw new Error('Chart.js missing');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Search', 'Cart Adds', 'Reviews', 'Milestones', 'Chatbot Queries'],
-                        datasets: [{
-                            label: 'User Interactions',
-                            data: [
-                                state.userInteractions.filter(i => i.action === 'search').length,
-                                state.userInteractions.filter(i => i.action === 'addToCart').length,
-                                state.userInteractions.filter(i => i.action === 'review').length,
-                                state.userInteractions.filter(i => i.action === 'milestone').length,
-                                state.userInteractions.filter(i => i.action === 'chatbot').length
-                            ],
-                            backgroundColor: ['#42a5f5', '#0288d1', '#bbdefb', '#90caf9', '#64b5f6']
-                        }]
-                    },
-                    options: {
-                        scales: { y: { beginAtZero: true } },
-                        plugins: { legend: { display: false } }
-                    }
-                });
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Users', 'Interactions', 'Actions'],
+                            datasets: [{
+                                label: 'Analytics',
+                                data: [
+                                    state.userInteractions.length,
+                                    state.userInteractions.reduce((prev, curr) => prev + curr, 0) / 1000,
+                                    state.userInteractions.length
+                                ],
+                                backgroundColor: '#42a5f5'
+                            }]
+                        },
+                        options: {
+                            scales: { y: [0] },
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                }
             } catch (e) {
-                showToast('Analytics chart initialization failed.');
-                console.error('Analytics chart error:', e);
-                logError('initAnalyticsChart', e.message);
+                console.error('Chart error:', e);
             }
         }
 
+        /**
+         * Initializes particle canvas
+         */
         function initParticleCanvas() {
             try {
                 const canvas = document.getElementById('particle-canvas');
-                if (!canvas) throw new Error('Particle canvas missing');
                 const ctx = canvas.getContext('2d');
-                if (!ctx) throw new Error('Canvas context not supported');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 const particles = [];
-                for (let i = 0; i < 20; i++) {
+                for (let i = 0; i < 50; i++) {
                     particles.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
                         radius: Math.random() * 2 + 1,
-                        vx: Math.random() * 0.3 - 0.15,
-                        vy: Math.random() * 0.3 - 0.15
+                        vx: Math.random() * 0.5 - 0.25,
+                        vy: Math.random() * 0.5 - 0.25
                     });
                 }
                 function animate() {
@@ -1159,22 +819,18 @@
                     requestAnimationFrame(animate);
                 }
                 animate();
-                window.addEventListener('resize', () => {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                });
             } catch (e) {
-                showToast('Particle canvas initialization failed.');
-                console.error('Particle canvas error:', e);
-                logError('initParticleCanvas', e.message);
+                console.error('Particle error:', e);
             }
         }
 
+        /**
+         * Initializes AR preview
+         */
         function initARPreview() {
             try {
-                const container = document.getElementById('ar-product-preview');
-                if (!container) throw new Error('AR preview container missing');
-                if (!window.THREE) throw new Error('THREE.js missing');
+                const container = document.getElementById('ar-product');
+                if (!container) return;
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
                 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1199,231 +855,19 @@
                     camera.updateProjectionMatrix();
                 });
             } catch (e) {
-                showToast('AR preview initialization failed.');
+                showToast('AR error.');
                 console.error('AR error:', e);
-                logError('initARPreview', e.message);
-            }
-        }
-
-        function initNurseryPlanner() {
-            try {
-                const container = document.getElementById('nursery-canvas');
-                if (!container) throw new Error('Nursery planner container missing');
-                if (!window.THREE) throw new Error('THREE.js missing');
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ antialias: true });
-                renderer.setSize(container.clientWidth, container.clientHeight);
-                container.appendChild(renderer.domElement);
-                const geometry = new THREE.BoxGeometry(2, 2, 2);
-                const material = new THREE.MeshBasicMaterial({ color: 0x0288d1 });
-                const crib = new THREE.Mesh(geometry, material);
-                scene.add(crib);
-                camera.position.z = 5;
-                const controls = new THREE.OrbitControls(camera, renderer.domElement);
-                function animate() {
-                    requestAnimationFrame(animate);
-                    crib.rotation.y += 0.005;
-                    renderer.render(scene, camera);
-                }
-                animate();
-                window.addEventListener('resize', () => {
-                    renderer.setSize(container.clientWidth, container.clientHeight);
-                    camera.aspect = container.clientWidth / container.clientHeight;
-                    camera.updateProjectionMatrix();
-                });
-            } catch (e) {
-                showToast('Nursery planner initialization failed.');
-                console.error('Nursery planner error:', e);
-                logError('initNurseryPlanner', e.message);
-            }
-        }
-
-        function initSmoothScroll() {
-            try {
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const targetId = anchor.getAttribute('href');
-                        const target = document.querySelector(targetId);
-                        if (target) {
-                            target.scrollIntoView({ behavior: 'smooth' });
-                        } else {
-                            showToast(`Section ${targetId} not found.`);
-                        }
-                    });
-                });
-            } catch (e) {
-                console.error('Smooth scroll error:', e);
-                logError('initSmoothScroll', e.message);
-            }
-        }
-
-        function initBackToTop() {
-            try {
-                const button = document.getElementById('back-to-top');
-                if (!button) throw new Error('Back to top button missing');
-                window.addEventListener('scroll', () => {
-                    button.style.display = window.scrollY > 300 ? 'block' : 'none';
-                });
-            } catch (e) {
-                console.error('Back to top error:', e);
-                logError('initBackToTop', e.message);
-            }
-        }
-
-        function initCarousel() {
-            try {
-                const items = document.querySelectorAll('.carousel-item');
-                if (items.length === 0) throw new Error('Carousel items missing');
-                let index = 0;
-                function showNext() {
-                    items.forEach(item => item.classList.remove('active'));
-                    index = (index + 1) % items.length;
-                    items[index].classList.add('active');
-                }
-                items[0]?.classList.add('active');
-                setInterval(showNext, 5000);
-            } catch (e) {
-                console.error('Carousel error:', e);
-                logError('initCarousel', e.message);
-            }
-        }
-
-        function initContinuousLearning() {
-            try {
-                function evolveSite() {
-                    const tips = [
-                        'Hydrate with breast milk!',
-                        'Introduce solids at 6 months!',
-                        'Use a firm mattress for safe sleep!'
-                    ];
-                    const newTip = tips[Math.floor(Math.random() * tips.length)];
-                    const healthTip = document.getElementById('health-tip');
-                    if (healthTip) healthTip.textContent = `Tip: ${newTip}`;
-                    const insight = {
-                        type: 'content_update',
-                        data: { tip: newTip, timestamp: Date.now() },
-                        weight: state.knowledgeBase.filter(k => k.type === 'content_update').length + 1
-                    };
-                    saveKnowledge(insight);
-                    const popular = state.cart.reduce((acc, item) => {
-                        acc[item.item] = (acc[item.item] || 0) + 1;
-                        return acc;
-                    }, {});
-                    const topItem = Object.keys(popular).sort((a, b) => popular[b] - popular[a])[0];
-                    if (topItem) {
-                        const adContent = document.getElementById('ad-content');
-                        if (adContent) adContent.innerHTML = DOMPurify.sanitize(`Check out our <strong>${topItem}</strong>!`);
-                    }
-                    updateLeaderboard();
-                    saveInteraction('site_evolution', { insight });
-                }
-                evolveSite();
-                setInterval(evolveSite, CONFIG.EVOLUTION_INTERVAL);
-            } catch (e) {
-                console.error('Continuous learning error:', e);
-                logError('initContinuousLearning', e.message);
-            }
-        }
-
-        function initServiceWorker() {
-            try {
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('/sw.js').then(reg => {
-                        console.log('Service Worker registered:', reg);
-                    }).catch(err => {
-                        console.error('Service Worker error:', err);
-                        logError('initServiceWorker', err.message);
-                    });
-                } else {
-                    console.log('Service Worker not supported.');
-                }
-            } catch (e) {
-                console.error('Service Worker init error:', e);
-                logError('initServiceWorker', e.message);
-            }
-        }
-
-        function initVoiceNavigation() {
-            try {
-                if (!('webkitSpeechRecognition' in window)) {
-                    showToast('Voice navigation not supported in this browser.');
-                    return;
-                }
-                let recognition = null;
-                let timeoutId = null;
-                function startRecognition() {
-                    if (state.isVoiceActive) return;
-                    state.isVoiceActive = true;
-                    recognition = new webkitSpeechRecognition();
-                    recognition.lang = document.getElementById('lang-select')?.value || 'en';
-                    recognition.interimResults = true;
-                    recognition.onresult = (e) => {
-                        clearTimeout(timeoutId);
-                        const transcript = DOMPurify.sanitize(e.results[0][0].transcript.toLowerCase());
-                        if (transcript.includes('go to')) {
-                            const section = transcript.split('go to ')[1]?.trim().replace(/\s/g, '-');
-                            const target = document.querySelector(`#${section}`);
-                            if (target) {
-                                target.scrollIntoView({ behavior: 'smooth' });
-                                showToast(`Navigated to ${section}`);
-                                saveInteraction('voiceNavigation', { section });
-                            } else {
-                                showToast(`Section ${section} not found.`);
-                            }
-                        }
-                        resetRecognition();
-                    };
-                    recognition.onerror = (err) => {
-                        showToast(`Voice navigation error: ${err.error}`);
-                        logError('voiceNavigation', err.error);
-                        resetRecognition();
-                    };
-                    recognition.onend = () => {
-                        resetRecognition();
-                    };
-                    recognition.start();
-                    timeoutId = setTimeout(() => {
-                        showToast('Voice recognition timed out.');
-                        resetRecognition();
-                    }, 10000);
-                }
-                function resetRecognition() {
-                    if (recognition) {
-                        recognition.stop();
-                        recognition = null;
-                    }
-                    state.isVoiceActive = false;
-                    clearTimeout(timeoutId);
-                    setTimeout(startRecognition, 1000); // Delay to prevent immediate restart
-                }
-                startRecognition();
-            } catch (e) {
-                showToast('Voice navigation initialization failed.');
-                console.error('Voice navigation error:', e);
-                logError('initVoiceNavigation', e.message);
-            }
-        }
-
-        function generateCsrfToken() {
-            try {
-                const csrfInput = document.getElementById('csrf-token');
-                if (csrfInput) csrfInput.value = CONFIG.CSRF_TOKEN;
-            } catch (e) {
-                console.error('CSRF token error:', e);
-                logError('generateCsrfToken', e.message);
             }
         }
 
         // Theme and Accessibility
+        /**
+         * Changes theme
+         */
         function changeTheme() {
             try {
-                const themeSelect = document.getElementById('theme-select');
-                if (!themeSelect) throw new Error('Theme select missing');
-                const theme = themeSelect.value;
+                const theme = document.getElementById('theme-select').value;
                 state.currentTheme = theme;
-                localStorage.setItem('theme', theme);
                 const styles = {
                     default: { bg: 'linear-gradient(135deg, #e3f2fd, #bbdefb)', color: '#01579b', border: '#42a5f5' },
                     basic: { bg: 'linear-gradient(135deg, #fff3e0, #ffe0b3)', color: '#e65100', border: '#ff9800' }
@@ -1434,9 +878,8 @@
                 document.body.classList.remove('dark-mode', 'high-contrast', 'accessibility-mode');
                 saveInteraction('themeChange', { theme });
             } catch (e) {
-                showToast('Theme change error.');
+                showToast('Theme error.');
                 console.error('Theme error:', e);
-                logError('changeTheme', e.message);
             }
         }
 
@@ -1445,9 +888,7 @@
                 document.body.classList.toggle('dark-mode');
                 saveInteraction('darkModeToggle');
             } catch (e) {
-                showToast('Dark mode toggle error.');
                 console.error('Dark mode error:', e);
-                logError('toggleDarkMode', e.message);
             }
         }
 
@@ -1456,9 +897,7 @@
                 document.body.classList.toggle('high-contrast');
                 saveInteraction('highContrastToggle');
             } catch (e) {
-                showToast('High contrast toggle error.');
                 console.error('High contrast error:', e);
-                logError('toggleHighContrast', e.message);
             }
         }
 
@@ -1467,37 +906,736 @@
                 document.body.classList.toggle('accessibility-mode');
                 saveInteraction('accessibilityToggle');
             } catch (e) {
-                showToast('Accessibility mode toggle error.');
                 console.error('Accessibility error:', e);
-                logError('toggleAccessibilityMode', e.message);
-            }
-        }
-
-        function toggleVoiceOutput() {
-            try {
-                state.voiceOutputEnabled = !state.voiceOutputEnabled;
-                showToast(`Voice output ${state.voiceOutputEnabled ? 'enabled' : 'disabled'}.`);
-                saveInteraction('voiceOutputToggle', { enabled: state.voiceOutputEnabled });
-            } catch (e) {
-                showToast('Voice output toggle error.');
-                console.error('Voice output error:', e);
-                logError('toggleVoiceOutput', e.message);
             }
         }
 
         // Language Support
+        /**
+         * Updates language
+         */
         function updateLanguage() {
             try {
-                const langSelect = document.getElementById('lang-select');
-                if (!langSelect) throw new Error('Language select missing');
-                const lang = langSelect.value || 'en';
-                localStorage.setItem('lang', lang);
+                const lang = document.getElementById('lang-select').value;
                 const trans = translations[lang] || translations.en;
-                const homeP = document.querySelector('#home p');
-                if (homeP) homeP.textContent = trans.welcome;
-                const searchInput = document.querySelector('#search-input');
-                if (searchInput) searchInput.placeholder = trans.searchPlaceholder;
-                const productsH2 = document.querySelector('#products h2');
-                if (productsH2) productsH2.textContent = trans.productsTitle;
-                const toolsH2 = document.querySelector('#tools h2');
-                if (toolsH2) tools
+                document.querySelector('#home p').textContent = trans.welcome;
+                document.querySelector('#search-input').placeholder = trans.searchPlaceholder;
+                document.querySelector('#products h2').textContent = trans.productsTitle;
+                document.querySelector('#tools h2').textContent = trans.toolsTitle;
+                document.querySelector('#community h2').textContent = trans.communityTitle;
+                document.querySelector('#owner-room h2').textContent = trans.ownerRoomTitle;
+                document.querySelector('#compliance h2').textContent = trans.complianceTitle;
+                saveInteraction('languageChange', { lang });
+            } catch (e) {
+                console.error('Language error:', e);
+            }
+        }
+
+        // AI and Chatbot
+        const chatbotResponses = {
+            help: 'Brian 1.0: Ask about parenting or products!',
+            health: 'Brian 1.0: Try the Milestone Tracker!',
+            default: 'Brian 1.0: Explore tools or shop!'
+        };
+
+        /**
+         * Handles voice input
+         * @param {Event} event - Input event
+         */
+        function voiceInput(event) {
+            try {
+                const input = event.target;
+                if (!sessionStorage.getItem('consent')) {
+                    showToast('Consent required.');
+                    return;
+                }
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new window.webkitSpeechRecognition();
+                    recognition.lang = document.getElementById('lang-select').value;
+                    recognition.interimResults = true;
+                    recognition.onresult = (e) => {
+                        const transcript = DOMPurify.sanitize(e.results[0][0].transcript);
+                        input.value = transcript;
+                        saveInteraction('voiceInput', { transcript });
+                        if (input.id === 'chatbot-input') chatbotRespond();
+                        else if (input.id === 'ai-input') processAICommand();
+                        else if (input.id === 'owner-input') processSmartAI();
+                    };
+                    recognition.onerror = () => showToast('Voice error.');
+                    recognition.start();
+                } else {
+                    showToast('Voice not supported.');
+                }
+            } catch (e) {
+                showToast('Voice error.');
+                console.error('Voice error:', e);
+            }
+        }
+
+        /**
+         * Responds to chatbot queries
+         */
+        async function chatbotRespond() {
+            try {
+                const input = document.getElementById('chatbot-input');
+                if (!input || !input.value) {
+                    document.getElementById('chatbot-response').textContent = 'Ask something!';
+                    return;
+                }
+                const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
+                let response = chatbotResponses.default;
+                for (const key in chatbotResponses) {
+                    if (query.includes(key)) {
+                        response = chatbotResponses[key];
+                        break;
+                    }
+                }
+                const webData = await fetchWebData(query);
+                if (webData) response += ` ${webData}`;
+                document.getElementById('chatbot-response').textContent = response;
+                input.value = '';
+                saveInteraction('chatbot', { query });
+            } catch (e) {
+                showToast('Chatbot error.');
+                console.error('Chatbot error:', e);
+            }
+        }
+
+        /**
+         * Fetches mock web data
+         * @param {string} query - Query string
+         * @returns {Promise<string>} Mock response
+         */
+        async function fetchWebData(query) {
+            try {
+                const mockData = {
+                    'what to feed': 'Pureed fruits recommended.',
+                    'sleep tips': 'Use a firm mattress.'
+                };
+                return mockData[query] || 'Tips found!';
+            } catch (e) {
+                console.error('Web data error:', e);
+                return '';
+            }
+        }
+
+        /**
+         * Processes AI commands
+         */
+        function processAICommand() {
+            try {
+                const input = document.getElementById('ai-input').value.toLowerCase().trim();
+                const response = chatbotResponses[input] || chatbotResponses.default;
+                showToast(response);
+                saveInteraction('aiCommand', { command: input });
+            } catch (e) {
+                showToast('AI error.');
+                console.error('AI error:', e);
+            }
+        }
+
+        // Health Tools
+        const searchCategories = [
+            { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones!' },
+            { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask parenting questions!' }
+        ];
+
+        /**
+         * Performs smart search
+         */
+        function smartSearch() {
+            try {
+                const input = document.getElementById('search-input') || document.getElementById('persistent-search');
+                if (!input || !input.value) {
+                    document.getElementById('search-results').textContent = 'Search tools or products!';
+                    return;
+                }
+                const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
+                const results = searchCategories
+                    .filter(item => item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query))
+                    .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description}</p>`);
+                document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No results!';
+                saveInteraction('search', { query });
+            } catch (e) {
+                showToast('Search error.');
+                console.error('Search error:', e);
+            }
+        }
+
+        /**
+         * Logs milestone
+         */
+        function logMilestone() {
+            try {
+                const input = document.getElementById('milestone-input');
+                if (!input || !input.value) {
+                    showToast('Enter milestone.');
+                    return;
+                }
+                const milestone = DOMPurify.sanitize(input.value);
+                state.milestones.push(milestone);
+                saveToStorage();
+                document.getElementById('milestone-log').textContent = state.milestones.join(', ');
+                input.value = '';
+                addPoints(10);
+                saveInteraction('milestone', { milestone });
+            } catch (e) {
+                showToast('Milestone error.');
+                console.error('Milestone error:', e);
+            }
+        }
+
+        /**
+         * Checks allergies
+         */
+        function checkAllergy() {
+            try {
+                const input = document.getElementById('allergy-input');
+                if (!input || !input.value) {
+                    showToast('Enter substance.');
+                    return;
+                }
+                const substance = DOMPurify.sanitize(input.value.toLowerCase().trim());
+                const allergens = ['peanuts', 'milk', 'eggs'];
+                const result = allergens.includes(substance) ?
+                    `Warning: ${substance} is an allergen.` :
+                    `${substance} is not a common allergen.`;
+                document.getElementById('allergy-result').textContent = result;
+                saveInteraction('allergyCheck', { substance });
+            } catch (e) {
+                showToast('Allergy error.');
+                console.error('Allergy error:', e);
+            }
+        }
+
+        /**
+         * Predicts growth
+         */
+        function predictGrowth() {
+            try {
+                const input = document.getElementById('growth-input');
+                if (!input || isNaN(input.value) || input.value < 0) {
+                    document.getElementById('growth-result').textContent = 'Valid age required!';
+                    return;
+                }
+                const age = parseInt(input.value);
+                const predictions = {
+                    0: 'Newborn: Feeding often.',
+                    6: '6 Months: Sitting up.'
+                };
+                const key = Object.keys(predictions).find(k => age <= parseInt(k)) || 6;
+                document.getElementById('growth-result').textContent = predictions[key];
+                saveInteraction('growthPredict', { age });
+            } catch (e) {
+                showToast('Growth error.');
+                console.error('Growth error:', e);
+            }
+        }
+
+        /**
+         * Logs sleep
+         */
+        function logSleep() {
+            try {
+                const input = document.getElementById('sleep-input');
+                if (!input || !input.value) {
+                    showToast('Enter sleep time.');
+                    return;
+                }
+                const time = DOMPurify.sanitize(input.value);
+                document.getElementById('sleep-log').textContent = `Sleep at ${time}`;
+                saveInteraction('sleepLog', { time });
+            } catch (e) {
+                showToast('Sleep error.');
+                console.error('Sleep error:', e);
+            }
+        }
+
+        /**
+         * Predicts milestones
+         */
+        function predictMilestone() {
+            try {
+                const input = document.getElementById('oracle-input');
+                if (!input || isNaN(input.value) || input.value < 0) {
+                    document.getElementById('oracle-prediction').textContent = 'Valid age required!';
+                    return;
+                }
+                const age = parseInt(input.value);
+                const milestones = {
+                    0: 'Newborn: Smiling soon!',
+                    6: '6 Months: Babbling.'
+                };
+                const key = Object.keys(milestones).find(k => age <= parseInt(k)) || 6;
+                document.getElementById('oracle-prediction').textContent = milestones[key];
+                saveInteraction('oraclePredict', { age });
+                setTimeout(updateOracle, 20000);
+            } catch (e) {
+                showToast('Milestone error.');
+                console.error('Milestone error:', e);
+            }
+        }
+
+        /**
+         * Updates oracle suggestions
+         */
+        function updateOracle() {
+            try {
+                const suggestions = [
+                    'Try Milestone Tracker!',
+                    'Check Wellness Chatbot!'
+                ];
+                document.getElementById('suggestion-content').textContent = suggestions[Math.floor(Math.random() * suggestions.length)];
+            } catch (e) {
+                console.error('Oracle error:', e);
+            }
+        }
+
+        /**
+         * Updates health tips
+         */
+        setInterval(() => {
+            try {
+                const tips = [
+                    'Hydrate with breast milk!',
+                    'Solids at 6 months!'
+                ];
+                document.getElementById('health-tip').textContent = `Tip: ${tips[Math.floor(Math.random() * tips.length)]}`;
+            } catch (e) {
+                console.error('Tip error:', e);
+            }
+        }, 20000);
+
+        // Products and Community
+        /**
+         * Adds review
+         */
+        function addReview() {
+            try {
+                const input = document.getElementById('review-input');
+                if (!input || !input.value || !sessionStorage.getItem('consent')) {
+                    showToast('Review and consent required.');
+                    return;
+                }
+                const review = DOMPurify.sanitize(input.value);
+                state.reviews.push(review);
+                saveToStorage();
+                document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${r}</p>`).join('');
+                input.value = '';
+                addPoints(20);
+                saveInteraction('review', { review });
+            } catch (e) {
+                showToast('Review error.');
+                console.error('Review error:', e);
+            }
+        }
+
+        /**
+         * Sends chat message
+         */
+        function sendChat() {
+            try {
+                const input = document.getElementById('chat-input');
+                if (!input || !input.value || !sessionStorage.getItem('consent')) {
+                    showToast('Message and consent required.');
+                    return;
+                }
+                const message = DOMPurify.sanitize(input.value);
+                state.chatLog.push(`You: ${message}`);
+                saveToStorage();
+                document.getElementById('chat-log').textContent = state.chatLog.join('\n');
+                input.value = '';
+                saveInteraction('chat', { message });
+            } catch (e) {
+                showToast('Chat error.');
+                console.error('Chat error:', e);
+            }
+        }
+
+        /**
+         * Adds points
+         * @param {number} points - Points to add
+         */
+        function addPoints(points) {
+            try {
+                const today = new Date().toDateString();
+                const dailyPoints = state.userInteractions
+                    .filter(i => new Date(i.time).toDateString() === today)
+                    .reduce((sum, i) => sum + (i.points || 0), 0);
+                if (dailyPoints + points <= CONFIG.MAX_POINTS_PER_DAY) {
+                    state.points += points;
+                    saveToStorage();
+                    updatePoints();
+                } else {
+                    showToast('Daily points limit reached.');
+                }
+            } catch (e) {
+                console.error('Points error:', e);
+            }
+        }
+
+        /**
+         * Updates points display
+         */
+        function updatePoints() {
+            try {
+                document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
+            } catch (e) {
+                console.error('Points update error:', e);
+            }
+        }
+
+        /**
+         * Signs up user
+         */
+        function signupUser() {
+            try {
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const shipping = DOMPurify.sanitize(document.getElementById('signup-shipping').value);
+                const payment = DOMPurify.sanitize(document.getElementById('signup-payment').value);
+                if (!email || !password || !shipping || !payment) {
+                    showToast('Fill all fields.');
+                    return;
+                }
+                // Mock server-side hashing
+                const hashedPassword = btoa(password); // Replace with server-side bcrypt
+                state.users.push({ email, password: hashedPassword, shipping, payment });
+                saveToStorage();
+                document.getElementById('signup-result').textContent = 'Signed up!';
+                saveInteraction('signup', { email });
+            } catch (e) {
+                showToast('Signup error.');
+                console.error('Signup error:', e);
+            }
+        }
+
+        /**
+         * Adds to cart
+         * @param {string} item - Item name
+         * @param {number} price - Item price
+         */
+        function addToCart(item, price) {
+            try {
+                state.cart.push({ item, price });
+                saveToStorage();
+                document.getElementById('cart-items').textContent = state.cart.map(i => `${i.item}: $${i.price}`).join(', ');
+                saveInteraction('addToCart', { item, price });
+            } catch (e) {
+                showToast('Cart error.');
+                console.error('Cart error:', e);
+            }
+        }
+
+        /**
+         * Checks out
+         */
+        function checkout() {
+            try {
+                const address = DOMPurify.sanitize(document.getElementById('shipping-address').value);
+                const method = document.getElementById('shipping-method').value;
+                if (!address || !state.cart.length) {
+                    showToast('Add items and address.');
+                    return;
+                }
+                // Mock checkout
+                state.earnings.pending += state.cart.reduce((sum, i) => sum + i.price, 0) * 0.1;
+                state.cart = [];
+                saveToStorage();
+                document.getElementById('cart-items').textContent = 'Cart empty.';
+                document.getElementById('checkout-result').textContent = 'Checkout done!';
+                saveInteraction('checkout', { address, method });
+            } catch (e) {
+                showToast('Checkout error.');
+                console.error('Checkout error:', e);
+            }
+        }
+
+        /**
+         * Calculates discount
+         */
+        function calculateDiscount() {
+            try {
+                const amount = parseFloat(document.getElementById('discount-amount').value);
+                if (isNaN(amount) || amount <= 0) {
+                    showToast('Valid amount required.');
+                    return;
+                }
+                const discount = amount * (Math.random() * 0.1 + 0.2);
+                document.getElementById('discount-result').textContent = `Discount: $${discount.toFixed(2)}`;
+                saveInteraction('discount', { amount, discount });
+            } catch (e) {
+                showToast('Discount error.');
+                console.error('Discount error:', e);
+            }
+        }
+
+        /**
+         * Subscribes user
+         */
+        function subscribe() {
+            try {
+                const email = document.getElementById('email').value;
+                if (!email) {
+                    showToast('Enter email.');
+                    return;
+                }
+                // Mock subscription
+                showToast('Subscribed!');
+                saveInteraction('subscribe', { email });
+            } catch (e) {
+                showToast('Subscription error.');
+                console.error('Subscribe error:', e);
+            }
+        }
+
+        // Owner’s Room AI
+        /**
+         * Accesses Owner’s Room
+         */
+        function accessOwnerRoom() {
+            try {
+                const password = document.getElementById('owner-password').value;
+                const twoFA = document.getElementById('owner-2fa').value;
+                if (password === CONFIG.OWNER_PASSWORD && twoFA === CONFIG.OWNER_2FA) {
+                    document.getElementById('owner-content').style.display = 'block';
+                    document.getElementById('owner-room').classList.add('active');
+                    saveInteraction('ownerAccess');
+                } else {
+                    showToast('Invalid credentials.');
+                }
+            } catch (e) {
+                showToast('Access error.');
+                console.error('Access error:', e);
+            }
+        }
+
+        /**
+         * Processes smart AI commands
+         */
+        function processSmartAI() {
+            try {
+                const input = document.getElementById('owner-input').value.trim();
+                if (!input) {
+                    showToast('Enter a command.');
+                    return;
+                }
+                const command = DOMPurify.sanitize(input.toLowerCase());
+                // Backup current state
+                backupSiteState();
+                // Parse command
+                const result = parseAICommand(command);
+                document.getElementById('owner-result').textContent = result.message;
+                saveInteraction('smartAI', { command, result: result.message });
+                if (result.needsConfirm) {
+                    if (confirm(`Confirm: ${command}?`)) {
+                        executeAICommand(result);
+                    } else {
+                        showToast('Command cancelled.');
+                    }
+                } else {
+                    executeAICommand(result);
+                }
+            } catch (e) {
+                showToast('AI command error.');
+                console.error('AI error:', e);
+            }
+        }
+
+        /**
+         * Parses AI command
+         * @param {string} command - Command text
+         * @returns {Object} Parsed action
+         */
+        function parseAICommand(command) {
+            try {
+                // Blacklist dangerous commands
+                if (command.includes('delete all') || command.includes('clear site')) {
+                    return { message: 'Dangerous command blocked.', action: null };
+                }
+                // Add product: e.g., "add product Baby Sleep Kit for $29.99"
+                const addProductMatch = command.match(/add product (\w+(?:\s\w+)*) for \$(\d+\.\d{2})/);
+                if (addProductMatch) {
+                    const name = addProductMatch[1];
+                    const price = parseFloat(addProductMatch[2]);
+                    return {
+                        action: 'addProduct',
+                        name,
+                        price,
+                        id: name.toLowerCase().replace(/\s/g, '-'),
+                        message: `Adding product ${name} for $${price}.`
+                    };
+                }
+                // Delete section: e.g., "delete milestone tracker"
+                const deleteSectionMatch = command.match(/delete (\w+(?:\s\w+)*)/);
+                if (deleteSectionMatch) {
+                    const sectionName = deleteSectionMatch[1].toLowerCase().replace(/\s/g, '-');
+                    if (CONFIG.PROTECTED_IDS.includes(sectionName)) {
+                        return { message: `Cannot delete protected section ${sectionName}.`, action: null };
+                    }
+                    return {
+                        action: 'deleteSection',
+                        id: sectionName,
+                        message: `Deleting section ${sectionName}.`,
+                        needsConfirm: true
+                    };
+                }
+                // Change style: e.g., "change header color to red"
+                const changeStyleMatch = command.match(/change (\w+(?:\s\w+)*) color to (\w+)/);
+                if (changeStyleMatch) {
+                    const element = changeStyleMatch[1].toLowerCase().replace(/\s/g, '-');
+                    const color = changeStyleMatch[2];
+                    return {
+                        action: 'changeStyle',
+                        element,
+                        color,
+                        message: `Changing ${element} color to ${color}.`
+                    };
+                }
+                return { message: 'Command not understood.', action: null };
+            } catch (e) {
+                console.error('Parse error:', e);
+                return { message: 'Invalid command.', action: null };
+            }
+        }
+
+        /**
+         * Executes AI command
+         * @param {Object} result - Parsed command
+         */
+        function executeAICommand(result) {
+            try {
+                if (!result.action) return;
+                switch (result.action) {
+                    case 'addProduct': {
+                        const container = document.getElementById('products');
+                        if (!container) throw new Error('Products section missing.');
+                        const html = `
+                            <div class="product-bundle" data-bundle="${result.name}" id="${result.id}">
+                                <p>${result.name} - Affiliate Link: <a href="${CONFIG.AFFILIATE_BASES[result.name] || 'https://example.com'}" target="_blank" rel="noopener">$${result.price}</a></p>
+                                <p>Includes: Custom Product</p>
+                                <p>Ships directly—no inventory!</p>
+                                <button onclick="addToCart('${result.name}', ${result.price})" aria-label="Add ${result.name} to cart">Add to Cart</button>
+                            </div>
+                        `;
+                        container.innerHTML += DOMPurify.sanitize(html);
+                        state.customElements = state.customElements || {};
+                        state.customElements[result.id] = html;
+                        saveToStorage();
+                        showToast(`Product ${result.name} added.`);
+                        break;
+                    }
+                    case 'deleteSection': {
+                        const element = document.getElementById(result.id);
+                        if (!element) throw new Error('Section not found.');
+                        element.remove();
+                        if (state.customElements) delete state.customElements[result.id];
+                        saveToStorage();
+                        showToast(`Section ${result.id} deleted.`);
+                        break;
+                    }
+                    case 'changeStyle': {
+                        const element = document.querySelector(`#${result.element}`) || document.querySelector(result.element);
+                        if (!element) throw new Error('Element not found.');
+                        element.style.backgroundColor = result.color;
+                        state.customStyles = state.customStyles || {};
+                        state.customStyles[result.element] = { backgroundColor: result.color };
+                        saveToStorage();
+                        showToast(`Color changed to ${result.color}.`);
+                        break;
+                    }
+                }
+            } catch (e) {
+                showToast('Command execution error.');
+                console.error('Execute error:', e);
+            }
+        }
+
+        /**
+         * Backs up site state
+         */
+        function backupSiteState() {
+            try {
+                state.siteSnapshots.push({
+                    html: document.body.innerHTML,
+                    state: { ...state },
+                    timestamp: Date.now()
+                });
+                if (state.siteSnapshots.length > 5) state.siteSnapshots.shift(); // Keep last 5
+                saveToStorage();
+            } catch (e) {
+                console.error('Backup error:', e);
+            }
+        }
+
+        /**
+         * Undoes last change
+         */
+        function undoLastChange() {
+            try {
+                const lastSnapshot = state.siteSnapshots.pop();
+                if (!lastSnapshot) {
+                    showToast('No changes to undo.');
+                    return;
+                }
+                document.body.innerHTML = DOMPurify.sanitize(lastSnapshot.html);
+                state = { ...lastSnapshot.state };
+                saveToStorage();
+                showToast('Last change undone.');
+                // Re-init event listeners
+                initEventListeners();
+            } catch (e) {
+                showToast('Undo error.');
+                console.error('Undo error:', e);
+            }
+        }
+
+        /**
+         * Re-initializes event listeners after undo
+         */
+        function initEventListeners() {
+            try {
+                document.querySelectorAll('[onclick]').forEach(el => {
+                    const handler = el.getAttribute('onclick');
+                    el.onclick = new Function(handler);
+                });
+                initDraggableCards();
+                initProgressBar();
+            } catch (e) {
+                console.error('Event listener error:', e);
+            }
+        }
+
+        /**
+         * Toggles analytics
+         */
+        function toggleAnalytics() {
+            try {
+                const dashboard = document.getElementById('analytics');
+                dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
+                saveInteraction('viewAnalytics');
+            } catch (e) {
+                showToast('Analytics error.');
+                console.error('Analytics error:', e);
+            }
+        }
+
+        /**
+         * Views earnings
+         */
+        function viewEarnings() {
+            try {
+                const dashboard = document.getElementById('earnings');
+                dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
+                document.getElementById('earnings-data').textContent = `Total: $${state.earnings.total.toFixed(2)} | Pending: $${state.earnings.pending.toFixed(2)}`;
+                saveInteraction('viewEarnings');
+            } catch (e) {
+                showToast('Earnings error.');
+                console.error('Earnings error:', e);
+            }
+        }
+
+        /**
+         * Withdraws earnings
+         */
+        function withdrawEarnings() {
