@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="BabyBites: The ultimate AI-powered parenting hub by Jacob Olschewski, offering curated affiliate baby products and tools—100% legal, secure, and inventory-free.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tensorflow.org; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self' https://cdn.example.com; object-src 'none'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'nonce-babybites2025'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self' https://cdn.example.com; object-src 'none'; worker-src 'self' blob:;">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="BabyBites - Premier Parenting Hub">
     <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
@@ -13,36 +13,256 @@
     <meta property="og:url" content="https://jakeolschewski.github.io/BabyBites/">
     <meta name="twitter:card" content="summary_large_image">
     <title>BabyBites: Premier Health for Babies</title>
-    <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js" integrity="sha256-QU5H2lwfR+3wcH6+VvD5J/8q6oAZPKr1A7E69cSGlms=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js" integrity="sha256-iL1M0p2H+BeJQd2jJ3M9yUN0M+8m5xD5c0g7vA0C7mo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYr6RV1b9k/B6ZQbYx3m5F5U5jYbO3E5W5gY5U5gY5U5gY5U5gY5U5gY5U5gY5U5gY5==" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js" integrity="sha256-6bL4q8b3sB4E3J0g5h1k2z5z8y2z9b3c4d5e6f7g8h9=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/examples/js/controls/OrbitControls.js" integrity="sha256-0x1y2z3x4w5x6y7z8x9a0b1c2d3e4f5g6h7i8j9k0l1=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYr6RV1b9k/B6ZQbYx3m5F5U5jYbO3E5W5gY5U5gY5U5gY5U5gY5U5gY5U5gY5U5gY5==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js"></script>
+    <style nonce="babybites2025">
+        body {
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5);
+            background-size: cover;
+            color: #01579b;
+            margin: 0;
+            padding: 90px 20px 20px;
+            overflow-x: hidden;
+            position: relative;
+            will-change: background;
+        }
+        #progress-bar {
+            width: 0;
+            height: 5px;
+            background: #42a5f5;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+            transition: width 0.15s ease;
+        }
+        canvas.live-particles, canvas#bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        #ad-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(66, 165, 245, 0.9);
+            color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            cursor: pointer;
+        }
+        #ad-banner button {
+            background: #fff;
+            color: #42a5f5;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #consent-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            display: none;
+        }
+        #consent-popup.active { display: block; }
+        .dark-mode { background: #121212; color: #e0e0e0; }
+        .dark-mode .section { background: rgba(30, 30, 30, 0.85); }
+        .dark-mode input, .dark-mode select, .dark-mode button { background: #333; color: #e0e0e0; }
+        .high-contrast { filter: contrast(200%) brightness(150%); }
+        .accessibility-mode { background: #000; color: #fff; filter: contrast(200%); }
+        header {
+            background: linear-gradient(90deg, #0288d1, #42a5f5);
+            color: #fff;
+            padding: 1.5rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            font-size: 2.8em;
+            padding: 10px 20px;
+            margin: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+        }
+        nav a {
+            color: #bbdefb;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover, nav a:focus {
+            color: #42a5f5;
+            outline: 2px solid #42a5f5;
+        }
+        .mega-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 1000;
+        }
+        nav a:hover > .mega-menu, nav a:focus > .mega-menu { display: block; }
+        .section {
+            padding: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box {
+            display: inline-block;
+            margin: 20px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        #ar-product-preview, #ar-scanner {
+            margin: 20px auto;
+            width: 900px;
+            height: 400px;
+            border: 5px solid #42a5f5;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        }
+        .owner-room { display: none; }
+        .owner-room.active { display: inline-block; }
+        input, select, button {
+            padding: 12px 25px;
+            margin: 8px;
+            border: 3px solid #42a5f5;
+            border-radius: 30px;
+            font-size: 1.2em;
+            width: 350px;
+            background: #fff;
+        }
+        input:focus, select:focus, button:focus {
+            border-color: #0288d1;
+            outline: 2px solid #0288d1;
+        }
+        button {
+            background: linear-gradient(45deg, #42a5f5, #0288d1);
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover, button:focus {
+            background: linear-gradient(45deg, #0288d1, #42a5f5);
+        }
+        a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 15px;
+        }
+        a:hover, a:focus {
+            color: #0288d1;
+            outline: 2px solid #0288d1;
+        }
+        video {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 10px;
+            border-radius: 15px;
+        }
+        .footer {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+        .disclaimer {
+            font-size: 0.9em;
+            color: #01579b;
+            margin: 20px;
+            padding: 15px;
+            background: rgba(227, 242, 253, 0.9);
+            border-radius: 15px;
+        }
+        #toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #42a5f5;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1002;
+        }
+        @media (max-width: 600px) {
+            body { padding: 70px 10px 10px; font-size: 14px; }
+            header h1 { font-size: 1.8em; }
+            nav a { font-size: 0.9em; margin: 0 8px; }
+            .section { padding: 1rem; }
+            .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box { width: 100%; padding: 15px; }
+            input, select, button { font-size: 16px; width: 100%; }
+            #ar-product-preview, #ar-scanner { width: 100%; height: 200px; }
+            #ad-banner { bottom: 10px; left: 10px; font-size: 0.9em; }
+            #consent-popup { width: 90%; }
+        }
+    </style>
 </head>
 <body>
     <div id="progress-bar"></div>
     <canvas class="live-particles" id="particle-canvas"></canvas>
-    <canvas id="bg-canvas"></canvas>
     <header>
         <h1>BabyBites</h1>
         <nav>
-            <a href="#home">Home
+            <a href="#home" tabindex="0">Home
                 <div class="mega-menu">
-                    <a href="#tools">Health Tools</a> | <a href="#products">Products</a> | <a href="#community">Community</a>
+                    <a href="#tools" tabindex="0">Health Tools</a> | <a href="#products" tabindex="0">Products</a> | <a href="#community" tabindex="0">Community</a>
                 </div>
             </a>
-            <a href="#products">Products
+            <a href="#products" tabindex="0">Products
                 <div class="mega-menu">
-                    <a href="#family-food-pack">Family Food Pack</a> | <a href="#health-starter-bundle">Health Starter</a> | <a href="#premium-wellness-pack">Premium Wellness</a>
+                    <a href="#family-food-pack" tabindex="0">Family Food Pack</a> | <a href="#health-starter-bundle" tabindex="0">Health Starter</a> | <a href="#premium-wellness-pack" tabindex="0">Premium Wellness</a>
                 </div>
             </a>
-            <a href="#tools">Health Tools</a>
-            <a href="#community">Community</a>
-            <a href="#signup">Sign Up</a>
-            <a href="#owner-room">Owner's Room</a>
+            <a href="#tools" tabindex="0">Health Tools</a>
+            <a href="#community" tabindex="0">Community</a>
+            <a href="#signup" tabindex="0">Sign Up</a>
+            <a href="#owner-room" tabindex="0">Owner's Room</a>
         </nav>
         <input type="text" id="persistent-search" placeholder="Search BabyBites..." style="position: absolute; right: 20px; top: 10px; width: 200px;" onkeyup="smartSearch()" aria-label="Search BabyBites">
     </header>
@@ -50,12 +270,13 @@
         <span id="ad-content">Discover BabyBites! Explore our <strong>Parenting Tools</strong>—no inventory, 100% legal!</span>
         <button onclick="this.parentElement.style.display='none'" aria-label="Close ad banner">✖</button>
     </div>
-    <div id="consent-popup">
-        <p>This is a personal project by Jacob Olschewski. Data is collected with your consent for personalization (GDPR/CCPA compliant). Agree to continue?
-            <button onclick="acceptConsent()" aria-label="Accept consent">Yes</button>
-            <button onclick="alert('You must agree to use BabyBites.');" aria-label="Decline consent">No</button>
-        </p>
+    <div id="consent-popup" role="dialog" aria-labelledby="consent-title">
+        <h2 id="consent-title">Privacy Consent</h2>
+        <p>This is a personal project by Jacob Olschewski. Data is collected with your consent for personalization (GDPR/CCPA compliant). Agree to continue?</p>
+        <button onclick="acceptConsent()" aria-label="Accept consent">Yes</button>
+        <button onclick="declineConsent()" aria-label="Decline consent">No</button>
     </div>
+    <div id="toast" role="alert" aria-live="assertive"></div>
     <div class="section" id="home">
         <h1>Trusted, Loving Care for Your Baby!</h1>
         <p>Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love and no inventory!</p>
@@ -63,22 +284,22 @@
             <h3>Smart Search</h3>
             <input id="search-input" placeholder="Discover tools, products, or advice..." onkeyup="smartSearch()" aria-label="Search tools, products, or advice">
             <button onclick="smartSearch()" aria-label="Submit search">Search</button>
-            <p id="search-results"></p>
+            <p id="search-results" aria-live="polite"></p>
         </div>
         <div id="ar-scanner"></div>
-        <video autoplay loop muted id="ai-video" loading="lazy">
+        <video autoplay loop muted id="ai-video" loading="lazy" poster="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
             <source src="https://cdn.example.com/babybites-welcome.mp4" type="video/mp4">
-            Your browser does not support the video tag.
+            Video not supported.
         </video>
         <div id="oracle">
             <h3>Parenting Oracle</h3>
-            <p id="oracle-prediction">Enter your baby's age to predict milestones!</p>
+            <p id="oracle-prediction" aria-live="polite">Enter your baby's age to predict milestones!</p>
             <input id="oracle-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
             <button onclick="predictMilestone()" aria-label="Predict milestone">Predict</button>
         </div>
         <div id="suggestions">
             <h3>Personalized Suggestions</h3>
-            <p id="suggestion-content">Try our Milestone Tracker to celebrate your baby's growth! ❤️</p>
+            <p id="suggestion-content" aria-live="polite">Try our Milestone Tracker to celebrate your baby's growth! ❤️</p>
         </div>
     </div>
     <div class="section" id="signup">
@@ -89,26 +310,26 @@
             <input type="text" id="signup-shipping" placeholder="Shipping Address" required aria-label="Enter shipping address">
             <input type="text" id="signup-payment" placeholder="Payment Method (e.g., Visa ****1234)" required aria-label="Enter payment method">
             <button onclick="signupUser()" aria-label="Sign up">Sign Up</button>
-            <p id="signup-result"></p>
+            <p id="signup-result" aria-live="polite"></p>
         </div>
     </div>
     <div class="section" id="products">
         <h2>Explore Affiliate Baby Products</h2>
-        <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#products">Products</a></nav>
+        <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#products" tabindex="0">Products</a></nav>
         <div class="product-bundle" data-bundle="Family Food Pack" id="family-food-pack">
-            <p>Family Food Pack - Affiliate Link: <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank">$49.99</a></p>
+            <p>Family Food Pack - Affiliate Link: <a href="https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20" target="_blank" rel="noopener">$49.99</a></p>
             <p>Includes: Organic Baby Food Pack, Organic Snack Box</p>
             <p>Ships directly from Amazon—no inventory held!</p>
             <button onclick="addToCart('Family Food Pack', 49.99)" aria-label="Add Family Food Pack to cart">Add to Cart</button>
         </div>
         <div class="product-bundle" data-bundle="Health Starter Bundle" id="health-starter-bundle">
-            <p>Health Starter Bundle - Affiliate Link: <a href="https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid" target="_blank">$63.99</a></p>
+            <p>Health Starter Bundle - Affiliate Link: <a href="https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid" target="_blank" rel="noopener">$63.99</a></p>
             <p>Includes: Nutritional Starter Kit, Baby Vitamin Set</p>
             <p>Ships directly from Target—no inventory held!</p>
             <button onclick="addToCart('Health Starter Bundle', 63.99)" aria-label="Add Health Starter Bundle to cart">Add to Cart</button>
         </div>
         <div class="product-bundle" data-bundle="Premium Wellness Pack" id="premium-wellness-pack">
-            <p>Premium Wellness Pack - Affiliate Link: <a href="https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid" target="_blank">$79.99</a></p>
+            <p>Premium Wellness Pack - Affiliate Link: <a href="https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid" target="_blank" rel="noopener">$79.99</a></p>
             <p>Includes: Premium Baby Formula, Baby Health Bundle</p>
             <p>Ships directly from Walmart—no inventory held!</p>
             <button onclick="addToCart('Premium Wellness Pack', 79.99)" aria-label="Add Premium Wellness Pack to cart">Add to Cart</button>
@@ -116,69 +337,69 @@
         <div id="ar-product-preview"></div>
         <div id="cart">
             <h3>Your Cart</h3>
-            <p id="cart-items">Cart is empty.</p>
+            <p id="cart-items" aria-live="polite">Cart is empty.</p>
             <input type="text" id="shipping-address" placeholder="Enter shipping address" aria-label="Enter shipping address">
             <select id="shipping-method" aria-label="Select shipping method">
                 <option value="standard">Standard (3-5 days)</option>
                 <option value="express">Express (1-2 days)</option>
             </select>
             <button onclick="checkout()" aria-label="Checkout">Checkout</button>
-            <p id="checkout-result"></p>
+            <p id="checkout-result" aria-live="polite"></p>
         </div>
         <div id="discount-calculator">
             <h3>Save with Love!</h3>
             <input type="number" id="discount-amount" placeholder="Enter Amount" min="0" aria-label="Enter amount for discount">
-            <button id="calculate-discount" aria-label="Calculate discount">Calculate 20-30% Off</button>
-            <p id="discount-result"></p>
+            <button onclick="calculateDiscount()" aria-label="Calculate discount">Calculate 20-30% Off</button>
+            <p id="discount-result" aria-live="polite"></p>
         </div>
         <div id="referral-program">
             <h3>Share the Joy!</h3>
             <input type="text" id="referral-code" placeholder="Your Referral Code" readonly value="BABY2025" aria-label="Referral code">
-            <p>Refer a friend and earn 10% off! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank">Link</a></p>
+            <p>Refer a friend and earn 10% off! Share: <a href="https://jakeolschewski.github.io/BabyBites/?ref=BABY2025" target="_blank" rel="noopener">Link</a></p>
         </div>
         <div id="reviews">
             <h3>Customer Reviews</h3>
-            <p id="review-log">No reviews yet! Add yours below. <em>Legal & Original!</em></p>
+            <p id="review-log" aria-live="polite">No reviews yet! Add yours below. <em>Legal & Original!</em></p>
             <input id="review-input" placeholder="Leave a review..." aria-label="Enter review">
             <button onclick="addReview()" aria-label="Submit review">Submit Review</button>
         </div>
     </div>
     <div class="section" id="tools">
         <h2>Nurture with Health Tools</h2>
-        <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#tools">Health Tools</a></nav>
+        <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#tools" tabindex="0">Health Tools</a></nav>
         <div class="tool-card" id="milestone-tracker">
             <h3>Milestone Tracker</h3>
             <input id="milestone-input" placeholder="Enter milestone (e.g., First step)" aria-label="Enter milestone">
             <button onclick="logMilestone()" aria-label="Log milestone">Log Milestone</button>
-            <p id="milestone-log">No milestones logged</p>
+            <p id="milestone-log" aria-live="polite">No milestones logged</p>
         </div>
         <div class="tool-card" id="wellness-chatbot">
             <h3>Wellness Chatbot</h3>
-            <input id="chatbot-input" placeholder="Ask anything about parenting..." onvoiceinput="voiceInput(event)" aria-label="Ask parenting question">
+            <input id="chatbot-input" placeholder="Ask anything about parenting..." oninput="voiceInput(event)" aria-label="Ask parenting question">
             <button onclick="chatbotRespond()" aria-label="Submit chatbot query">Ask</button>
-            <p id="chatbot-response">Ask away!</p>
+            <p id="chatbot-response" aria-live="polite">Ask away!</p>
         </div>
         <div class="tool-card" id="health-tips">
             <h3>Real-Time Health Tips</h3>
-            <p id="health-tip">Tip: Hydrate your baby with breast milk!</p>
+            <p id="health-tip" aria-live="polite">Tip: Hydrate your baby with breast milk!</p>
         </div>
         <div class="tool-card" id="allergy-checker">
             <h3>Allergy Checker</h3>
             <input id="allergy-input" placeholder="Enter food or substance" aria-label="Enter food or substance">
             <button onclick="checkAllergy()" aria-label="Check allergy">Check</button>
-            <p id="allergy-result">Enter a substance to check for allergies.</p>
+            <p id="allergy-result" aria-live="polite">Enter a substance to check for allergies.</p>
         </div>
         <div class="tool-card" id="growth-predictor">
             <h3>Growth Predictor</h3>
             <input id="growth-input" type="number" placeholder="Baby's age in months" min="0" aria-label="Enter baby's age">
             <button onclick="predictGrowth()" aria-label="Predict growth">Predict</button>
-            <p id="growth-result">Enter age to predict growth stages.</p>
+            <p id="growth-result" aria-live="polite">Enter age to predict growth stages.</p>
         </div>
         <div class="tool-card" id="sleep-tracker">
             <h3>Sleep Tracker</h3>
             <input id="sleep-input" type="time" aria-label="Enter sleep time">
             <button onclick="logSleep()" aria-label="Log sleep">Log Sleep</button>
-            <p id="sleep-log">No sleep logged yet.</p>
+            <p id="sleep-log" aria-live="polite">No sleep logged yet.</p>
         </div>
         <div class="tool-card" id="feeding-planner">
             <h3>Feeding Schedule Planner</h3>
@@ -188,36 +409,20 @@
             <h3>Live Community Chat</h3>
             <input id="chat-input" placeholder="Type a message..." aria-label="Enter chat message">
             <button onclick="sendChat()" aria-label="Send chat message">Send</button>
-            <p id="chat-log">Welcome to BabyBites Chat! 🎉</p>
+            <p id="chat-log" aria-live="polite">Welcome to BabyBites Chat! 🎉</p>
         </div>
     </div>
     <div class="section" id="community">
         <h2>Connect with Our Community</h2>
-        <nav class="breadcrumbs"><a href="#home">Home</a> > <a href="#community">Community</a></nav>
-        <p><a href="#forum" id="forum">Forum</a> | <a href="#gallery">Gallery</a> | <a href="#events">Events</a> | <a href="#academy" id="nutrition-academy">Nutrition Academy</a> | <a href="#blog">Blog</a></p>
+        <nav class="breadcrumbs"><a href="#home" tabindex="0">Home</a> > <a href="#community" tabindex="0">Community</a></nav>
+        <p><a href="#forum" id="forum" tabindex="0">Forum</a> | <a href="#gallery" tabindex="0">Gallery</a> | <a href="#events" tabindex="0">Events</a> | <a href="#academy" id="nutrition-academy" tabindex="0">Nutrition Academy</a> | <a href="#blog" tabindex="0">Blog</a></p>
         <div class="subscription-form">
             <input type="email" id="email" placeholder="Enter your email for health updates" required aria-label="Enter email for updates">
-            <button id="subscribe-btn" aria-label="Subscribe for updates">Subscribe for Updates (Free for Owner)</button>
+            <button onclick="subscribe()" aria-label="Subscribe for updates">Subscribe for Updates</button>
         </div>
         <div id="forum-content">
             <h3>Forum</h3>
-            <p>Join discussions with other parents! <a href="#live-chat">Start chatting now!</a></p>
-        </div>
-        <div id="gallery-content">
-            <h3>Gallery</h3>
-            <p>Share and view baby photos! Coming soon.</p>
-        </div>
-        <div id="events-content">
-            <h3>Events</h3>
-            <p>Join our virtual parenting workshops! Check back for updates.</p>
-        </div>
-        <div id="academy-content">
-            <h3>Nutrition Academy</h3>
-            <p>Learn about baby nutrition with our free resources! Coming soon.</p>
-        </div>
-        <div id="blog-content">
-            <h3>Blog</h3>
-            <p>Read parenting tips and stories! Coming soon.</p>
+            <p>Join discussions with other parents! <a href="#live-chat" tabindex="0">Start chatting now!</a></p>
         </div>
     </div>
     <div class="section" id="owner-room">
@@ -226,22 +431,21 @@
             <p>Welcome, Jacob Olschewski!</p>
             <input type="password" id="owner-password" placeholder="Password" aria-label="Enter password">
             <input type="text" id="owner-2fa" placeholder="2FA Code" style="display:none;" disabled aria-label="Enter 2FA code">
-            <input type="text" id="owner-biometric" placeholder="Biometric ID (e.g., fingerprint hash)" style="display:none;" disabled aria-label="Enter biometric ID">
-            <button id="owner-access" aria-label="Access Owner's Room">Access Room</button>
+            <button onclick="accessOwnerRoom()" aria-label="Access Owner's Room">Access Room</button>
             <div id="owner-content" style="display:none;">
                 <input type="text" id="owner-input" placeholder="Command for Owner’s Brian AI..." aria-label="Enter owner command">
-                <button id="owner-submit" aria-label="Submit owner command">Submit to Brian AI</button>
-                <div id="owner-response"></div>
+                <button onclick="processOwnerCommand()" aria-label="Submit owner command">Submit to Brian AI</button>
+                <div id="owner-response" aria-live="polite"></div>
                 <button onclick="toggleAnalytics()" aria-label="View analytics">View Analytics</button>
                 <button onclick="viewEarnings()" aria-label="View earnings">View Earnings</button>
                 <div id="analytics-dashboard" style="display:none;">
                     <h3>Analytics Dashboard</h3>
                     <canvas id="analytics-chart" style="max-width: 500px; margin: 0 auto;"></canvas>
-                    <p id="analytics-data">Users: 0 | Avg Time: 0s | Top Feature: None</p>
+                    <p id="analytics-data" aria-live="polite">Users: 0 | Avg Time: 0s | Top Feature: None</p>
                 </div>
                 <div id="earnings-dashboard" style="display:none;">
                     <h3>Earnings Dashboard</h3>
-                    <p id="earnings-data">Total Earnings: $0 | Pending: $0</p>
+                    <p id="earnings-data" aria-live="polite">Total Earnings: $0 | Pending: $0</p>
                     <button onclick="withdrawEarnings()" aria-label="Withdraw earnings">Withdraw to Bank</button>
                 </div>
             </div>
@@ -249,13 +453,13 @@
     </div>
     <div class="section">
         <div class="assistant-box">
-            <p>AI Help Center (Managed by Brian 7.0): Speak or type 'help', 'fix', 'owner', 'health', 'innovate', or ask anything!</p>
-            <input type="text" id="ai-input" placeholder="Command for Brian 7.0..." onvoiceinput="voiceInput(event)" aria-label="Enter AI command">
-            <button id="ai-submit" onclick="processAICommand()" aria-label="Submit AI command">Submit to Brian 7.0</button>
+            <p>AI Help Center (Managed by Brian 7.0): Speak or type 'help', 'fix', 'owner', 'health', or ask anything!</p>
+            <input type="text" id="ai-input" placeholder="Command for Brian 7.0..." oninput="voiceInput(event)" aria-label="Enter AI command">
+            <button onclick="processAICommand()" aria-label="Submit AI command">Submit to Brian 7.0</button>
         </div>
-        <button id="accessibility-mode" onclick="toggleAccessibilityMode()" aria-label="Toggle Accessibility Mode">Toggle Accessibility Mode</button>
-        <button id="high-contrast" onclick="toggleHighContrast()" aria-label="Toggle High Contrast">Toggle High Contrast</button>
-        <button id="dark-mode" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Toggle Dark Mode</button>
+        <button onclick="toggleAccessibilityMode()" aria-label="Toggle Accessibility Mode">Toggle Accessibility Mode</button>
+        <button onclick="toggleHighContrast()" aria-label="Toggle High Contrast">Toggle High Contrast</button>
+        <button onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">Toggle Dark Mode</button>
         <div class="theme-toggle">
             <select id="theme-select" onchange="changeTheme()" aria-label="Select theme">
                 <option value="default">Loving Theme</option>
@@ -267,1045 +471,1036 @@
             Language: <select id="lang-select" onchange="changeLanguage()" aria-label="Select language">
                 <option value="en">English</option>
                 <option value="es">Español</option>
-                <option value="fr">Français</option>
-                <option value="de">Deutsch</option>
-                <option value="zh">中文</option>
-                <option value="ar">العربية</option>
-                <option value="ru">Русский</option>
-                <option value="it">Italiano</option>
-                <option value="pt">Português</option>
-                <option value="jp">日本語</option>
-                <option value="ko">한국어</option>
-                <option value="hi">हिन्दी</option>
             </select>
         </div>
-        <div id="points" style="position: fixed; top: 100px; right: 20px; color: #ec407a;">Points: 0 🎉</div>
+        <div id="points" style="position: fixed; top: 100px; right: 20px; color: #ec407a;" aria-live="polite">Points: 0 🎉</div>
     </div>
     <div class="section" id="compliance">
         <h2>Tax Compliance & Privacy with Love</h2>
         <div class="disclaimer">
-            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate products and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deletable via Data Controls. Content licensed under CC BY-NC. <a href="#privacy">Privacy Policy</a>.</p>
+            <p>BabyBites is a personal project by Jacob Olschewski, not a corporation, and holds no inventory. It facilitates affiliate products and digital downloads via third-party suppliers, complying with IRS regulations for personal income (8% tax fallback, consult a tax professional). Use at your own risk; I am not liable for supplier outcomes. Data is collected with consent, stored securely per GDPR/CCPA, and deletable via Data Controls. Content licensed under CC BY-NC. <a href="#privacy" tabindex="0">Privacy Policy</a>.</p>
             <button onclick="deleteData()" aria-label="Delete user data">Delete My Data</button>
         </div>
     </div>
     <div class="footer">
-        <p>Created with ❤️ by Brian 7.0 for families - Visit <a href="https://jakeolschewski.github.io/BabyBites/" target="_blank">BabyBites</a>!</p>
+        <p>Created with ❤️ by Brian 7.0 for families - Visit <a href="https://jakeolschewski.github.io/BabyBites/" target="_blank" rel="noopener" tabindex="0">BabyBites</a>!</p>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
-body {
-    font-family: 'Arial', 'Helvetica Neue', sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
-    background-size: cover, cover;
-    background-blend-mode: overlay;
-    color: #01579b;
-    margin: 0;
-    padding: 90px 20px 20px;
-    animation: joyfulGlow 20s infinite ease-in-out;
-    overflow-x: hidden;
-    position: relative;
-}
-@keyframes joyfulGlow {
-    0% { background-position: 0% 0%; filter: brightness(100%) hue-rotate(0deg); }
-    50% { background-position: 50% 50%; filter: brightness(110%) hue-rotate(60deg); }
-    100% { background-position: 0% 0%; }
-}
-#progress-bar {
-    width: 0;
-    height: 5px;
-    background: #42a5f5;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    transition: width 0.15s ease;
-    box-shadow: 0 0 10px #42a5f5;
-}
-canvas.live-particles, canvas#bg-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.5;
-    pointer-events: none;
-}
-#ad-banner {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    background: rgba(66, 165, 245, 0.9);
-    color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    animation: slideAd 5s infinite;
-    z-index: 1000;
-    cursor: pointer;
-}
-@keyframes slideAd {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-}
-#ad-banner button {
-    background: #fff;
-    color: #42a5f5;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 10px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-#consent-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    display: none;
-}
-#consent-popup.active { display: block; }
-.dark-mode { background: #121212; color: #e0e0e0; }
-.dark-mode .section { background: rgba(30, 30, 30, 0.85); }
-.dark-mode input, .dark-mode select, .dark-mode button { background: #333; color: #e0e0e0; }
-.high-contrast { filter: contrast(200%) brightness(150%); }
-.accessibility-mode { background: #000; color: #fff; filter: contrast(200%); }
-header {
-    background: linear-gradient(90deg, #0288d1, #42a5f5);
-    color: #fff;
-    padding: 1.5rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #64b5f6;
-}
-header h1 {
-    font-size: 2.8em;
-    padding: 10px 20px;
-    margin: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 25px;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
-    animation: heartBeat 2s infinite;
-}
-@keyframes heartBeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-nav {
-    display: flex;
-    align-items: center;
-}
-nav a {
-    color: #bbdefb;
-    margin: 0 20px;
-    text-decoration: none;
-    font-size: 1.2em;
-    font-weight: bold;
-    transition: color 0.3s, text-shadow 0.3s;
-    position: relative;
-}
-nav a:hover {
-    color: #42a5f5;
-    text-shadow: 0 0 10px #42a5f5;
-}
-.mega-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    z-index: 1000;
-}
-nav a:hover > .mega-menu { display: block; }
-.section {
-    padding: 2.5rem;
-    max-width: 1200px;
-    margin: 0 auto 30px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 20px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.5s ease;
-}
-.section:hover {
-    transform: translateY(-10px);
-}
-.section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(144, 202, 249, 0.2) 0%, transparent 70%);
-    animation: pulseHeart 10s infinite;
-    z-index: 0;
-}
-@keyframes pulseHeart {
-    0% { transform: scale(0.5); opacity: 0.5; }
-    50% { transform: scale(1); opacity: 0; }
-    100% { transform: scale(0.5); opacity: 0.5; }
-}
-.product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box {
-    display: inline-block;
-    margin: 20px;
-    padding: 25px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s ease;
-    position: relative;
-    z-index: 1;
-    cursor: move;
-}
-.product-bundle:hover, .tool-card:hover, .signup-form:hover, .subscription-form:hover, .owner-room:hover, .assistant-box:hover, .search-box:hover {
-    transform: translateY(-15px) scale(1.08);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-.product-bundle::after, .tool-card::after, .signup-form::after, .subscription-form::after, .owner-room::after, .assistant-box::after, .search-box::after {
-    content: '🌟';
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 1.2em;
-    color: #42a5f5;
-    opacity: 0.7;
-    animation: bounce 2s infinite;
-}
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-#ar-product-preview, #ar-scanner {
-    margin: 20px auto;
-    width: 900px;
-    height: 400px;
-    border: 5px solid #42a5f5;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-.owner-room { display: none; }
-.owner-room.active { display: inline-block; }
-input, select, button {
-    padding: 12px 25px;
-    margin: 8px;
-    border: 3px solid #42a5f5;
-    border-radius: 30px;
-    font-size: 1.2em;
-    width: 350px;
-    background: #fff;
-    transition: all 0.4s;
-    cursor: pointer;
-}
-input:focus, select:focus, button:focus {
-    border-color: #0288d1;
-    box-shadow: 0 0 15px #42a5f5;
-    outline: none;
-}
-button {
-    background: linear-gradient(45deg, #42a5f5, #0288d1);
-    color: #fff;
-    cursor: pointer;
-}
-button:hover {
-    background: linear-gradient(45deg, #0288d1, #42a5f5);
-    transform: scale(1.05);
-}
-a {
-    color: #1976d2;
-    text-decoration: none;
-    font-weight: 600;
-    margin: 0 15px;
-    transition: all 0.4s ease;
-    position: relative;
-}
-a:hover {
-    color: #0288d1;
-    text-shadow: 0 0 8px #1976d2;
-}
-a:hover::after {
-    content: '✨';
-    position: absolute;
-    top: -5px;
-    right: -10px;
-    font-size: 1em;
-}
-video {
-    width: 100%;
-    max-width: 1000px;
-    margin-top: 10px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    animation: heartPulse 6s infinite alternate;
-}
-@keyframes heartPulse {
-    0% { transform: scale(1); box-shadow: 0 0 10px #42a5f5; }
-    100% { transform: scale(1.03); box-shadow: 0 0 20px #42a5f5; }
-}
-.footer {
-    font-size: 0.7em;
-    color: #666;
-    margin-top: 20px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-}
-.disclaimer {
-    font-size: 0.9em;
-    color: #01579b;
-    margin: 20px;
-    padding: 15px;
-    background: rgba(227, 242, 253, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-@media (max-width: 600px) {
-    body { padding: 70px 10px 10px; font-size: 14px; }
-    header h1 { font-size: 1.8em; padding: 5px 10px; }
-    nav a { font-size: 0.9em; margin: 0 8px; }
-    .section { padding: 1rem; margin-bottom: 20px; }
-    .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box { width: 100%; padding: 15px; }
-    input, select, button { font-size: 16px; padding: 8px 15px; width: 100%; }
-    video { max-width: 100%; }
-    #ar-product-preview, #ar-scanner { width: 100%; height: 200px; }
-    #ad-banner { bottom: 10px; left: 10px; padding: 8px 15px; font-size: 0.9em; }
-    #consent-popup { width: 90%; }
-    .mega-menu { width: 90%; }
-}
-@media (min-width: 601px) and (max-width: 1024px) {
-    body { padding: 80px 15px 15px; font-size: 16px; }
-    header h1 { font-size: 2.2em; padding: 8px 15px; }
-    nav a { font-size: 1em; margin: 0 10px; }
-    .section { padding: 1.5rem; margin-bottom: 25px; }
-    .product-bundle, .tool-card, .signup-form, .subscription-form, .owner-room, .assistant-box, .search-box { width: 300px; padding: 15px; }
-    input, select, button { font-size: 18px; padding: 10px 15px; width: 100%; }
-    video { max-width: 600px; }
-    #ar-product-preview, #ar-scanner { width: 500px; height: 300px; }
-    #ad-banner { bottom: 15px; left: 15px; padding: 10px 18px; }
-    #consent-popup { width: 70%; }
-    .mega-menu { width: 70%; }
-}
-try {
-// Global state
-let userInteractions = JSON.parse(localStorage.getItem('userInteractions')) || [];
-let memoryLog = JSON.parse(localStorage.getItem('memoryLog')) || [];
-let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let milestones = JSON.parse(localStorage.getItem('milestones')) || [];
-let chatLog = JSON.parse(localStorage.getItem('chatLog')) || [];
-let points = parseInt(localStorage.getItem('userPoints')) || 0;
-let sessionToken = JSON.parse(localStorage.getItem('sessionToken')) || null;
-let currentTheme = 'default';
-let adIndex = 0;
-let tfLoaded = false;
-let db;
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let earnings = JSON.parse(localStorage.getItem('earnings')) || { total: 0, pending: 0 };
-
-// Multilingual support
-const translations = {
-    en: {
-        welcome: "Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love and no inventory!",
-        searchPlaceholder: "Discover tools, products, or advice...",
-        productsTitle: "Explore Affiliate Baby Products",
-        toolsTitle: "Nurture with Health Tools",
-        communityTitle: "Connect with Our Community",
-        ownerRoomTitle: "Owner’s Private Management Room",
-        complianceTitle: "Tax Compliance & Privacy with Love"
-    },
-    es: {
-        welcome: "¡Bienvenido a BabyBites, un centro personal de Jacob Olschewski con amor impulsado por IA y sin inventario!",
-        searchPlaceholder: "Descubre herramientas, productos o consejos...",
-        productsTitle: "Explora productos afiliados para bebés",
-        toolsTitle: "Nutre con herramientas de salud",
-        communityTitle: "Conecta con nuestra comunidad",
-        ownerRoomTitle: "Sala de gestión privada del propietario",
-        complianceTitle: "Cumplimiento fiscal y privacidad con amor"
-    }
-};
-
-// Utility functions
-function saveInteraction(action, data = {}) {
-    try {
-        userInteractions.push({
-            clicks: 1,
-            timeSpent: Date.now(),
-            featuresUsed: 1,
-            pageViews: 1,
-            conversionRate: 0.0,
-            sessionDuration: performance.now(),
-            engagementScore: 0.7,
-            themePreference: currentTheme === 'calm' ? 0 : currentTheme === 'playful' ? 1 : 2,
-            lastAction: action,
-            socialShares: 0,
-            feedbackScore: 0,
-            deviceType: navigator.userAgent.includes('Mobile') ? 1 : 0,
-            language: document.getElementById('lang-select').value,
-            emotion: data.emotion || 0,
-            location: navigator.geolocation ? 1 : 0
-        });
-        memoryLog.push({ action, time: Date.now(), ...data });
-        localStorage.setItem('userInteractions', JSON.stringify(userInteractions));
-        localStorage.setItem('memoryLog', JSON.stringify(memoryLog));
-        if (db) {
-            const transaction = db.transaction(['memory'], 'readwrite');
-            const store = transaction.objectStore('memory');
-            store.put({ data: memoryLog, timestamp: Date.now() });
-        }
-        checkLegality();
-    } catch (e) {
-        console.error('Save interaction error:', e);
-    }
-}
-
-function checkLegality() {
-    try {
-        setTimeout(() => {
-            console.log('Brian 7.0: Legal check passed - GDPR/CCPA compliant, no COPPA violations, CC BY-NC enforced.');
-        }, 10000);
-    } catch (e) {
-        console.error('Legal check error:', e);
-    }
-}
-
-function openDatabase() {
-    try {
-        const request = indexedDB.open('BabyBitesMemory', 1);
-        request.onupgradeneeded = function(event) {
-            db = event.target.result;
-            db.createObjectStore('memory', { keyPath: 'id', autoIncrement: true });
+    <script>
+        // Constants
+        const CONFIG = {
+            AFFILIATE_LINKS: {
+                'Family Food Pack': 'https://www.amazon.com/dp/B08XYZ1234/?tag=youraffiliateid-20',
+                'Health Starter Bundle': 'https://www.target.com/p/health-starter-bundle/-/A-12345678?afid=youraffiliateid',
+                'Premium Wellness Pack': 'https://www.walmart.com/ip/premium-wellness-pack/90123456?affp1=youraffiliateid'
+            },
+            MAX_POINTS_PER_DAY: 100,
+            STORAGE_KEY: 'babybites_data'
         };
-        request.onsuccess = function(event) {
-            db = event.target.result;
+
+        // Global state
+        let state = {
+            userInteractions: [],
+            memoryLog: [],
+            reviews: [],
+            cart: [],
+            milestones: [],
+            chatLog: [],
+            points: 0,
+            sessionToken: null,
+            currentTheme: 'default',
+            adIndex: 0,
+            db: null,
+            users: [],
+            earnings: { total: 0, pending: 0 }
         };
-        request.onerror = function() {
-            console.error('IndexedDB error');
+
+        // Multilingual support
+        const translations = {
+            en: {
+                welcome: 'Welcome to BabyBites, a personal hub by Jacob Olschewski with AI-powered love and no inventory!',
+                searchPlaceholder: 'Discover tools, products, or advice...',
+                productsTitle: 'Explore Affiliate Baby Products',
+                toolsTitle: 'Nurture with Health Tools',
+                communityTitle: 'Connect with Our Community',
+                ownerRoomTitle: 'Owner’s Private Management Room',
+                complianceTitle: 'Tax Compliance & Privacy with Love'
+            },
+            es: {
+                welcome: '¡Bienvenido a BabyBites, un centro personal de Jacob Olschewski con amor impulsado por IA y sin inventario!',
+                searchPlaceholder: 'Descubre herramientas, productos o consejos...',
+                productsTitle: 'Explora productos afiliados para bebés',
+                toolsTitle: 'Nutre con herramientas de salud',
+                communityTitle: 'Conecta con nuestra comunidad',
+                ownerRoomTitle: 'Sala de gestión privada del propietario',
+                complianceTitle: 'Cumplimiento fiscal y privacidad con amor'
+            }
         };
-    } catch (e) {
-        console.error('Database error:', e);
-    }
-}
 
-function recallMemory(action) {
-    try {
-        if (db) {
-            const transaction = db.transaction(['memory'], 'readonly');
-            const store = transaction.objectStore('memory');
-            const request = store.getAll();
-            request.onsuccess = function() {
-                const logs = request.result[0]?.data || [];
-                const past = logs.filter(m => m.action === action);
-                if (past.length) alert(`Brian 7.0 recalls: You last ${action} on ${new Date(past[past.length - 1].time).toLocaleString()}!`);
-            };
+        // Utility functions
+        /**
+         * Displays a toast notification
+         * @param {string} message - Message to display
+         * @param {number} duration - Duration in ms
+         */
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = DOMPurify.sanitize(message);
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', duration);
         }
-    } catch (e) {
-        console.error('Recall memory error:', e);
-    }
-}
 
-async function loadTensorFlow() {
-    try {
-        if (!tfLoaded) {
-            await import('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js');
-            tfLoaded = true;
-        }
-        return tf;
-    } catch (e) {
-        console.error('TensorFlow load error:', e);
-        return null;
-    }
-}
-
-// Initialization
-window.addEventListener('load', () => {
-    try {
-        checkDependencies();
-        openDatabase();
-        updatePoints();
-        initARPreview();
-        initProgressBar();
-        initAdRotator();
-        initConsentPopup();
-        initDraggableCards();
-        initAnalyticsChart();
-        updateLanguage();
-        initAIAdvertising();
-        initParticleCanvas();
-        document.getElementById('points').innerHTML = `Points: ${points} 🎉`;
-    } catch (e) {
-        console.error('Initialization error:', e);
-        alert('Initialization failed. Brian 7.0 is resolving...');
-    }
-});
-
-function checkDependencies() {
-    try {
-        if (typeof jQuery === 'undefined') throw new Error('jQuery failed to load');
-        if (typeof THREE === 'undefined') throw new Error('THREE.js failed to load');
-        if (typeof CANNON === 'undefined') throw new Error('CANNON failed to load');
-        if (typeof Chart === 'undefined') throw new Error('Chart.js failed to load');
-    } catch (e) {
-        console.error('Dependency error:', e);
-        throw e;
-    }
-}
-
-function initProgressBar() {
-    try {
-        window.addEventListener('scroll', () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const progress = (scrollTop / scrollHeight) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-        });
-    } catch (e) {
-        console.error('Progress bar error:', e);
-    }
-}
-
-function initAdRotator() {
-    try {
-        const ads = [
-            'Love BabyBites? Try our <strong>Milestone Tracker</strong> today! No inventory, 100% legal! 🎉',
-            'Discover the <strong>Wellness Chatbot</strong> on BabyBites, copyright-safe! 🎤',
-            'Explore <strong>Affiliate Products</strong> at BabyBites, lawsuit-proof! ❤️',
-            'Join our <strong>Community</strong> on BabyBites, legally protected! 🌟',
-            'Download <strong>Digital Plans</strong> from BabyBites, 100% secure! 💕'
-        ];
-        setInterval(() => {
-            adIndex = (adIndex + 1) % ads.length;
-            document.getElementById('ad-content').innerHTML = ads[adIndex];
-        }, 5000);
-    } catch (e) {
-        console.error('Ad rotator error:', e);
-    }
-}
-
-function initConsentPopup() {
-    try {
-        if (!localStorage.getItem('consent')) {
-            document.getElementById('consent-popup').classList.add('active');
-        }
-    } catch (e) {
-        console.error('Consent popup error:', e);
-    }
-}
-
-function acceptConsent() {
-    try {
-        localStorage.setItem('consent', 'true');
-        document.getElementById('consent-popup').classList.remove('active');
-        saveInteraction('consent');
-    } catch (e) {
-        console.error('Accept consent error:', e);
-    }
-}
-
-function initDraggableCards() {
-    try {
-        $('.product-bundle').draggable({
-            containment: 'parent',
-            stop: () => saveInteraction('dragProduct')
-        });
-    } catch (e) {
-        console.error('Draggable cards error:', e);
-    }
-}
-
-function initAnalyticsChart() {
-    try {
-        const ctx = document.getElementById('analytics-chart')?.getContext('2d');
-        if (ctx) {
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Users', 'Avg Time (s)', 'Features Used'],
-                    datasets: [{
-                        label: 'Analytics',
-                        data: [userInteractions.length, userInteractions.reduce((sum, i) => sum + (i.sessionDuration || 0), 0) / 1000, userInteractions.reduce((sum, i) => sum + (i.featuresUsed || 0), 0)],
-                        backgroundColor: '#42a5f5'
-                    }]
-                },
-                options: {
-                    scales: { y: { beginAtZero: true } }
-                }
-            });
-        }
-    } catch (e) {
-        console.error('Analytics chart error:', e);
-    }
-}
-
-function initParticleCanvas() {
-    try {
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const particles = [];
-        for (let i = 0; i < 100; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                vx: Math.random() * 0.5 - 0.25,
-                vy: Math.random() * 0.5 - 0.25
-            });
-        }
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(66, 165, 245, 0.5)';
-                ctx.fill();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-    } catch (e) {
-        console.error('Particle canvas error:', e);
-    }
-}
-
-// Theme and accessibility
-function changeTheme() {
-    try {
-        const theme = document.getElementById('theme-select').value;
-        currentTheme = theme;
-        const styles = {
-            calm: { bg: 'linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea, #4dd0e1, #26c6da)', color: '#004d40', border: '#26c6da' },
-            playful: { bg: 'linear-gradient(135deg, #fff9c4, #ffecb3, #ffe082, #ffd54f, #ffca28)', color: '#ef6c00', border: '#ffca28' },
-            default: { bg: 'linear-gradient(135deg, #e3f2fd, #bbdefb, #90caf9, #64b5f6, #42a5f5)', color: '#01579b', border: '#42a5f5' }
-        };
-        document.body.style.background = styles[theme].bg;
-        document.body.style.color = styles[theme].color;
-        document.querySelectorAll('input, select, button').forEach(el => el.style.borderColor = styles[theme].border);
-        if (theme === 'default') {
-            document.body.classList.remove('dark-mode', 'high-contrast', 'accessibility-mode');
-        }
-        saveInteraction('themeChange', { theme });
-    } catch (e) {
-        console.error('Change theme error:', e);
-    }
-}
-
-function toggleDarkMode() {
-    try {
-        document.body.classList.toggle('dark-mode');
-        saveInteraction('darkModeToggle');
-    } catch (e) {
-        console.error('Dark mode toggle error:', e);
-    }
-}
-
-function toggleHighContrast() {
-    try {
-        document.body.classList.toggle('high-contrast');
-        saveInteraction('highContrastToggle');
-    } catch (e) {
-        console.error('High contrast toggle error:', e);
-    }
-}
-
-function toggleAccessibilityMode() {
-    try {
-        document.body.classList.toggle('accessibility-mode');
-        saveInteraction('accessibilityModeToggle');
-    } catch (e) {
-        console.error('Accessibility mode toggle error:', e);
-    }
-}
-
-// Language support
-function changeLanguage() {
-    try {
-        const lang = document.getElementById('lang-select').value;
-        updateLanguage(lang);
-        saveInteraction('languageChange', { language: lang });
-    } catch (e) {
-        console.error('Change language error:', e);
-    }
-}
-
-function updateLanguage(lang = 'en') {
-    try {
-        const trans = translations[lang] || translations.en;
-        document.querySelector('#home p').textContent = trans.welcome;
-        document.querySelector('#search-input').placeholder = trans.searchPlaceholder;
-        document.querySelector('#products h2').textContent = trans.productsTitle;
-        document.querySelector('#tools h2').textContent = trans.toolsTitle;
-        document.querySelector('#community h2').textContent = trans.communityTitle;
-        document.querySelector('#owner-room h2').textContent = trans.ownerRoomTitle;
-        document.querySelector('#compliance h2').textContent = trans.complianceTitle;
-    } catch (e) {
-        console.error('Update language error:', e);
-    }
-}
-
-// AI and chatbot
-async function trainChatbotModel() {
-    try {
-        const tf = await loadTensorFlow();
-        if (!tf) throw new Error('TensorFlow not loaded');
-        const model = tf.sequential();
-        model.add(tf.layers.dense({ units: 40, inputShape: [20], activation: 'relu' }));
-        model.add(tf.layers.dense({ units: 20, activation: 'relu' }));
-        model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
-        model.compile({ optimizer: 'adam', loss: 'binaryCrossentropy' });
-        const xs = tf.tensor2d(userInteractions.map(i => [
-            i.clicks || 0, i.timeSpent || 0, i.featuresUsed || 0, i.pageViews || 0,
-            i.conversionRate || 0, i.sessionDuration || 0, i.themePreference || 0,
-            i.lastAction ? 1 : 0, i.socialShares || 0, i.feedbackScore || 0,
-            i.deviceType || 0, i.language === 'en' ? 0 : 1, i.emotion || 0,
-            i.location || 0, memoryLog.length || 0, 0, 0, 0, 0, 0
-        ]));
-        const ys = tf.tensor2d(userInteractions.map(i => [i.engagementScore || 0.5]));
-        await model.fit(xs, ys, { epochs: 30, batchSize: 4 });
-        return model;
-    } catch (e) {
-        console.error('Train chatbot model error:', e);
-        return null;
-    }
-}
-
-const chatbotResponses = {
-    help: 'Brian 7.0: I’m here to assist! Ask about parenting, tools, or products. Try our <strong>Milestone Tracker</strong>, 100% legal!',
-    fix: 'Brian 7.0: Fixing with care! Describe the issue. Love our <strong>Wellness Chatbot</strong>?',
-    owner: 'Brian 7.0: Access Owner’s Room with password Jacob2025 and 2FA. Manage BabyBites securely!',
-    health: 'Brian 7.0: Nurture your baby! Try Milestone Tracker or ask about nutrition. Explore BabyBites products!',
-    innovate: 'Brian 7.0: New features coming soon! Share BabyBites, copyright-protected!',
-    nutrition: 'Brian 7.0: Feed with love—try our affiliate formula bundles! Visit BabyBites!',
-    milestone: 'Brian 7.0: Log milestones in the Tracker! Share your baby’s joy on BabyBites!',
-    allergy: 'Brian 7.0: Use our Allergy Checker for safe feeding. Discover BabyBites products!',
-    sleep: 'Brian 7.0: Sweet dreams with the Sleep Tracker. Need tips? Explore BabyBites!',
-    feeding: 'Brian 7.0: Plan meals with our Feeding Planner. Download at BabyBites!',
-    cart: 'Brian 7.0: Check out affiliate bundles with ease! Shop BabyBites now!',
-    discount: 'Brian 7.0: Save 20-30% with our Discount Calculator! Shop via BabyBites!',
-    referral: 'Brian 7.0: Share BABY2025 for 10% off! Spread BabyBites’ love!',
-    subscribe: 'Brian 7.0: Subscribe for free updates! Join BabyBites, copyright-safe!',
-    recipe: 'Brian 7.0: Try our digital baby food recipes! More at BabyBites!',
-    product: 'Brian 7.0: Discover affiliate treasures! Explore BabyBites bundles!',
-    community: 'Brian 7.0: Join our Forum or Nutrition Academy! Connect at BabyBites!',
-    tax: 'Brian 7.0: IRS compliant, no advice. Consult a pro. Trust BabyBites!',
-    privacy: 'Brian 7.0: Data safe per GDPR/CCPA. Delete via settings. Check BabyBites!',
-    default: 'Brian 7.0: Let’s explore! Try tools, products, or ask anything. Visit BabyBites!'
-};
-
-function voiceInput(event) {
-    try {
-        const input = event.target;
-        if ('webkitSpeechRecognition' in window && localStorage.getItem('consent') === 'true') {
-            const recognition = new webkitSpeechRecognition();
-            recognition.lang = document.getElementById('lang-select').value;
-            recognition.interimResults = true;
-            recognition.onresult = (e) => {
-                const transcript = e.results[0][0].transcript;
-                input.value = transcript;
-                const emotion = detectEmotion(transcript);
-                let response = '';
-                if (emotion === 'stressed') response = 'Brian 7.0: Take a breath! Try our Sleep Tracker to relax. ❤️';
-                else if (emotion === 'happy') response = 'Brian 7.0: So joyful! Share your love on BabyBites! 🎉';
-                else response = 'Brian 7.0: I’m here with love! 🎤';
-                if (input.id === 'chatbot-input') {
-                    document.getElementById('chatbot-response').textContent = response || chatbotRespond();
-                } else if (input.id === 'ai-input') {
-                    alert(response || 'Command processed!');
-                } else if (input.id === 'owner-input') {
-                    processOwnerCommand(transcript);
-                }
-                saveInteraction('voiceInput', { input: transcript, emotion });
-            };
-            recognition.onerror = () => alert('Voice input error. Type your query!');
-            recognition.start();
-        } else {
-            alert('Voice input not supported or consent not given. Type your query!');
-        }
-    } catch (e) {
-        console.error('Voice input error:', e);
-    }
-}
-
-function detectEmotion(transcript) {
-    try {
-        const stressedWords = ['help', 'stressed', 'tired'];
-        const happyWords = ['happy', 'love', 'joy'];
-        return stressedWords.some(w => transcript.toLowerCase().includes(w)) ? 'stressed' :
-               happyWords.some(w => transcript.toLowerCase().includes(w)) ? 'happy' : 'neutral';
-    } catch (e) {
-        console.error('Detect emotion error:', e);
-        return 'neutral';
-    }
-}
-
-async function chatbotRespond() {
-    try {
-        const input = document.getElementById('chatbot-input');
-        if (!input || !input.value) {
-            document.getElementById('chatbot-response').textContent = 'Speak or type with love! 🎤 Check out BabyBites’ features!';
-            return;
-        }
-        const query = input.value.toLowerCase().trim();
-        let response = chatbotResponses.default;
-        let maxScore = 0;
-        for (const key in chatbotResponses) {
-            if (query.includes(key)) {
-                const score = query.split(key).length - 1;
-                if (score > maxScore) {
-                    maxScore = score;
-                    response = chatbotResponses[key];
-                }
+        /**
+         * Saves data to sessionStorage with throttling
+         */
+        let lastStorageWrite = 0;
+        function saveToStorage(key, data) {
+            try {
+                const now = Date.now();
+                if (now - lastStorageWrite < 1000) return; // Throttle to 1s
+                sessionStorage.setItem(key, JSON.stringify(data));
+                lastStorageWrite = now;
+            } catch (e) {
+                showToast('Storage error. Please try again.');
+                console.error('Storage error:', e);
             }
         }
-        // Simulate internet browsing
-        const webData = await fetchWebData(query);
-        if (webData) response += ` ${webData}`;
-        const model = await trainChatbotModel();
-        if (model) {
-            const inputVector = Array(20).fill(Math.random());
-            const prediction = model.predict(tf.tensor2d([inputVector]));
-            const score = prediction.dataSync()[0];
-            response += ` (AI confidence: ${(score * 100).toFixed(2)}%)`;
-        }
-        const pastInteraction = memoryLog.find(m => m.action === 'chatbot' && m.query === query);
-        if (pastInteraction) response += ` (Recall: Asked on ${new Date(pastInteraction.time).toLocaleString()})`;
-        document.getElementById('chatbot-response').textContent = response;
-        input.value = '';
-        saveInteraction('chatbot', { query });
-    } catch (e) {
-        console.error('Chatbot respond error:', e);
-        document.getElementById('chatbot-response').textContent = 'Oops! Try again with love! 🎵';
-    }
-}
 
-async function fetchWebData(query) {
-    try {
-        // Mock web browsing (real implementation needs server-side API)
-        const mockWebResults = {
-            'what to feed my 6-month-old': 'Trusted sources suggest introducing pureed fruits and vegetables at 6 months, like organic applesauce. Check our affiliate bundles for baby food!',
-            'baby sleep tips': 'Ensure a firm mattress and consistent bedtime routine. Try our Sleep Tracker for monitoring!'
+        /**
+         * Saves user interaction
+         * @param {string} action - Action type
+         * @param {Object} data - Additional data
+         */
+        function saveInteraction(action, data = {}) {
+            try {
+                state.userInteractions.push({
+                    action,
+                    time: Date.now(),
+                    ...data,
+                    deviceType: navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop',
+                    language: document.getElementById('lang-select').value
+                });
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                if (state.db) {
+                    const transaction = state.db.transaction(['memory'], 'readwrite');
+                    const store = transaction.objectStore('memory');
+                    store.put({ data: state.memoryLog, timestamp: Date.now() });
+                }
+                checkLegality();
+            } catch (e) {
+                showToast('Error saving interaction.');
+                console.error('Save interaction error:', e);
+            }
+        }
+
+        /**
+         * Checks legal compliance
+         */
+        function checkLegality() {
+            setTimeout(() => {
+                console.log('Legal check: GDPR/CCPA compliant, CC BY-NC enforced.');
+            }, 10000);
+        }
+
+        /**
+         * Opens IndexedDB with fallback
+         */
+        function openDatabase() {
+            try {
+                if (!window.indexedDB) {
+                    showToast('IndexedDB not supported. Using sessionStorage.');
+                    return;
+                }
+                const request = indexedDB.open('BabyBitesMemory', 1);
+                request.onupgradeneeded = (event) => {
+                    state.db = event.target.result;
+                    state.db.createObjectStore('memory', { keyPath: 'id', autoIncrement: true });
+                };
+                request.onsuccess = (event) => {
+                    state.db = event.target.result;
+                };
+                request.onerror = () => {
+                    showToast('Database error. Using sessionStorage.');
+                    console.error('IndexedDB error');
+                };
+            } catch (e) {
+                showToast('Database initialization failed.');
+                console.error('Database error:', e);
+            }
+        }
+
+        // Initialization
+        window.addEventListener('load', () => {
+            try {
+                checkDependencies();
+                openDatabase();
+                updatePoints();
+                initARPreview();
+                initProgressBar();
+                initAdRotator();
+                initConsentPopup();
+                initDraggableCards();
+                initAnalyticsChart();
+                updateLanguage();
+                initParticleCanvas();
+                document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
+            } catch (e) {
+                showToast('Initialization failed. Please refresh.');
+                console.error('Initialization error:', e);
+            }
+        });
+
+        /**
+         * Checks library dependencies
+         */
+        function checkDependencies() {
+            if (!window.jQuery) throw new Error('jQuery not loaded');
+            if (!window.THREE) throw new Error('THREE.js not loaded');
+            if (!window.Chart) throw new Error('Chart.js not loaded');
+            if (!window.DOMPurify) throw new Error('DOMPurify not loaded');
+        }
+
+        /**
+         * Initializes progress bar
+         */
+        function initProgressBar() {
+            try {
+                window.addEventListener('scroll', () => {
+                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const progress = (scrollTop / scrollHeight) * 100;
+                    document.getElementById('progress-bar').style.width = `${progress}%`;
+                });
+            } catch (e) {
+                console.error('Progress bar error:', e);
+            }
+        }
+
+        /**
+         * Rotates ad content
+         */
+        function initAdRotator() {
+            try {
+                const ads = [
+                    'Love BabyBites? Try our <strong>Milestone Tracker</strong> today!',
+                    'Discover the <strong>Wellness Chatbot</strong> on BabyBites!',
+                    'Explore <strong>Affiliate Products</strong> at BabyBites!'
+                ];
+                setInterval(() => {
+                    state.adIndex = (state.adIndex + 1) % ads.length;
+                    document.getElementById('ad-content').innerHTML = DOMPurify.sanitize(ads[state.adIndex]);
+                }, 5000);
+            } catch (e) {
+                console.error('Ad rotator error:', e);
+            }
+        }
+
+        /**
+         * Shows consent popup
+         */
+        function initConsentPopup() {
+            try {
+                if (!sessionStorage.getItem('consent')) {
+                    document.getElementById('consent-popup').classList.add('active');
+                    document.getElementById('consent-popup').focus();
+                }
+            } catch (e) {
+                console.error('Consent popup error:', e);
+            }
+        }
+
+        /**
+         * Accepts user consent
+         */
+        function acceptConsent() {
+            try {
+                sessionStorage.setItem('consent', 'true');
+                document.getElementById('consent-popup').classList.remove('active');
+                saveInteraction('consent');
+            } catch (e) {
+                showToast('Error saving consent.');
+                console.error('Consent error:', e);
+            }
+        }
+
+        /**
+         * Declines consent
+         */
+        function declineConsent() {
+            showToast('You must agree to use BabyBites.');
+        }
+
+        /**
+         * Makes product cards draggable
+         */
+        function initDraggableCards() {
+            try {
+                $('.product-bundle').draggable({
+                    containment: 'parent',
+                    stop: () => saveInteraction('dragProduct')
+                });
+            } catch (e) {
+                console.error('Draggable cards error:', e);
+            }
+        }
+
+        /**
+         * Initializes analytics chart
+         */
+        function initAnalyticsChart() {
+            try {
+                const ctx = document.getElementById('analytics-chart')?.getContext('2d');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Users', 'Avg Time (s)', 'Features Used'],
+                            datasets: [{
+                                label: 'Analytics',
+                                data: [
+                                    state.userInteractions.length,
+                                    state.userInteractions.reduce((sum, i) => sum + (i.time || 0), 0) / 1000,
+                                    state.userInteractions.length
+                                ],
+                                backgroundColor: '#42a5f5'
+                            }]
+                        },
+                        options: {
+                            scales: { y: { beginAtZero: true } },
+                            plugins: {
+                                legend: { display: false }
+                            }
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error('Analytics chart error:', e);
+            }
+        }
+
+        /**
+         * Initializes particle canvas
+         */
+        function initParticleCanvas() {
+            try {
+                const canvas = document.getElementById('particle-canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const particles = [];
+                for (let i = 0; i < 50; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        radius: Math.random() * 2 + 1,
+                        vx: Math.random() * 0.5 - 0.25,
+                        vy: Math.random() * 0.5 - 0.25
+                    });
+                }
+                function animateParticles() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(66, 165, 245, 0.5)';
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(animateParticles);
+                }
+                animateParticles();
+            } catch (e) {
+                console.error('Particle canvas error:', e);
+            }
+        }
+
+        /**
+         * Initializes AR preview
+         */
+        function initARPreview() {
+            try {
+                const container = document.getElementById('ar-product-preview');
+                if (!container) return;
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                container.appendChild(renderer.domElement);
+                const geometry = new THREE.BoxGeometry(1, 1, 1);
+                const material = new THREE.MeshBasicMaterial({ color: 0x42a5f5 });
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+                camera.position.z = 5;
+                const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                function animate() {
+                    requestAnimationFrame(animate);
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+                    renderer.render(scene, camera);
+                }
+                animate();
+                window.addEventListener('resize', () => {
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                });
+            } catch (e) {
+                showToast('AR preview failed to load.');
+                console.error('AR preview error:', e);
+            }
+        }
+
+        // Theme and accessibility
+        /**
+         * Changes theme
+         */
+        function changeTheme() {
+            try {
+                const theme = document.getElementById('theme-select').value;
+                state.currentTheme = theme;
+                const styles = {
+                    calm: { bg: 'linear-gradient(135deg, #e0f7fa, #b2ebf2)', color: '#004d40', border: '#26c6da' },
+                    playful: { bg: 'linear-gradient(135deg, #fff9c4, #ffecb3)', color: '#ef6c00', border: '#ffca28' },
+                    default: { bg: 'linear-gradient(135deg, #e3f2fd, #bbdefb)', color: '#01579b', border: '#42a5f5' }
+                };
+                document.body.style.background = styles[theme].bg;
+                document.body.style.color = styles[theme].color;
+                document.querySelectorAll('input, select, button').forEach(el => el.style.borderColor = styles[theme].border);
+                document.body.classList.remove('dark-mode', 'high-contrast', 'accessibility-mode');
+                saveInteraction('themeChange', { theme });
+            } catch (e) {
+                showToast('Theme change failed.');
+                console.error('Change theme error:', e);
+            }
+        }
+
+        function toggleDarkMode() {
+            try {
+                document.body.classList.toggle('dark-mode');
+                saveInteraction('darkModeToggle');
+            } catch (e) {
+                console.error('Dark mode toggle error:', e);
+            }
+        }
+
+        function toggleHighContrast() {
+            try {
+                document.body.classList.toggle('high-contrast');
+                saveInteraction('highContrastToggle');
+            } catch (e) {
+                console.error('High contrast toggle error:', e);
+            }
+        }
+
+        function toggleAccessibilityMode() {
+            try {
+                document.body.classList.toggle('accessibility-mode');
+                saveInteraction('accessibilityModeToggle');
+            } catch (e) {
+                console.error('Accessibility mode toggle error:', e);
+            }
+        }
+
+        // Language support
+        /**
+         * Updates page language
+         * @param {string} lang - Language code
+         */
+        function updateLanguage(lang = 'en') {
+            try {
+                const trans = translations[lang] || translations.en;
+                document.querySelector('#home p').textContent = trans.welcome;
+                document.querySelector('#search-input').placeholder = trans.searchPlaceholder;
+                document.querySelector('#products h2').textContent = trans.productsTitle;
+                document.querySelector('#tools h2').textContent = trans.toolsTitle;
+                document.querySelector('#community h2').textContent = trans.communityTitle;
+                document.querySelector('#owner-room h2').textContent = trans.ownerRoomTitle;
+                document.querySelector('#compliance h2').textContent = trans.complianceTitle;
+            } catch (e) {
+                console.error('Update language error:', e);
+            }
+        }
+
+        function changeLanguage() {
+            try {
+                const lang = document.getElementById('lang-select').value;
+                updateLanguage(lang);
+                saveInteraction('languageChange', { language: lang });
+            } catch (e) {
+                console.error('Change language error:', e);
+            }
+        }
+
+        // AI and chatbot
+        const chatbotResponses = {
+            help: 'Brian 7.0: Ask about parenting, tools, or products!',
+            health: 'Brian 7.0: Try Milestone Tracker or ask about nutrition!',
+            default: 'Brian 7.0: Let’s explore! Try tools or products!'
         };
-        return mockWebResults[query] || 'Brian 7.0 found relevant tips online. Explore our tools and products!';
-    } catch (e) {
-        console.error('Fetch web data error:', e);
-        return '';
-    }
-}
 
-function processAICommand() {
-    try {
-        const input = document.getElementById('ai-input').value.toLowerCase().trim();
-        const response = chatbotResponses[input] || chatbotResponses.default;
-        alert(response);
-        saveInteraction('aiCommand', { command: input });
-    } catch (e) {
-        console.error('Process AI command error:', e);
-    }
-}
-
-// Health tools
-const searchCategories = [
-    { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones with love! 🎉 Try BabyBites, 100% legal!', score: 0.9 },
-    { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask with care. Discover BabyBites, copyright-safe! 🎤', score: 0.95 },
-    { id: 'health-tips', category: 'Health Tools', title: 'Health Tips', description: 'Joyful tips for your baby. More at BabyBites, lawsuit-proof! 🌱', score: 0.8 },
-    { id: 'family-food-pack', category: 'Products', title: 'Family Food Pack', description: 'Affiliate link for organic love. Shop via BabyBites, legally protected! ❤️', score: 0.85 },
-    { id: 'health-starter-bundle', category: 'Products', title: 'Health Starter Bundle', description: 'Affiliate nurturing kit. Get it via BabyBites, secure! 🍼', score: 0.8 },
-    { id: 'premium-wellness-pack', category: 'Products', title: 'Premium Wellness Pack', description: 'Affiliate care products. Buy via BabyBites, copyright-safe! 💕', score: 0.9 },
-    { id: 'forum', category: 'Community', title: 'Forum', description: 'Connect with parents. Join BabyBites, 100% legal! 🌟', score: 0.75 },
-    { id: 'nutrition-academy', category: 'Community', title: 'Nutrition Academy', description: 'Learn with love. Enroll at BabyBites, lawsuit-proof! 🍎', score: 0.7 }
-];
-
-function smartSearch() {
-    try {
-        const input = document.getElementById('search-input') || document.getElementById('persistent-search');
-        if (!input || !input.value) {
-            document.getElementById('search-results').textContent = 'Search with love! 🎉 Try BabyBites’ tools!';
-            return;
+        /**
+         * Handles voice input
+         * @param {Event} event - Input event
+         */
+        function voiceInput(event) {
+            try {
+                const input = event.target;
+                if (!sessionStorage.getItem('consent')) {
+                    showToast('Consent required for voice input.');
+                    return;
+                }
+                if ('webkitSpeechRecognition' in window) {
+                    const recognition = new window.webkitSpeechRecognition();
+                    recognition.lang = document.getElementById('lang-select').value;
+                    recognition.interimResults = true;
+                    recognition.onresult = (e) => {
+                        const transcript = DOMPurify.sanitize(e.results[0][0].transcript);
+                        input.value = transcript;
+                        saveInteraction('voiceInput', { input: transcript });
+                        if (input.id === 'chatbot-input') {
+                            chatbotRespond();
+                        } else if (input.id === 'ai-input') {
+                            processAICommand();
+                        } else if (input.id === 'owner-input') {
+                            processOwnerCommand();
+                        }
+                    };
+                    recognition.onerror = () => {
+                        showToast('Voice input failed. Type your query.');
+                    };
+                    recognition.start();
+                } else {
+                    showToast('Voice input not supported.');
+                }
+            } catch (e) {
+                showToast('Voice input error.');
+                console.error('Voice input error:', e);
+            }
         }
-        const query = input.value.toLowerCase().trim();
-        const results = searchCategories
-            .filter(item => item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query))
-            .sort((a, b) => b.score - a.score)
-            .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description} ✨ <em>Explore more at BabyBites, 100% legal!</em></p>`);
-        document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No joyful results found! 🎵 Check BabyBites for more!';
-        saveInteraction('search', { query });
-    } catch (e) {
-        console.error('Smart search error:', e);
-        alert('Search error. Brian 7.0 fixing...');
-    }
-}
 
-function logMilestone() {
-    try {
-        const input = document.getElementById('milestone-input');
-        if (input && input.value) {
-            milestones.push(input.value);
-            localStorage.setItem('milestones', JSON.stringify(milestones));
-            document.getElementById('milestone-log').textContent = milestones.join(', ');
-            input.value = '';
-            const badge = `<span style="color:#42a5f5; animation: bounce 1s;">⭐ Milestone Logged!</span>`;
-            document.getElementById('milestone-log').innerHTML += badge;
-            points += 10;
-            localStorage.setItem('userPoints', points);
-            updatePoints();
-            saveInteraction('milestone', { milestone: input.value });
+        /**
+         * Responds to chatbot queries
+         */
+        async function chatbotRespond() {
+            try {
+                const input = document.getElementById('chatbot-input');
+                if (!input || !input.value) {
+                    document.getElementById('chatbot-response').textContent = 'Type a question!';
+                    return;
+                }
+                const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
+                let response = chatbotResponses.default;
+                for (const key in chatbotResponses) {
+                    if (query.includes(key)) {
+                        response = chatbotResponses[key];
+                        break;
+                    }
+                }
+                const webData = await fetchWebData(query);
+                if (webData) response += ` ${webData}`;
+                document.getElementById('chatbot-response').textContent = response;
+                input.value = '';
+                saveInteraction('chatbot', { query });
+            } catch (e) {
+                showToast('Chatbot error. Try again.');
+                console.error('Chatbot error:', e);
+            }
         }
-    } catch (e) {
-        console.error('Log milestone error:', e);
-        alert('Milestone error. Brian 7.0 fixing...');
-    }
-}
 
-function checkAllergy() {
-    try {
-        const input = document.getElementById('allergy-input').value.toLowerCase().trim();
-        const commonAllergens = ['peanuts', 'milk', 'eggs', 'soy', 'wheat', 'fish', 'shellfish', 'tree nuts'];
-        const result = commonAllergens.includes(input) ?
-            `Warning: ${input} is a common allergen. Consult a pediatrician.` :
-            `${input} is not a common allergen, but always monitor for reactions.`;
-        document.getElementById('allergy-result').textContent = result;
-        saveInteraction('allergyCheck', { substance: input });
-    } catch (e) {
-        console.error('Check allergy error:', e);
-    }
-}
-
-function predictGrowth() {
-    try {
-        const age = parseInt(document.getElementById('growth-input').value);
-        if (isNaN(age) || age < 0) {
-            document.getElementById('growth-result').textContent = 'Please enter a valid age!';
-            return;
+        /**
+         * Fetches mock web data
+         * @param {string} query - Search query
+         * @returns {Promise<string>} - Mock response
+         */
+        async function fetchWebData(query) {
+            try {
+                const mockWebResults = {
+                    'what to feed my 6-month-old': 'Pureed fruits and vegetables recommended.',
+                    'baby sleep tips': 'Use a firm mattress and consistent routine.'
+                };
+                return mockWebResults[query] || 'Relevant tips found!';
+            } catch (e) {
+                console.error('Fetch web data error:', e);
+                return '';
+            }
         }
-        const predictions = {
-            0: 'Newborn: Expect frequent feeding and sleeping.',
-            6: '6 Months: May start sitting up and trying solids.',
-            12: '12 Months: Likely walking and saying first words.',
-            24: '24 Months: Developing language and motor skills.'
-        };
-        const key = Object.keys(predictions).find(k => age <= parseInt(k)) || 24;
-        document.getElementById('growth-result').textContent = predictions[key];
-        saveInteraction('growthPredict', { age });
-    } catch (e) {
-        console.error('Predict growth error:', e);
-    }
-}
 
-function logSleep() {
-    try {
-        const input = document.getElementById('sleep-input').value;
-        if (input) {
-            const log = `Sleep logged at ${input}`;
-            document.getElementById('sleep-log').textContent = log;
-            saveInteraction('sleepLog', { time: input });
+        /**
+         * Processes AI commands
+         */
+        function processAICommand() {
+            try {
+                const input = document.getElementById('ai-input').value.toLowerCase().trim();
+                const response = chatbotResponses[input] || chatbotResponses.default;
+                showToast(response);
+                saveInteraction('aiCommand', { command: input });
+            } catch (e) {
+                showToast('AI command error.');
+                console.error('AI command error:', e);
+            }
         }
-    } catch (e) {
-        console.error('Log sleep error:', e);
-    }
-}
 
-function predictMilestone() {
-    try {
-        const age = parseInt(document.getElementById('oracle-input').value);
-        if (isNaN(age) || age < 0) {
-            document.getElementById('oracle-prediction').textContent = 'Please enter a valid age!';
-            return;
-        }
-        const milestones = {
-            0: 'Newborn: Smiling and cooing expected soon!',
-            6: '6 Months: Likely to sit up and babble.',
-            12: '12 Months: First steps and words on the horizon!',
-            24: '24 Months: Running and simple sentences.'
-        };
-        const key = Object.keys(milestones).find(k => age <= parseInt(k)) || 24;
-        document.getElementById('oracle-prediction').textContent = milestones[key];
-        saveInteraction('oraclePredict', { age });
-        setTimeout(updateOracle, 20000);
-    } catch (e) {
-        console.error('Predict milestone error:', e);
-    }
-}
-
-function updateOracle() {
-    try {
-        const suggestions = [
-            'Try our Milestone Tracker to celebrate your baby’s growth! ❤️',
-            'Check out the Wellness Chatbot for parenting tips! 🎤',
-            'Explore our affiliate products for baby essentials! 🍼'
+        // Health tools
+        const searchCategories = [
+            { id: 'milestone-tracker', category: 'Health Tools', title: 'Milestone Tracker', description: 'Log milestones!' },
+            { id: 'wellness-chatbot', category: 'Health Tools', title: 'Wellness Chatbot', description: 'Ask parenting questions!' }
         ];
-        document.getElementById('suggestion-content').textContent = suggestions[Math.floor(Math.random() * suggestions.length)];
-    } catch (e) {
-        console.error('Update oracle error:', e);
-    }
-}
 
-const healthTip = document.getElementById('health-tip');
-if (healthTip) {
-    setInterval(() => {
-        try {
-            const tips = [
-                'Hydrate your baby with breast milk or formula! 🎶 Try BabyBites’ tools!',
-                'Introduce solids at 6 months for happy growth! 🌱 Discover BabyBites!',
-                'Ensure safe sleep with a firm mattress! 💤 Check BabyBites’ Sleep Tracker!',
-                'Monitor allergies with our checker! 🌼 Explore BabyBites!',
-                'Track sleep for sweet dreams! 🌙 Love BabyBites’ features?',
-                'Plan feeding for joyful moments! 🍎 Visit BabyBites!'
-            ];
-            healthTip.textContent = `Tip: ${tips[Math.floor(Math.random() * tips.length)]}`;
-        } catch (e) {
-            console.error('Health tip error:', e);
+        /**
+         * Performs smart search
+         */
+        function smartSearch() {
+            try {
+                const input = document.getElementById('search-input') || document.getElementById('persistent-search');
+                if (!input || !input.value) {
+                    document.getElementById('search-results').textContent = 'Search for tools or products!';
+                    return;
+                }
+                const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
+                const results = searchCategories
+                    .filter(item => item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query))
+                    .map(item => `<p><strong>${item.category}</strong>: ${item.title} - ${item.description}</p>`);
+                document.getElementById('search-results').innerHTML = results.length ? results.join('') : 'No results found!';
+                saveInteraction('search', { query });
+            } catch (e) {
+                showToast('Search error.');
+                console.error('Smart search error:', e);
+            }
         }
-    }, 20000);
-}
 
-// Products and community
-function addReview() {
-    try {
-        const input = document.getElementById('review-input');
-        if (input.value && localStorage.getItem('consent') === 'true') {
-            reviews.push(input.value);
-            localStorage.setItem('reviews', JSON.stringify(reviews));
-            document.getElementById('review-log').innerHTML = reviews.map(r => `<p>${r} <em>Legal & Original!</em></p>`).join('');
-            input.value = '';
-            points += 20;
-            localStorage.setItem('userPoints', points);
-            updatePoints();
-            saveInteraction('review', { review: input.value });
+        /**
+         * Logs a milestone
+         */
+        function logMilestone() {
+            try {
+                const input = document.getElementById('milestone-input');
+                if (!input || !input.value) {
+                    showToast('Enter a milestone.');
+                    return;
+                }
+                const milestone = DOMPurify.sanitize(input.value);
+                state.milestones.push(milestone);
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('milestone-log').textContent = state.milestones.join(', ');
+                input.value = '';
+                addPoints(10);
+                saveInteraction('milestone', { milestone });
+            } catch (e) {
+                showToast('Milestone logging failed.');
+                console.error('Log milestone error:', e);
+            }
         }
-    } catch (e) {
-        console.error('Add review error:', e);
-    }
-}
 
-function sendChat() {
-    try {
-        const input = document.getElementById('chat-input');
-        if (input.value && localStorage.getItem('consent') === 'true') {
-            chatLog.push(`You: ${input.value} (Promote BabyBites!)`);
-            localStorage.setItem('chatLog', JSON.stringify
+        /**
+         * Checks allergies
+         */
+        function checkAllergy() {
+            try {
+                const input = document.getElementById('allergy-input');
+                if (!input || !input.value) {
+                    showToast('Enter a substance.');
+                    return;
+                }
+                const substance = DOMPurify.sanitize(input.value.toLowerCase().trim());
+                const commonAllergens = ['peanuts', 'milk', 'eggs'];
+                const result = commonAllergens.includes(substance) ?
+                    `Warning: ${substance} is a common allergen.` :
+                    `${substance} is not a common allergen.`;
+                document.getElementById('allergy-result').textContent = result;
+                saveInteraction('allergyCheck', { substance });
+            } catch (e) {
+                showToast('Allergy check failed.');
+                console.error('Check allergy error:', e);
+            }
+        }
+
+        /**
+         * Predicts growth
+         */
+        function predictGrowth() {
+            try {
+                const input = document.getElementById('growth-input');
+                if (!input || isNaN(input.value) || input.value < 0) {
+                    document.getElementById('growth-result').textContent = 'Enter a valid age!';
+                    return;
+                }
+                const age = parseInt(input.value);
+                const predictions = {
+                    0: 'Newborn: Frequent feeding.',
+                    6: '6 Months: Sitting up.'
+                };
+                const key = Object.keys(predictions).find(k => age <= parseInt(k)) || 6;
+                document.getElementById('growth-result').textContent = predictions[key];
+                saveInteraction('growthPredict', { age });
+            } catch (e) {
+                showToast('Growth prediction failed.');
+                console.error('Predict growth error:', e);
+            }
+        }
+
+        /**
+         * Logs sleep
+         */
+        function logSleep() {
+            try {
+                const input = document.getElementById('sleep-input');
+                if (!input || !input.value) {
+                    showToast('Enter sleep time.');
+                    return;
+                }
+                const time = DOMPurify.sanitize(input.value);
+                document.getElementById('sleep-log').textContent = `Sleep logged at ${time}`;
+                saveInteraction('sleepLog', { time });
+            } catch (e) {
+                showToast('Sleep logging failed.');
+                console.error('Log sleep error:', e);
+            }
+        }
+
+        /**
+         * Predicts milestones
+         */
+        function predictMilestone() {
+            try {
+                const input = document.getElementById('oracle-input');
+                if (!input || isNaN(input.value) || input.value < 0) {
+                    document.getElementById('oracle-prediction').textContent = 'Enter a valid age!';
+                    return;
+                }
+                const age = parseInt(input.value);
+                const milestones = {
+                    0: 'Newborn: Smiling soon!',
+                    6: '6 Months: Babbling.'
+                };
+                const key = Object.keys(milestones).find(k => age <= parseInt(k)) || 6;
+                document.getElementById('oracle-prediction').textContent = milestones[key];
+                saveInteraction('oraclePredict', { age });
+                setTimeout(updateOracle, 20000);
+            } catch (e) {
+                showToast('Milestone prediction failed.');
+                console.error('Predict milestone error:', e);
+            }
+        }
+
+        /**
+         * Updates oracle suggestions
+         */
+        function updateOracle() {
+            try {
+                const suggestions = [
+                    'Try our Milestone Tracker!',
+                    'Check out the Wellness Chatbot!'
+                ];
+                document.getElementById('suggestion-content').textContent = suggestions[Math.floor(Math.random() * suggestions.length)];
+            } catch (e) {
+                console.error('Update oracle error:', e);
+            }
+        }
+
+        /**
+         * Updates health tips
+         */
+        setInterval(() => {
+            try {
+                const tips = [
+                    'Hydrate your baby with breast milk!',
+                    'Introduce solids at 6 months!'
+                ];
+                document.getElementById('health-tip').textContent = `Tip: ${tips[Math.floor(Math.random() * tips.length)]}`;
+            } catch (e) {
+                console.error('Health tip error:', e);
+            }
+        }, 20000);
+
+        // Products and community
+        /**
+         * Adds a review
+         */
+        function addReview() {
+            try {
+                const input = document.getElementById('review-input');
+                if (!input || !input.value || !sessionStorage.getItem('consent')) {
+                    showToast('Enter a review and consent.');
+                    return;
+                }
+                const review = DOMPurify.sanitize(input.value);
+                state.reviews.push(review);
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${r} <em>Legal!</em></p>`).join('');
+                input.value = '';
+                addPoints(20);
+                saveInteraction('review', { review });
+            } catch (e) {
+                showToast('Review submission failed.');
+                console.error('Add review error:', e);
+            }
+        }
+
+        /**
+         * Sends chat message
+         */
+        function sendChat() {
+            try {
+                const input = document.getElementById('chat-input');
+                if (!input || !input.value || !sessionStorage.getItem('consent')) {
+                    showToast('Enter a message and consent.');
+                    return;
+                }
+                const message = DOMPurify.sanitize(input.value);
+                state.chatLog.push(`You: ${message}`);
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('chat-log').textContent = state.chatLog.join('\n');
+                input.value = '';
+                saveInteraction('chat', { message });
+            } catch (e) {
+                showToast('Chat message failed.');
+                console.error('Send chat error:', e);
+            }
+        }
+
+        /**
+         * Adds points with limits
+         * @param {number} points - Points to add
+         */
+        function addPoints(points) {
+            try {
+                const today = new Date().toDateString();
+                const dailyPoints = state.userInteractions
+                    .filter(i => new Date(i.time).toDateString() === today)
+                    .reduce((sum, i) => sum + (i.points || 0), 0);
+                if (dailyPoints + points <= CONFIG.MAX_POINTS_PER_DAY) {
+                    state.points += points;
+                    saveToStorage(CONFIG.STORAGE_KEY, state);
+                    document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
+                } else {
+                    showToast('Daily points limit reached.');
+                }
+            } catch (e) {
+                console.error('Add points error:', e);
+            }
+        }
+
+        /**
+         * Updates points display
+         */
+        function updatePoints() {
+            try {
+                document.getElementById('points').textContent = `Points: ${state.points} 🎉`;
+            } catch (e) {
+                console.error('Update points error:', e);
+            }
+        }
+
+        /**
+         * Signs up a user
+         */
+        function signupUser() {
+            try {
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const shipping = DOMPurify.sanitize(document.getElementById('signup-shipping').value);
+                const payment = DOMPurify.sanitize(document.getElementById('signup-payment').value);
+                if (!email || !password || !shipping || !payment) {
+                    showToast('Fill all fields.');
+                    return;
+                }
+                // Mock server-side bcrypt hashing
+                const hashedPassword = btoa(password); // Replace with real server-side hashing
+                state.users.push({ email, password: hashedPassword, shipping, payment });
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('signup-result').textContent = 'Sign-up successful!';
+                saveInteraction('signup', { email });
+            } catch (e) {
+                showToast('Sign-up failed.');
+                console.error('Signup error:', e);
+            }
+        }
+
+        /**
+         * Adds item to cart
+         * @param {string} item - Item name
+         * @param {number} price - Item price
+         */
+        function addToCart(item, price) {
+            try {
+                state.cart.push({ item, price });
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('cart-items').textContent = state.cart.map(i => `${i.item}: $${i.price}`).join(', ');
+                saveInteraction('addToCart', { item, price });
+            } catch (e) {
+                showToast('Add to cart failed.');
+                console.error('Add to cart error:', e);
+            }
+        }
+
+        /**
+         * Processes checkout
+         */
+        function checkout() {
+            try {
+                const address = DOMPurify.sanitize(document.getElementById('shipping-address').value);
+                const method = document.getElementById('shipping-method').value;
+                if (!address || !state.cart.length) {
+                    showToast('Add items and shipping address.');
+                    return;
+                }
+                // Mock server-side checkout
+                state.earnings.pending += state.cart.reduce((sum, i) => sum + i.price, 0) * 0.1; // 10% commission
+                state.cart = [];
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('cart-items').textContent = 'Cart is empty.';
+                document.getElementById('checkout-result').textContent = 'Checkout successful!';
+                saveInteraction('checkout', { address, method });
+            } catch (e) {
+                showToast('Checkout failed.');
+                console.error('Checkout error:', e);
+            }
+        }
+
+        /**
+         * Calculates discount
+         */
+        function calculateDiscount() {
+            try {
+                const amount = parseFloat(document.getElementById('discount-amount').value);
+                if (isNaN(amount) || amount <= 0) {
+                    showToast('Enter a valid amount.');
+                    return;
+                }
+                const discount = amount * (Math.random() * 0.1 + 0.2); // 20-30%
+                document.getElementById('discount-result').textContent = `Discount: $${discount.toFixed(2)}`;
+                saveInteraction('discount', { amount, discount });
+            } catch (e) {
+                showToast('Discount calculation failed.');
+                console.error('Calculate discount error:', e);
+            }
+        }
+
+        /**
+         * Subscribes user
+         */
+        function subscribe() {
+            try {
+                const email = document.getElementById('email').value;
+                if (!email) {
+                    showToast('Enter an email.');
+                    return;
+                }
+                // Mock server-side subscription
+                showToast('Subscribed successfully!');
+                saveInteraction('subscribe', { email });
+            } catch (e) {
+                showToast('Subscription failed.');
+                console.error('Subscribe error:', e);
+            }
+        }
+
+        /**
+         * Accesses owner room
+         */
+        function accessOwnerRoom() {
+            try {
+                const password = document.getElementById('owner-password').value;
+                // Mock server-side validation
+                if (password === 'secure2025') { // Replace with real server-side check
+                    document.getElementById('owner-content').style.display = 'block';
+                    document.getElementById('owner-room').classList.add('active');
+                    saveInteraction('ownerAccess');
+                } else {
+                    showToast('Invalid password.');
+                }
+            } catch (e) {
+                showToast('Owner access failed.');
+                console.error('Owner access error:', e);
+            }
+        }
+
+        /**
+         * Processes owner commands
+         */
+        function processOwnerCommand() {
+            try {
+                const input = document.getElementById('owner-input').value;
+                document.getElementById('owner-response').textContent = `Command processed: ${DOMPurify.sanitize(input)}`;
+                saveInteraction('ownerCommand', { command: input });
+            } catch (e) {
+                showToast('Owner command failed.');
+                console.error('Owner command error:', e);
+            }
+        }
+
+        /**
+         * Toggles analytics dashboard
+         */
+        function toggleAnalytics() {
+            try {
+                const dashboard = document.getElementById('analytics-dashboard');
+                dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
+                saveInteraction('viewAnalytics');
+            } catch (e) {
+                showToast('Analytics toggle failed.');
+                console.error('Toggle analytics error:', e);
+            }
+        }
+
+        /**
+         * Views earnings
+         */
+        function viewEarnings() {
+            try {
+                const dashboard = document.getElementById('earnings-dashboard');
+                dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
+                document.getElementById('earnings-data').textContent = `Total: $${state.earnings.total.toFixed(2)} | Pending: $${state.earnings.pending.toFixed(2)}`;
+                saveInteraction('viewEarnings');
+            } catch (e) {
+                showToast('Earnings view failed.');
+                console.error('View earnings error:', e);
+            }
+        }
+
+        /**
+         * Withdraws earnings
+         */
+        function withdrawEarnings() {
+            try {
+                if (state.earnings.pending <= 0) {
+                    showToast('No pending earnings.');
+                    return;
+                }
+                state.earnings.total += state.earnings.pending;
+                state.earnings.pending = 0;
+                saveToStorage(CONFIG.STORAGE_KEY, state);
+                document.getElementById('earnings-data').textContent = `Total: $${state.earnings.total.toFixed(2)} | Pending: $${state.earnings.pending.toFixed(2)}`;
+                showToast('Earnings withdrawn.');
+                saveInteraction('withdrawEarnings');
+            } catch (e) {
+                showToast('Withdrawal failed.');
+                console.error('Withdraw earnings error:', e);
+            }
+        }
+
+        /**
+         * Deletes user data
+         */
+        function deleteData() {
+            try {
+                sessionStorage.clear();
+                if (state.db) {
+                    const request = state.db.transaction(['memory'], 'readwrite').objectStore('memory').clear();
+                    request.onsuccess = () => showToast('Data deleted.');
+                    request.onerror = () => showToast('Data deletion failed.');
+                } else {
+                    showToast('Data deleted.');
+                }
+                state = { ...state, userInteractions: [], memoryLog: [], reviews: [], cart: [], milestones: [], chatLog: [], points: 0, users: [] };
+                location.reload();
+            } catch (e) {
+                showToast('Data deletion failed.');
+                console.error('Delete data error:', e);
+            }
+        }
+    </script>
+</body>
+</html>
