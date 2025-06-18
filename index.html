@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="BabyBites: AI-powered parenting hub by Jacob Olschewski, offering affiliate baby products, advanced tools, and a revolutionary SmartBrain AI.">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self'; object-src 'none'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; media-src 'self' https://cdn.pixabay.com; object-src 'none'; worker-src 'self' blob:;">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="BabyBites - Premier Parenting Hub">
     <meta property="og:description" content="Explore BabyBites by Jacob Olschewski for parenting tools and affiliate products!">
@@ -81,14 +81,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #fff;
+            background: rgba(255, 255, 255, 0.2);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
             z-index: 1001;
             display: none;
             backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.2);
         }
         #consent-popup.active {
             display: block;
@@ -97,7 +96,7 @@
             background: #121212;
             color: #e0e0e0;
         }
-        .dark-mode .section {
+        .dark-mode .section, .dark-mode .product-bundle, .dark-mode .tool-card {
             background: rgba(30, 30, 30, .85);
         }
         .dark-mode input, .dark-mode select, .dark-mode button {
@@ -583,7 +582,7 @@
                 <button onclick="accessOwnerRoom()" aria-label="Access Owner's Room">Access Room</button>
                 <div id="owner-content" style="display:none;">
                     <h3>SmartBrain 2.0 AI</h3>
-                    <p>Ask SmartBrain to modify the site (e.g., "Add product Baby Sleep Kit for $29.99" or "Change header color to green")</p>
+                    <p>Ask SmartBrain to modify the site (e.g., "Add product Baby Sleep Kit for $29.99", "Change header color to green", "Rewrite footer HTML")</p>
                     <input type="text" id="smartbrain-input" placeholder="Talk to SmartBrain..." oninput="voiceInput(event)" aria-label="Enter SmartBrain command">
                     <button onclick="processSmartBrain()" aria-label="Submit to SmartBrain">Submit</button>
                     <button onclick="toggleVoiceOutput()" aria-label="Toggle voice output">Toggle Voice Output</button>
@@ -594,12 +593,12 @@
                         <h3>Change Log</h3>
                         <p id="change-log-content" aria-live="polite">No changes yet.</p>
                     </div>
-                    <div id="analytics" style="display:none;">
+                    <div id="analytics">
                         <h3>Analytics Dashboard</h3>
                         <canvas id="analytics-chart" style="max-width:500px;margin:0 auto;"></canvas>
                         <p id="analytics-data" aria-live="polite">Users: 0 | Avg Time: 0s | Actions: 0</p>
                     </div>
-                    <div id="earnings" style="display:none;">
+                    <div id="earnings">
                         <h3>Earnings Dashboard</h3>
                         <p id="earnings-data" aria-live="polite">Total Earnings: $0 | Pending: $0</p>
                         <button onclick="withdrawEarnings()" aria-label="Withdraw earnings">Withdraw to Bank</button>
@@ -652,10 +651,10 @@
             STORAGE_KEY: 'babybites_data',
             LEARNING_KEY: 'babybites_learning',
             MAX_POINTS_PER_DAY: 100,
-            PROTECTED_IDS: ['home', 'owner-room', 'compliance', 'header', 'footer'],
+            PROTECTED_IDS: ['home', 'owner-room', 'compliance', 'header', 'footer', 'main-content'],
             OWNER_PASSWORD: 'secure2025',
             OWNER_2FA: '123456',
-            CSRF_TOKEN: 'mock-csrf-' + Math.random().toString(36).slice(2),
+            CSRF_TOKEN: 'csrf-' + Math.random().toString(36).slice(2),
             EVOLUTION_INTERVAL: 30 * 60 * 1000,
             NETLIFY_FUNCTION_URL: 'https://your-netlify-function-url.netlify.app/.netlify/functions/github-commit' // Replace with your deployed function URL
         };
@@ -668,6 +667,7 @@
             cart: [],
             milestones: [],
             chatLog: [],
+            diaperLog: [],
             points: 20,
             sessionToken: null,
             currentTheme: 'default',
@@ -681,7 +681,8 @@
             knowledgeBase: [],
             voiceOutputEnabled: true,
             changeLog: [],
-            pendingChanges: []
+            pendingChanges: [],
+            isVoiceActive: false // Flag to prevent voice recognition overlap
         };
 
         // Translations
@@ -738,11 +739,27 @@
         function showToast(message, duration = 3000) {
             try {
                 const toast = document.getElementById('toast');
+                if (!toast) throw new Error('Toast element missing');
                 toast.textContent = DOMPurify.sanitize(message);
                 toast.style.display = 'block';
-                setTimeout(() => toast.style.display = 'none', duration);
+                setTimeout(() => {
+                    if (toast) toast.style.display = 'none';
+                }, duration);
             } catch (e) {
                 console.error('Toast error:', e);
+                logError('showToast', e.message);
+            }
+        }
+
+        function logError(functionName, errorMessage) {
+            try {
+                if (state.db) {
+                    const tx = state.db.transaction(['errors'], 'readwrite');
+                    const store = tx.objectStore('errors');
+                    store.put({ id: Date.now(), functionName, errorMessage });
+                }
+            } catch (e) {
+                console.error('Error logging failed:', e);
             }
         }
 
@@ -755,8 +772,9 @@
                 localStorage.setItem(CONFIG.LEARNING_KEY, JSON.stringify({ knowledgeBase: state.knowledgeBase }));
                 lastStorageWrite = now;
             } catch (e) {
-                showToast('Storage error.');
+                showToast('Storage error. Changes may not persist.');
                 console.error('Storage error:', e);
+                logError('saveToStorage', e.message);
             }
         }
 
@@ -779,31 +797,45 @@
             } catch (e) {
                 showToast('Interaction logging error.');
                 console.error('Interaction error:', e);
+                logError('saveInteraction', e.message);
             }
         }
 
         function openDatabase() {
             try {
                 if (!window.indexedDB) {
-                    showToast('IndexedDB not supported.');
+                    showToast('IndexedDB not supported. Some features may be limited.');
                     return;
                 }
-                const request = indexedDB.open('BabyBitesMemory', 1);
+                const request = indexedDB.open('BabyBitesMemory', 2);
                 request.onupgradeneeded = (e) => {
                     state.db = e.target.result;
-                    state.db.createObjectStore('memory', { keyPath: 'id' });
-                    state.db.createObjectStore('knowledge', { keyPath: 'id' });
-                    state.db.createObjectStore('changes', { keyPath: 'id' });
+                    if (!state.db.objectStoreNames.contains('memory')) {
+                        state.db.createObjectStore('memory', { keyPath: 'id' });
+                    }
+                    if (!state.db.objectStoreNames.contains('knowledge')) {
+                        state.db.createObjectStore('knowledge', { keyPath: 'id' });
+                    }
+                    if (!state.db.objectStoreNames.contains('changes')) {
+                        state.db.createObjectStore('changes', { keyPath: 'id' });
+                    }
+                    if (!state.db.objectStoreNames.contains('errors')) {
+                        state.db.createObjectStore('errors', { keyPath: 'id' });
+                    }
                 };
                 request.onsuccess = (e) => {
                     state.db = e.target.result;
                     loadKnowledgeBase();
                     loadChangeLog();
                 };
-                request.onerror = () => showToast('Database error.');
+                request.onerror = () => {
+                    showToast('Database initialization failed.');
+                    logError('openDatabase', 'IndexedDB open failed');
+                };
             } catch (e) {
-                showToast('Database init failed.');
+                showToast('Database setup error.');
                 console.error('Database error:', e);
+                logError('openDatabase', e.message);
             }
         }
 
@@ -816,9 +848,13 @@
                 request.onsuccess = (e) => {
                     state.knowledgeBase = e.target.result.map(item => item.data) || [];
                 };
-                request.onerror = () => console.error('Knowledge base load error.');
+                request.onerror = () => {
+                    console.error('Knowledge base load error.');
+                    logError('loadKnowledgeBase', 'Failed to load knowledge base');
+                };
             } catch (e) {
                 console.error('Knowledge base error:', e);
+                logError('loadKnowledgeBase', e.message);
             }
         }
 
@@ -832,9 +868,13 @@
                     state.changeLog = e.target.result.map(item => item.data) || [];
                     updateChangeLog();
                 };
-                request.onerror = () => console.error('Change log load error.');
+                request.onerror = () => {
+                    console.error('Change log load error.');
+                    logError('loadChangeLog', 'Failed to load change log');
+                };
             } catch (e) {
                 console.error('Change log error:', e);
+                logError('loadChangeLog', e.message);
             }
         }
 
@@ -848,12 +888,13 @@
                 saveToStorage();
             } catch (e) {
                 console.error('Knowledge save error:', e);
+                logError('saveKnowledge', e.message);
             }
         }
 
         function saveChange(change) {
             try {
-                if (!state.db) return;
+                if (!state.db) throw new Error('Database not initialized');
                 const tx = state.db.transaction(['changes'], 'readwrite');
                 const store = tx.objectStore('changes');
                 const changeData = { id: Date.now(), data: change };
@@ -863,15 +904,20 @@
                 updateChangeLog();
                 saveToStorage();
             } catch (e) {
+                showToast('Failed to save change.');
                 console.error('Change save error:', e);
+                logError('saveChange', e.message);
             }
         }
 
         function updateChangeLog() {
             try {
-                document.getElementById('change-log-content').textContent = state.changeLog.length ? state.changeLog.map(c => `${c.time}: ${c.command}`).join('\n') : 'No changes yet.';
+                const logContent = document.getElementById('change-log-content');
+                if (!logContent) throw new Error('Change log element missing');
+                logContent.textContent = state.changeLog.length ? state.changeLog.map(c => `${new Date(c.time).toLocaleString()}: ${c.command}`).join('\n') : 'No changes yet.';
             } catch (e) {
                 console.error('Change log update error:', e);
+                logError('updateChangeLog', e.message);
             }
         }
 
@@ -901,6 +947,7 @@
             } catch (e) {
                 showToast('Startup error. Try refreshing.');
                 console.error('Init error:', e);
+                logError('window.onload', e.message);
             }
         });
 
@@ -914,6 +961,7 @@
             } catch (e) {
                 showToast('Dependency missing. Some features may not work.');
                 console.error('Dependency error:', e);
+                logError('checkDependencies', e.message);
             }
         }
 
@@ -925,10 +973,26 @@
                     const parsed = JSON.parse(saved);
                     state = { ...state, ...parsed };
                     updatePoints();
-                    document.getElementById('cart-items').textContent = state.cart.length ? state.cart.map(i => `${i.item}: $${i.price}`).join(', ') : 'Cart is empty.';
-                    document.getElementById('review-log').innerHTML = state.reviews.map(r => `<p>${DOMPurify.sanitize(r)}</p>`).join('');
-                    document.getElementById('milestone-log').textContent = state.milestones?.length ? state.milestones.join(', ') : 'No milestones logged';
-                    document.getElementById('chat-log').textContent = state.chatLog.join('\n');
+                    const cartItems = document.getElementById('cart-items');
+                    if (cartItems) {
+                        cartItems.textContent = state.cart.length ? state.cart.map(i => `${i.item}: $${i.price}`).join(', ') : 'Cart is empty.';
+                    }
+                    const reviewLog = document.getElementById('review-log');
+                    if (reviewLog) {
+                        reviewLog.innerHTML = state.reviews.map(r => `<p>${DOMPurify.sanitize(r)}</p>`).join('');
+                    }
+                    const milestoneLog = document.getElementById('milestone-log');
+                    if (milestoneLog) {
+                        milestoneLog.textContent = state.milestones?.length ? state.milestones.join(', ') : 'No milestones logged';
+                    }
+                    const chatLog = document.getElementById('chat-log');
+                    if (chatLog) {
+                        chatLog.textContent = state.chatLog.join('\n');
+                    }
+                    const diaperLog = document.getElementById('diaper-log');
+                    if (diaperLog) {
+                        diaperLog.textContent = state.diaperLog.length ? state.diaperLog.join(', ') : 'No diaper changes logged yet.';
+                    }
                     if (state.customElements) {
                         Object.entries(state.customElements).forEach(([id, html]) => {
                             const container = document.querySelector(`#${id}`);
@@ -943,16 +1007,23 @@
                 const savedTheme = localStorage.getItem('theme');
                 const savedLang = localStorage.getItem('lang');
                 if (savedTheme) {
-                    document.getElementById('theme-select').value = savedTheme;
-                    changeTheme();
+                    const themeSelect = document.getElementById('theme-select');
+                    if (themeSelect) {
+                        themeSelect.value = savedTheme;
+                        changeTheme();
+                    }
                 }
                 if (savedLang) {
-                    document.getElementById('lang-select').value = savedLang;
-                    updateLanguage();
+                    const langSelect = document.getElementById('lang-select');
+                    if (langSelect) {
+                        langSelect.value = savedLang;
+                        updateLanguage();
+                    }
                 }
             } catch (e) {
                 showToast('Error loading state.');
                 console.error('Load state error:', e);
+                logError('loadState', e.message);
             }
         }
 
@@ -962,10 +1033,12 @@
                     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
                     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                     const progress = scrollHeight ? (scrollTop / scrollHeight) * 100 : 0;
-                    document.getElementById('progress-bar').style.width = `${progress}%`;
+                    const progressBar = document.getElementById('progress-bar');
+                    if (progressBar) progressBar.style.width = `${progress}%`;
                 });
             } catch (e) {
                 console.error('Progress bar error:', e);
+                logError('initProgressBar', e.message);
             }
         }
 
@@ -978,21 +1051,29 @@
                 ];
                 setInterval(() => {
                     state.adIndex = (state.adIndex + 1) % ads.length;
-                    document.getElementById('ad-content').innerHTML = DOMPurify.sanitize(ads[state.adIndex]);
+                    const adContent = document.getElementById('ad-content');
+                    if (adContent) adContent.innerHTML = DOMPurify.sanitize(ads[state.adIndex]);
                 }, 25000);
             } catch (e) {
                 console.error('Ad rotator error:', e);
+                logError('initAdRotator', e.message);
             }
         }
 
         function initConsentPopup() {
             try {
                 if (!sessionStorage.getItem('consent')) {
-                    document.getElementById('consent-popup').classList.add('active');
-                    document.getElementById('consent-popup').focus();
+                    const consentPopup = document.getElementById('consent-popup');
+                    if (consentPopup) {
+                        consentPopup.classList.add('active');
+                        consentPopup.focus();
+                    } else {
+                        throw new Error('Consent popup element missing');
+                    }
                 }
             } catch (e) {
                 console.error('Consent popup error:', e);
+                logError('initConsentPopup', e.message);
             }
         }
 
@@ -1003,47 +1084,54 @@
                         containment: 'parent',
                         stop: () => saveInteraction('dragCard')
                     });
+                } else {
+                    showToast('jQuery not loaded. Draggable cards disabled.');
                 }
             } catch (e) {
                 console.error('Draggable cards error:', e);
+                logError('initDraggableCards', e.message);
             }
         }
 
         function initAnalyticsChart() {
             try {
                 const ctx = document.getElementById('analytics-chart')?.getContext('2d');
-                if (ctx && window.Chart) {
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Search', 'Cart Adds', 'Reviews', 'Milestones', 'Chatbot Queries'],
-                            datasets: [{
-                                label: 'User Interactions',
-                                data: [
-                                    state.userInteractions.filter(i => i.action === 'search').length,
-                                    state.userInteractions.filter(i => i.action === 'addToCart').length,
-                                    state.userInteractions.filter(i => i.action === 'review').length,
-                                    state.userInteractions.filter(i => i.action === 'milestone').length,
-                                    state.userInteractions.filter(i => i.action === 'chatbot').length
-                                ],
-                                backgroundColor: ['#42a5f5', '#0288d1', '#bbdefb', '#90caf9', '#64b5f6']
-                            }]
-                        },
-                        options: {
-                            scales: { y: { beginAtZero: true } },
-                            plugins: { legend: { display: false } }
-                        }
-                    });
-                }
+                if (!ctx) throw new Error('Analytics chart canvas missing');
+                if (!window.Chart) throw new Error('Chart.js missing');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Search', 'Cart Adds', 'Reviews', 'Milestones', 'Chatbot Queries'],
+                        datasets: [{
+                            label: 'User Interactions',
+                            data: [
+                                state.userInteractions.filter(i => i.action === 'search').length,
+                                state.userInteractions.filter(i => i.action === 'addToCart').length,
+                                state.userInteractions.filter(i => i.action === 'review').length,
+                                state.userInteractions.filter(i => i.action === 'milestone').length,
+                                state.userInteractions.filter(i => i.action === 'chatbot').length
+                            ],
+                            backgroundColor: ['#42a5f5', '#0288d1', '#bbdefb', '#90caf9', '#64b5f6']
+                        }]
+                    },
+                    options: {
+                        scales: { y: { beginAtZero: true } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
             } catch (e) {
+                showToast('Analytics chart initialization failed.');
                 console.error('Analytics chart error:', e);
+                logError('initAnalyticsChart', e.message);
             }
         }
 
         function initParticleCanvas() {
             try {
                 const canvas = document.getElementById('particle-canvas');
+                if (!canvas) throw new Error('Particle canvas missing');
                 const ctx = canvas.getContext('2d');
+                if (!ctx) throw new Error('Canvas context not supported');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
                 const particles = [];
@@ -1076,14 +1164,17 @@
                     canvas.height = window.innerHeight;
                 });
             } catch (e) {
+                showToast('Particle canvas initialization failed.');
                 console.error('Particle canvas error:', e);
+                logError('initParticleCanvas', e.message);
             }
         }
 
         function initARPreview() {
             try {
                 const container = document.getElementById('ar-product-preview');
-                if (!container || !window.THREE) return;
+                if (!container) throw new Error('AR preview container missing');
+                if (!window.THREE) throw new Error('THREE.js missing');
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
                 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1108,15 +1199,17 @@
                     camera.updateProjectionMatrix();
                 });
             } catch (e) {
-                showToast('AR preview error.');
+                showToast('AR preview initialization failed.');
                 console.error('AR error:', e);
+                logError('initARPreview', e.message);
             }
         }
 
         function initNurseryPlanner() {
             try {
                 const container = document.getElementById('nursery-canvas');
-                if (!container || !window.THREE) return;
+                if (!container) throw new Error('Nursery planner container missing');
+                if (!window.THREE) throw new Error('THREE.js missing');
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
                 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1140,8 +1233,9 @@
                     camera.updateProjectionMatrix();
                 });
             } catch (e) {
-                showToast('Nursery planner error.');
+                showToast('Nursery planner initialization failed.');
                 console.error('Nursery planner error:', e);
+                logError('initNurseryPlanner', e.message);
             }
         }
 
@@ -1150,31 +1244,38 @@
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                     anchor.addEventListener('click', (e) => {
                         e.preventDefault();
-                        const target = document.querySelector(anchor.getAttribute('href'));
+                        const targetId = anchor.getAttribute('href');
+                        const target = document.querySelector(targetId);
                         if (target) {
                             target.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            showToast(`Section ${targetId} not found.`);
                         }
                     });
                 });
             } catch (e) {
                 console.error('Smooth scroll error:', e);
+                logError('initSmoothScroll', e.message);
             }
         }
 
         function initBackToTop() {
             try {
                 const button = document.getElementById('back-to-top');
+                if (!button) throw new Error('Back to top button missing');
                 window.addEventListener('scroll', () => {
                     button.style.display = window.scrollY > 300 ? 'block' : 'none';
                 });
             } catch (e) {
                 console.error('Back to top error:', e);
+                logError('initBackToTop', e.message);
             }
         }
 
         function initCarousel() {
             try {
                 const items = document.querySelectorAll('.carousel-item');
+                if (items.length === 0) throw new Error('Carousel items missing');
                 let index = 0;
                 function showNext() {
                     items.forEach(item => item.classList.remove('active'));
@@ -1185,6 +1286,7 @@
                 setInterval(showNext, 5000);
             } catch (e) {
                 console.error('Carousel error:', e);
+                logError('initCarousel', e.message);
             }
         }
 
@@ -1197,7 +1299,8 @@
                         'Use a firm mattress for safe sleep!'
                     ];
                     const newTip = tips[Math.floor(Math.random() * tips.length)];
-                    document.getElementById('health-tip').textContent = `Tip: ${newTip}`;
+                    const healthTip = document.getElementById('health-tip');
+                    if (healthTip) healthTip.textContent = `Tip: ${newTip}`;
                     const insight = {
                         type: 'content_update',
                         data: { tip: newTip, timestamp: Date.now() },
@@ -1210,7 +1313,8 @@
                     }, {});
                     const topItem = Object.keys(popular).sort((a, b) => popular[b] - popular[a])[0];
                     if (topItem) {
-                        document.getElementById('ad-content').innerHTML = DOMPurify.sanitize(`Check out our <strong>${topItem}</strong>!`);
+                        const adContent = document.getElementById('ad-content');
+                        if (adContent) adContent.innerHTML = DOMPurify.sanitize(`Check out our <strong>${topItem}</strong>!`);
                     }
                     updateLeaderboard();
                     saveInteraction('site_evolution', { insight });
@@ -1219,6 +1323,7 @@
                 setInterval(evolveSite, CONFIG.EVOLUTION_INTERVAL);
             } catch (e) {
                 console.error('Continuous learning error:', e);
+                logError('initContinuousLearning', e.message);
             }
         }
 
@@ -1227,52 +1332,96 @@
                 if ('serviceWorker' in navigator) {
                     navigator.serviceWorker.register('/sw.js').then(reg => {
                         console.log('Service Worker registered:', reg);
-                    }).catch(err => console.error('Service Worker error:', err));
+                    }).catch(err => {
+                        console.error('Service Worker error:', err);
+                        logError('initServiceWorker', err.message);
+                    });
+                } else {
+                    console.log('Service Worker not supported.');
                 }
             } catch (e) {
                 console.error('Service Worker init error:', e);
+                logError('initServiceWorker', e.message);
             }
         }
 
         function initVoiceNavigation() {
             try {
-                if ('webkitSpeechRecognition' in window) {
-                    const recognition = new webkitSpeechRecognition();
+                if (!('webkitSpeechRecognition' in window)) {
+                    showToast('Voice navigation not supported in this browser.');
+                    return;
+                }
+                let recognition = null;
+                let timeoutId = null;
+                function startRecognition() {
+                    if (state.isVoiceActive) return;
+                    state.isVoiceActive = true;
+                    recognition = new webkitSpeechRecognition();
                     recognition.lang = document.getElementById('lang-select')?.value || 'en';
                     recognition.interimResults = true;
                     recognition.onresult = (e) => {
+                        clearTimeout(timeoutId);
                         const transcript = DOMPurify.sanitize(e.results[0][0].transcript.toLowerCase());
                         if (transcript.includes('go to')) {
-                            const section = transcript.split('go to ')[1]?.trim();
+                            const section = transcript.split('go to ')[1]?.trim().replace(/\s/g, '-');
                             const target = document.querySelector(`#${section}`);
                             if (target) {
                                 target.scrollIntoView({ behavior: 'smooth' });
                                 showToast(`Navigated to ${section}`);
                                 saveInteraction('voiceNavigation', { section });
+                            } else {
+                                showToast(`Section ${section} not found.`);
                             }
                         }
+                        resetRecognition();
                     };
-                    recognition.onerror = (err) => showToast(`Voice navigation error: ${err.error}`);
+                    recognition.onerror = (err) => {
+                        showToast(`Voice navigation error: ${err.error}`);
+                        logError('voiceNavigation', err.error);
+                        resetRecognition();
+                    };
+                    recognition.onend = () => {
+                        resetRecognition();
+                    };
                     recognition.start();
-                    setInterval(() => recognition.start(), 10000);
+                    timeoutId = setTimeout(() => {
+                        showToast('Voice recognition timed out.');
+                        resetRecognition();
+                    }, 10000);
                 }
+                function resetRecognition() {
+                    if (recognition) {
+                        recognition.stop();
+                        recognition = null;
+                    }
+                    state.isVoiceActive = false;
+                    clearTimeout(timeoutId);
+                    setTimeout(startRecognition, 1000); // Delay to prevent immediate restart
+                }
+                startRecognition();
             } catch (e) {
+                showToast('Voice navigation initialization failed.');
                 console.error('Voice navigation error:', e);
+                logError('initVoiceNavigation', e.message);
             }
         }
 
         function generateCsrfToken() {
             try {
-                document.getElementById('csrf-token').value = CONFIG.CSRF_TOKEN;
+                const csrfInput = document.getElementById('csrf-token');
+                if (csrfInput) csrfInput.value = CONFIG.CSRF_TOKEN;
             } catch (e) {
                 console.error('CSRF token error:', e);
+                logError('generateCsrfToken', e.message);
             }
         }
 
         // Theme and Accessibility
         function changeTheme() {
             try {
-                const theme = document.getElementById('theme-select').value;
+                const themeSelect = document.getElementById('theme-select');
+                if (!themeSelect) throw new Error('Theme select missing');
+                const theme = themeSelect.value;
                 state.currentTheme = theme;
                 localStorage.setItem('theme', theme);
                 const styles = {
@@ -1287,6 +1436,7 @@
             } catch (e) {
                 showToast('Theme change error.');
                 console.error('Theme error:', e);
+                logError('changeTheme', e.message);
             }
         }
 
@@ -1295,8 +1445,9 @@
                 document.body.classList.toggle('dark-mode');
                 saveInteraction('darkModeToggle');
             } catch (e) {
-                showToast('Dark mode error.');
+                showToast('Dark mode toggle error.');
                 console.error('Dark mode error:', e);
+                logError('toggleDarkMode', e.message);
             }
         }
 
@@ -1305,8 +1456,9 @@
                 document.body.classList.toggle('high-contrast');
                 saveInteraction('highContrastToggle');
             } catch (e) {
-                showToast('High contrast error.');
+                showToast('High contrast toggle error.');
                 console.error('High contrast error:', e);
+                logError('toggleHighContrast', e.message);
             }
         }
 
@@ -1315,8 +1467,9 @@
                 document.body.classList.toggle('accessibility-mode');
                 saveInteraction('accessibilityToggle');
             } catch (e) {
-                showToast('Accessibility error.');
+                showToast('Accessibility mode toggle error.');
                 console.error('Accessibility error:', e);
+                logError('toggleAccessibilityMode', e.message);
             }
         }
 
@@ -1328,181 +1481,23 @@
             } catch (e) {
                 showToast('Voice output toggle error.');
                 console.error('Voice output error:', e);
+                logError('toggleVoiceOutput', e.message);
             }
         }
 
         // Language Support
         function updateLanguage() {
             try {
-                const lang = document.getElementById('lang-select')?.value || 'en';
+                const langSelect = document.getElementById('lang-select');
+                if (!langSelect) throw new Error('Language select missing');
+                const lang = langSelect.value || 'en';
                 localStorage.setItem('lang', lang);
                 const trans = translations[lang] || translations.en;
-                document.querySelector('#home p').textContent = trans.welcome;
-                document.querySelector('#search-input').placeholder = trans.searchPlaceholder;
-                document.querySelector('#products h2').textContent = trans.productsTitle;
-                document.querySelector('#tools h2').textContent = trans.toolsTitle;
-                document.querySelector('#community h2').textContent = trans.communityTitle;
-                document.querySelector('#owner-room h2').textContent = trans.ownerRoomTitle;
-                document.querySelector('#compliance h2').textContent = trans.complianceTitle;
-                saveInteraction('languageChange', { lang });
-            } catch (e) {
-                showToast('Language update error.');
-                console.error('Language error:', e);
-            }
-        }
-
-        // AI and Chatbot
-        function voiceInput(event) {
-            try {
-                const input = event.target;
-                if (!sessionStorage.getItem('consent')) {
-                    showToast('Consent required for voice input.');
-                    return;
-                }
-                if ('webkitSpeechRecognition' in window) {
-                    const recognition = new webkitSpeechRecognition();
-                    recognition.lang = document.getElementById('lang-select')?.value || 'en';
-                    recognition.interimResults = true;
-                    recognition.onresult = (e) => {
-                        const transcript = DOMPurify.sanitize(e.results[0][0].transcript);
-                        input.value = transcript;
-                        saveInteraction('voiceInput', { transcript });
-                        if (input.id === 'chatbot-input') chatbotRespond();
-                        else if (input.id === 'ai-input') processAICommand();
-                        else if (input.id === 'smartbrain-input') processSmartBrain();
-                    };
-                    recognition.onerror = (err) => showToast(`Voice recognition error: ${err.error}`);
-                    recognition.start();
-                } else {
-                    showToast('Voice recognition not supported.');
-                }
-            } catch (e) {
-                showToast('Voice input error.');
-                console.error('Voice error:', e);
-            }
-        }
-
-        function speakResponse(text) {
-            try {
-                if (state.voiceOutputEnabled && 'speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(DOMPurify.sanitize(text));
-                    utterance.lang = document.getElementById('lang-select')?.value || 'en';
-                    speechSynthesis.speak(utterance);
-                }
-            } catch (e) {
-                console.error('Speech synthesis error:', e);
-            }
-        }
-
-        async function chatbotRespond() {
-            try {
-                const input = document.getElementById('chatbot-input');
-                if (!input || !input.value) {
-                    document.getElementById('chatbot-response').textContent = 'Please ask something!';
-                    return;
-                }
-                const query = DOMPurify.sanitize(input.value.toLowerCase().trim());
-                let response = chatbotResponses.default;
-                for (const key in chatbotResponses) {
-                    if (query.includes(key)) {
-                        response = chatbotResponses[key];
-                        break;
-                    }
-                }
-                const learned = state.knowledgeBase.find(k => k.type === 'chatbot' && k.data.query === query);
-                if (learned) response += ` (Refined: ${learned.data.response})`;
-                document.getElementById('chatbot-response').textContent = response;
-                speakResponse(response);
-                saveKnowledge({ type: 'chatbot', data: { query, response }, timestamp: Date.now() });
-                input.value = '';
-                saveInteraction('chatbot', { query });
-            } catch (e) {
-                showToast('Chatbot error.');
-                console.error('Chatbot error:', e);
-            }
-        }
-
-        function processAICommand() {
-            try {
-                const input = document.getElementById('ai-input');
-                if (!input || !input.value) {
-                    showToast('Please enter a command.');
-                    return;
-                }
-                const command = DOMPurify.sanitize(input.value.toLowerCase().trim());
-                const response = chatbotResponses[command] || chatbotResponses.default;
-                showToast(response);
-                saveInteraction('aiCommand', { command });
-            } catch (e) {
-                showToast('AI command error.');
-                console.error('AI error:', e);
-            }
-        }
-
-        // SmartBrain 2.0 AI
-        function processSmartBrain() {
-            try {
-                const input = document.getElementById('smartbrain-input');
-                if (!input || !input.value) {
-                    document.getElementById('smartbrain-response').textContent = 'Please enter a command.';
-                    return;
-                }
-                const command = DOMPurify.sanitize(input.value.trim());
-                backupSiteState();
-                const result = parseSmartBrainCommand(command);
-                document.getElementById('smartbrain-response').textContent = result.message;
-                speakResponse(result.message);
-                saveInteraction('smartBrain', { command, result: result.message });
-                saveKnowledge({ type: 'smartbrain_command', data: { command, result: result.message }, timestamp: Date.now() });
-                if (result.needsConfirm) {
-                    if (confirm(`Confirm: ${command}?`)) {
-                        executeSmartBrainCommand(result);
-                    } else {
-                        showToast('Command cancelled.');
-                    }
-                } else {
-                    executeSmartBrainCommand(result);
-                }
-                input.value = '';
-            } catch (e) {
-                showToast('SmartBrain error.');
-                console.error('SmartBrain error:', e);
-            }
-        }
-
-        function parseSmartBrainCommand(command) {
-            try {
-                const lowerCommand = command.toLowerCase();
-                if (lowerCommand.includes('delete all') || lowerCommand.includes('clear site')) {
-                    return { message: 'Dangerous command blocked.', action: null };
-                }
-                const doc = window.nlp(lowerCommand);
-                // Add Product
-                if (doc.match('add product #Noun for #Money').found) {
-                    const name = doc.match('#Noun').text().replace(/ for .*$/, '');
-                    const price = parseFloat(doc.match('#Money').text().replace('$', '')) || 0;
-                    const id = name.toLowerCase().replace(/\s/g, '-');
-                    return {
-                        action: 'addProduct',
-                        name,
-                        price,
-                        id,
-                        message: `Adding product ${name} for $${price}.`
-                    };
-                }
-                // Delete Section
-                if (doc.match('delete #Noun').found) {
-                    const sectionName = doc.match('#Noun').text().toLowerCase().replace(/\s/g, '-');
-                    if (CONFIG.PROTECTED_IDS.includes(sectionName)) {
-                        return { message: `Cannot delete protected section ${sectionName}.`, action: null };
-                    }
-                    return {
-                        action: 'deleteSection',
-                        id: sectionName,
-                        message: `Deleting section ${sectionName}.`,
-                        needsConfirm: true
-                    };
-                }
-                // Change Style
-                if (doc.match('change #Noun color to #Color').found) {
-                    const element = doc.match('#Noun').text().toLower
+                const homeP = document.querySelector('#home p');
+                if (homeP) homeP.textContent = trans.welcome;
+                const searchInput = document.querySelector('#search-input');
+                if (searchInput) searchInput.placeholder = trans.searchPlaceholder;
+                const productsH2 = document.querySelector('#products h2');
+                if (productsH2) productsH2.textContent = trans.productsTitle;
+                const toolsH2 = document.querySelector('#tools h2');
+                if (toolsH2) tools
