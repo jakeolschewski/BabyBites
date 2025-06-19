@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Jacob Olszewski">
-  <meta name="description" content="BabyBites - 20x smarter AI-powered website with extreme memory retention, owned by Jacob Olszewski, Herriman, Utah">
-  <title>BabyBites - 20x Smarter AI Website</title>
+  <meta name="description" content="BabyBites - Significantly smarter AI-powered website with enhanced memory, owned by Jacob Olszewski, Herriman, Utah">
+  <title>BabyBites - Smarter AI Website</title>
   <link rel="stylesheet" href="styles.css">
   <meta name="theme-color" content="#2563eb">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
@@ -16,7 +16,7 @@
     <div class="container mx-auto flex justify-between items-center px-4">
       <div>
         <h1 class="text-4xl font-extrabold tracking-tight">BabyBites</h1>
-        <p class="text-lg">20x smarter AI with infinite memory</p>
+        <p class="text-lg">Smarter AI for baby shopping</p>
         <p class="text-sm">Owned by Jacob Olszewski, Herriman, Utah 84096</p>
       </div>
       <button id="theme-toggle" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-200">Toggle Dark Mode</button>
@@ -28,11 +28,11 @@
     <!-- Why Choose Us -->
     <section class="text-center mb-12">
       <h2 class="text-3xl font-bold mb-6">Why Choose BabyBites?</h2>
-      <p class="text-lg mb-8 max-w-2xl mx-auto">Shop with a 20x smarter AI that remembers every detail of your journey.</p>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">Shop smarter with our advanced AI that remembers your preferences and guides you with precision.</p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in">
-          <h3 class="text-xl font-bold mb-3 text-blue-600 dark:text-blue-400">20x Smarter AI</h3>
-          <p>Thinks and adapts like a personal assistant.</p>
+          <h3 class="text-xl font-bold mb-3 text-blue-600 dark:text-blue-400">Smarter AI</h3>
+          <p>Highly personalized and intuitive guidance.</p>
         </div>
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in">
           <h3 class="text-xl font-bold mb-3 text-blue-600 dark:text-blue-400">Fast Shipping</h3>
@@ -62,19 +62,19 @@
         <div class="product-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg" data-category="bottle" data-price="19.99">
           <img src="https://via.placeholder.com/150" alt="Baby Bottle" class="w-full h-40 object-cover rounded-lg mb-4">
           <h3 class="text-lg font-semibold">Eco-Friendly Baby Bottle</h3>
-          <p class="text-gray-600 dark:text-gray-300">$19.99 <span class="match-score text-sm text-green-600"></span></p>
+          <p class="text-gray-600 dark:text-gray-300">$19.99 <span class="top-pick-badge hidden text-sm text-green-600 font-bold"></span></p>
           <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 product-details" data-product="bottle">Details</button>
         </div>
         <div class="product-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg" data-category="blanket" data-price="24.99">
           <img src="https://via.placeholder.com/150" alt="Baby Blanket" class="w-full h-40 object-cover rounded-lg mb-4">
           <h3 class="text-lg font-semibold">Soft Cotton Blanket</h3>
-          <p class="text-gray-600 dark:text-gray-300">$24.99 <span class="match-score text-sm text-green-600"></span></p>
+          <p class="text-gray-600 dark:text-gray-300">$24.99 <span class="top-pick-badge hidden text-sm text-green-600 font-bold"></span></p>
           <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 product-details" data-product="blanket">Details</button>
         </div>
         <div class="product-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg" data-category="toy" data-price="14.99">
           <img src="https://via.placeholder.com/150" alt="Baby Toy" class="w-full h-40 object-cover rounded-lg mb-4">
           <h3 class="text-lg font-semibold">Interactive Plush Toy</h3>
-          <p class="text-gray-600 dark:text-gray-300">$14.99 <span class="match-score text-sm text-green-600"></span></p>
+          <p class="text-gray-600 dark:text-gray-300">$14.99 <span class="top-pick-badge hidden text-sm text-green-600 font-bold"></span></p>
           <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 product-details" data-product="toy">Details</button>
         </div>
       </div>
@@ -105,31 +105,19 @@
   <div id="chat-toggle" class="fixed bottom-4 right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg text-2xl animate-pulse">
     💬
   </div>
-  <div id="chat-container" class="fixed bottom-16 right-4 bg-white dark:bg-gray-800 w-96 p-4 rounded-xl shadow-lg z-10">
+  <div id="chat-container" class="fixed bottom-16 right-4 bg-white dark:bg-gray-800 w-80 p-4 rounded-xl shadow-lg z-10">
     <div class="flex justify-between mb-2">
-      <span class="font-semibold">20x Smarter AI</span>
+      <span class="font-semibold">Smarter AI</span>
       <div>
         <button id="memory-toggle" class="text-blue-600 dark:text-blue-400 mr-2">🧠 Memory</button>
-        <button id="voice-toggle" class="text-blue-600 dark:text-blue-400 mr-2">🎙️ Voice</button>
-        <button id="speak-toggle" class="text-blue-600 dark:text-blue-400">🔊 Speak</button>
+        <button id="voice-toggle" class="text-blue-600 dark:text-blue-400">🎙️ Voice</button>
       </div>
     </div>
     <div id="memory-panel" class="hidden bg-gray-100 dark:bg-gray-700 p-2 mb-2 rounded-lg text-sm">
-      <div class="flex justify-between mb-2">
-        <span>Memory Cockpit</span>
-        <select id="memory-filter" class="p-1 border rounded-lg dark:bg-gray-600 dark:text-white">
-          <option value="all">All Memories</option>
-          <option value="bottle">Bottles</option>
-          <option value="blanket">Blankets</option>
-          <option value="toy">Toys</option>
-          <option value="support">Support</option>
-          <option value="buy">Purchases</option>
-        </select>
-      </div>
-      <input id="memory-search" type="text" placeholder="Search memories..." class="w-full p-1 mb-2 border rounded-lg dark:bg-gray-600 dark:text-white">
-      <div id="memory-content" class="max-h-40 overflow-y-auto"></div>
+      <input id="memory-search" type="text" placeholder="Search history..." class="w-full p-1 mb-2 border rounded-lg dark:bg-gray-600 dark:text-white">
+      <div id="memory-content"></div>
     </div>
-    <div id="chat-messages" class="h-80 overflow-y-auto mb-3 p-2 border rounded-lg"></div>
+    <div id="chat-messages" class="h-64 overflow-y-auto mb-3 p-2 border rounded-lg"></div>
     <div id="quick-replies" class="flex flex-wrap gap-2 mb-2"></div>
     <div class="relative">
       <input id="chat-input" type="text" placeholder="Ask about baby needs..." class="w-full p-2 pr-10 border rounded-lg dark:bg-gray-700 dark:text-white">
@@ -145,17 +133,15 @@
     </div>
   </footer>
 
-  <!-- JavaScript for 20x Smarter AI -->
+  <!-- JavaScript for Smarter AI -->
   <script>
     const chatToggle = document.getElementById('chat-toggle');
     const chatContainer = document.getElementById('chat-container');
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
     const voiceToggle = document.getElementById('voice-toggle');
-    const speakToggle = document.getElementById('speak-toggle');
     const memoryToggle = document.getElementById('memory-toggle');
     const memoryPanel = document.getElementById('memory-panel');
-    const memoryFilter = document.getElementById('memory-filter');
     const memorySearch = document.getElementById('memory-search');
     const memoryContent = document.getElementById('memory-content');
     const quickReplies = document.getElementById('quick-replies');
@@ -174,19 +160,6 @@
       navigator.serviceWorker.register('./sw.js')
         .then(() => console.log('Service Worker Registered'))
         .catch(err => console.error('Service Worker Registration Failed:', err));
-    }
-
-    // IndexedDB for memory overflow
-    let db;
-    if (window.indexedDB) {
-      const request = indexedDB.open('BabyBitesDB', 1);
-      request.onupgradeneeded = (e) => {
-        db = e.target.result;
-        db.createObjectStore('memories', { keyPath: 'id', autoIncrement: true });
-      };
-      request.onsuccess = (e) => {
-        db = e.target.result;
-      };
     }
 
     // Dark mode toggle
@@ -227,16 +200,16 @@
         const product = btn.dataset.product;
         modalTitle.textContent = product === 'bottle' ? 'Eco-Friendly Baby Bottle' :
                                 product === 'blanket' ? 'Soft Cotton Blanket' : 'Interactive Plush Toy';
-        modalDescription.textContent = aiState.preferences[product] > 20 ?
-          `Top match for you! ${responses[product][0]}` :
-          `Explore our ${product}! ${responses[product][0]}`;
+        modalDescription.textContent = aiState.preferences[product] > 25 ?
+          `Perfect match, Jacob! You love ${product}s! ${responses[product][0]}` :
+          `Discover our ${product}! ${responses[product][0]}`;
         productModal.classList.remove('hidden');
       });
     });
     modalClose.addEventListener('click', () => productModal.classList.add('hidden'));
 
-    // Voice input/output
-    let recognition = null, synth = window.speechSynthesis;
+    // Voice input
+    let recognition = null;
     if ('webkitSpeechRecognition' in window) {
       recognition = new webkitSpeechRecognition();
       recognition.continuous = false;
@@ -246,36 +219,38 @@
         chatInput.value = event.results[0][0].transcript;
         chatInput.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
       };
-      recognition.onerror = () => voiceToggle.textContent = '🎙️ Voice';
+      recognition.onerror = (e) => {
+        voiceToggle.textContent = '🎙️ Voice';
+        console.log('Voice Recognition Error:', e.error);
+      };
       voiceToggle.addEventListener('click', () => {
-        recognition.start();
-        voiceToggle.textContent = '🎙️ Listening...';
+        try {
+          recognition.start();
+          voiceToggle.textContent = '🎙️ Listening...';
+        } catch (e) {
+          console.log('Voice Start Error:', e);
+          voiceToggle.textContent = '🎙️ Voice';
+        }
         recognition.onend = () => voiceToggle.textContent = '🎙️ Voice';
       });
     } else {
       voiceToggle.style.display = 'none';
     }
-    let speakEnabled = false;
-    speakToggle.addEventListener('click', () => {
-      speakEnabled = !speakEnabled;
-      speakToggle.textContent = speakEnabled ? '🔇 Mute' : '🔊 Speak';
-    });
 
-    // Memory panel toggle
+    // Memory panel toggle and search
     memoryToggle.addEventListener('click', () => {
       memoryPanel.classList.toggle('hidden');
       if (!memoryPanel.classList.contains('hidden')) {
         updateMemoryPanel();
       }
     });
-    memoryFilter.addEventListener('change', updateMemoryPanel);
     memorySearch.addEventListener('input', updateMemoryPanel);
 
     // Toggle chatbot
     chatToggle.addEventListener('click', () => {
       chatContainer.style.display = chatContainer.style.display === 'none' ? 'block' : 'none';
       if (chatContainer.style.display === 'block' && aiState.interactions === 0) {
-        setTimeout(() => typeMessage('AI: Hi! I’m your 20x smarter assistant with infinite memory. What’s your baby’s age or needs?'), 1000);
+        setTimeout(() => typeMessage('AI: Hi, Jacob! I’m your smarter assistant for BabyBites. What’s your baby’s age or needs?'), 1000);
       }
     });
 
@@ -283,311 +258,217 @@
     let aiState = {
       interactions: 0,
       preferences: { bottle: 0, blanket: 0, toy: 0 },
-      customResponses: {},
-      context: [],
-      sessionHistory: [],
-      responseWeights: {},
       entities: {},
-      memoryClusters: {},
-      userProfile: { mood: 'neutral', typingSpeed: 0 }
+      memory: [],
+      context: [],
+      responseWeights: {},
+      hoverCount: { bottle: 0, blanket: 0, toy: 0 }
     };
 
     // Load preferences with compression
     const savedPrefs = localStorage.getItem('babyBitesPrefs');
     if (savedPrefs) {
-      const decompressed = LZString.decompressFromUTF16(savedPrefs);
-      aiState = { ...aiState, ...JSON.parse(decompressed || '{}') };
-      aiState.context = aiState.context.slice(-1000);
+      try {
+        const decompressed = LZString.decompressFromUTF16(savedPrefs);
+        aiState = { ...aiState, ...JSON.parse(decompressed || '{}') };
+        aiState.memory = aiState.memory.slice(-700);
+        aiState.context = aiState.context.slice(-25);
+      } catch (e) {
+        console.error('Memory Load Error:', e);
+      }
     }
 
-    // Response templates (expanded)
+    // Response templates
     const responses = {
-      'hi|hello': ['Hi! Welcome to BabyBites. What’s sparking your interest today?', 'Hello! Let’s make shopping for your baby a breeze!', 'Hey there! Excited to assist—what’s up?'],
-      'products|items': ['We’ve got bottles, blankets, and toys! What’s your baby craving?', 'Curated essentials await! Need a specific item?', 'Our products shine—pick your need!'],
-      'shipping|delivery': ['Swift shipping from Herriman, Utah. Need a delivery ETA?', 'Secure, fast delivery! Worried about anything?', 'We ship from Utah—details?'],
-      'bottle': ['Eco-friendly bottles, $19.99. Perfect for {age} babies!', 'Safe bottles, $19.99. Shall we add one?', 'Bottles for fuss-free feeding, $19.99. Want it?'],
-      'blanket': ['Soft blankets, $24.99. Cozy for {age} babies!', 'Snuggly blankets, $24.99. Love one?', 'Warm blankets, $24.99. Grab it?'],
-      'toy': ['Fun plush toys, $14.99. Ideal for {age} babies!', 'Playtime toys, $14.99. Want one?', 'Joyful toys, $14.99. Interested?'],
-      'help|support': ['I’m your problem-solver! What’s the issue?', 'Let’s fix that! What’s troubling you?', 'Support mode on—what’s up?'],
-      'buy|purchase': ['Ready to shop? What’s catching your eye?', 'Let’s buy something awesome! Your pick?', 'Great choice! What’s the order?'],
-      'last|previous|history': ['I’ve got your full history! What moment do you want to revisit?', 'Let’s rewind—what past chat are we diving into?', 'Memory’s sharp! What’s the last thing you’re curious about?'],
-      'default': ['Hmm, that’s a curveball! Try products or help.', 'Let’s pivot—what’s on your mind?', 'Missed that one. Ask about baby needs!']
+      'hi|hello': ['Hi, Jacob! Welcome to BabyBites. What’s up?', 'Hello! Ready to shop for your baby?', 'Hey! How can I assist you today?', 'Hi there! Excited to help with your baby needs!', 'Hello, Jacob! What’s on your mind for BabyBites?', 'Hi! Let’s find something great for your baby!', 'Hey Jacob! Ready to explore BabyBites?', 'Hello! What’s your next baby need?', 'Hi, Jacob! Let’s make shopping fun!', 'Hey! What’s up with your baby needs?', 'Hello! Let’s dive into baby shopping!', 'Hi, Jacob! What’s the plan for your baby?', 'Hey! Excited to shop with you!', 'Hello! What’s your baby craving today?', 'Hi! Let’s get started with BabyBites!'],
+      'products|items': ['We have bottles, blankets, and toys! What’s your baby’s favorite?', 'Check out our baby essentials! Need something specific?', 'Got bottles, blankets, and toys. Pick one!', 'Our products are perfect for babies. What do you need?', 'Browse our bottles, blankets, or toys! What’s up?', 'Explore our curated baby items! What’s on your list?', 'Bottles, blankets, toys—what’s catching your eye?', 'Our baby products rock! What do you want?', 'Pick from bottles, blankets, or toys! What’s next?', 'Need baby stuff? We’ve got it all!', 'Browse our baby gear! What’s your pick?', 'Toys, bottles, blankets—take your choice!', 'Our essentials are top-notch! What’s up?', 'What baby item are you after today?', 'Check out our baby must-haves!'],
+      'shipping|delivery': ['Fast shipping from Herriman, Utah. Questions?', 'We deliver quickly! Need details?', 'Shipping’s secure from Utah. Want info?', 'Quick delivery from our Utah hub. Ask away!', 'Shipping’s fast and reliable. What’s your question?', 'We ship from Herriman, Utah. Need more info?', 'Fast, secure delivery. What’s up?', 'Shipping from Utah—fast! Questions?', 'Quick shipping guaranteed! Details?', 'Need it fast? We ship from Utah!', 'Priority shipping from Utah! Ask away!', 'Fast delivery from Herriman! What’s up?', 'Secure shipping—need details?', 'Quick ship from Utah! Questions?', 'Express delivery available! Info?'],
+      'bottle': ['Eco-friendly bottles, $19.99. Want one for {age}?', 'Safe bottles for $19.99. Interested?', 'Bottles for easy feeding, $19.99. Add it?', 'Our bottles are great, $19.99. Want one?', 'Bottles, $19.99, perfect for {age}. Grab one?', 'Eco bottles for {age}, $19.99. Like it?', 'Safe feeding bottles, $19.99. Want one?', 'Bottles for {age}, $19.99. Add to cart?', 'Eco-friendly bottles, $19.99. Good for {age}?', 'Our bottles are top-notch, $19.99. Want it?', 'Bottles, $19.99, safe for {age}. Pick one?', 'Eco bottles, $19.99. Great for {age}?', 'Safe bottles, $19.99. Add one?', 'Bottles for feeding, $19.99. Interested?', 'Our bottles rock, $19.99. Want one?'],
+      'blanket': ['Soft blankets, $24.99. Cozy for {age}!', 'Warm blankets, $24.99. Like it?', 'Snuggly blankets, $24.99. Want one?', 'Perfect blankets, $24.99. Grab one?', 'Cozy blankets, $24.99 for {age}. Interested?', 'Soft, warm blankets, $24.99. Want it?', 'Blankets for {age}, $24.99. Pick one?', 'Snuggly blankets, $24.99. Good for {age}?', 'Warm, cozy blankets, $24.99. Add it?', 'Blankets, $24.99. Perfect for {age}?', 'Cozy blankets, $24.99. Grab one?', 'Soft blankets for {age}, $24.99. Want it?', 'Warm blankets, $24.99. Add one?', 'Snuggly blankets, $24.99. Like it?', 'Blankets for {age}, $24.99. Interested?'],
+      'toy': ['Fun toys, $14.99. Great for {age}!', 'Plush toys, $14.99. Want one?', 'Toys for joy, $14.99. Grab one?', 'Interactive toys, $14.99. Interested?', 'Toys, $14.99, perfect for {age}. Want one?', 'Fun plush toys, $14.99. Like it?', 'Toys to spark joy, $14.99. Add one?', 'Playtime toys, $14.99. Good for {age}?', 'Interactive toys, $14.99. Grab it?', 'Toys for {age}, $14.99. Want it?', 'Fun toys, $14.99. Add one?', 'Plush toys for {age}, $14.99. Pick one?', 'Joyful toys, $14.99. Interested?', 'Toys, $14.99. Great for {age}?', 'Interactive toys, $14.99. Want one?'],
+      'help|support': ['Need help? I’m here for you!', 'What’s the issue? Let’s fix it!', 'Support’s on—what’s up?', 'I’ve got your back! What’s the problem?', 'Help’s here! What do you need?', 'Let’s solve that! What’s wrong?', 'Support mode activated! What’s up?', 'Need assistance? I’m ready!', 'What’s the trouble? Let’s sort it!', 'Help’s here, Jacob! What’s up?', 'Got an issue? I’m on it!', 'Support’s here! What’s the deal?', 'Need help, Jacob? Let’s fix it!', 'What’s wrong? I’m here to help!', 'Let’s tackle that problem! What’s up?'],
+      'buy|purchase': ['Ready to buy? What’s your pick?', 'Let’s shop! What do you want?', 'Buying? Tell me what!', 'Great choice! What’s on your list?', 'Time to purchase! What’s it gonna be?', 'Shopping time! What’s your choice?', 'Ready to order? What’s up?', 'Let’s get buying! What’s the pick?', 'Purchase time! What’s your choice?', 'Ready to shop, Jacob? What’s it?', 'Time to buy! What’s your pick?', 'Let’s order! What do you want?', 'Shopping, Jacob? What’s up?', 'Ready to purchase? What’s the choice?', 'Buy now! What’s on your list?'],
+      'last|previous': ['Let me check your last chat. What’s up?', 'I remember your last question! What now?', 'Got your history! What’s next?', 'You asked about that before. Want to dive deeper?', 'Last time we talked about that. What’s up now?', 'Checking your history—what’s next?', 'I recall your last chat! What’s up?', 'Your last question’s on my mind! What now?', 'Got your past chats! What’s up?', 'Let’s revisit your last question!', 'Last chat in mind! What’s next?', 'Your history’s fresh! What’s up?', 'I recall your last ask! What now?', 'Let’s pick up from your last chat!', 'Got your recent chats! What’s next?'],
+      'gift': ['Looking for a gift? Our toys are perfect for {age}!', 'Gift ideas? Try our plush toys!', 'Great gift choices—want toys or blankets?', 'Gift shopping? I’ve got ideas for you!', 'Perfect gifts for {age}! Toys or blankets?', 'Gift for a baby? Try our toys!', 'Need a gift? Our toys are a hit!', 'Gift ideas for {age}? Toys are great!', 'Shopping for a gift? Try our blankets!', 'Perfect gift? Our toys rock!', 'Gift for {age}? Try our toys!', 'Need gift ideas? Toys or blankets?', 'Gift shopping? Our toys shine!', 'Perfect gifts for {age}! What’s up?', 'Gift ideas? Our blankets are cozy!'],
+      'default': ['Not sure about that. Try products or help!', 'Hmm, what’s that? Ask about baby stuff!', 'Missed that. What do you need?', 'Let’s try again—what’s on your mind?', 'Unclear on that. Ask about gifts or shipping?', 'Not sure what you mean. Try bottles or toys?', 'Let’s clarify—what’s your question?', 'Missed that one. Try products or support!', 'What’s that? Ask about baby needs!', 'Let’s sort it out—what do you mean?', 'Not clear on that. Try gifts or bottles?', 'Hmm, let’s try again—what’s up?', 'Missed it. Ask about toys or shipping?', 'Unclear? Try products or help!', 'What’s your question? Let’s clarify!']
     };
 
-    // Advanced NLP
+    // NLP functions
     function tokenize(message) {
       return message.toLowerCase().match(/\b\w+\b/g) || [];
     }
-    function partOfSpeechTag(tokens) {
-      const tags = [];
-      for (const token of tokens) {
-        if (['bottle', 'blanket', 'toy'].includes(token)) tags.push('NOUN');
-        else if (['buy', 'purchase', 'need', 'want'].includes(token)) tags.push('VERB');
-        else if (['what', 'how', 'why'].includes(token)) tags.push('QUESTION');
-        else if (['safe', 'budget', 'cheap', 'fast'].includes(token)) tags.push('ADJ');
-        else if (['my', 'your'].includes(token)) tags.push('PRON');
-        else tags.push('OTHER');
-      }
-      return tags;
+    function detectSentiment(message) {
+      const positive = ['love', 'like', 'great', 'happy', 'awesome', 'excited', 'amazing', 'fantastic'];
+      const negative = ['hate', 'bad', 'upset', 'frustrated', 'annoyed', 'worried', 'disappointed'];
+      return positive.some(word => message.includes(word)) ? 'positive' :
+             negative.some(word => message.includes(word)) ? 'negative' : 'neutral';
     }
-    function resolveAnaphora(message, tokens, tags) {
-      for (let i = 0; i < tokens.length; i++) {
-        if (tokens[i] === 'it' && tags[i] === 'PRON') {
-          for (let j = i - 1; j >= 0; j--) {
-            if (tags[j] === 'NOUN') {
-              return tokens[j];
-            }
-          }
-        }
-      }
-      return null;
+    function detectIntent(message) {
+      const tokens = tokenize(message);
+      const phrases = message.toLowerCase();
+      if (phrases.includes('buy') || phrases.includes('purchase') || phrases.includes('order') || phrases.includes('shop')) return 'buy';
+      if (phrases.includes('help') || phrases.includes('support') || phrases.includes('issue') || phrases.includes('problem')) return 'support';
+      if (phrases.includes('gift') || phrases.includes('present') || phrases.includes('gift for')) return 'gift';
+      if (phrases.includes('product') || phrases.includes('item') || phrases.includes('bottle') ||
+          phrases.includes('blanket') || phrases.includes('toy')) return 'browse';
+      if (phrases.includes('shipping') || phrases.includes('delivery') || phrases.includes('ship') || phrases.includes('urgent delivery') || phrases.includes('priority delivery')) return 'shipping';
+      if (phrases.includes('last') || phrases.includes('previous') || phrases.includes('before') || phrases.includes('history')) return 'last';
+      return 'general';
     }
     function extractEntities(message) {
       const entities = {};
-      if (message.includes('newborn')) entities.age = 'newborn';
-      if (message.includes('6 months') || message.includes('six months')) entities.age = '6 months';
-      if (message.includes('1 year') || message.includes('one year')) entities.age = '1 year';
-      if (message.includes('budget') || message.includes('cheap')) entities.budget = 'low';
-      if (message.includes('safe') || message.includes('safety')) entities.priority = 'safety';
-      if (message.includes('fast') || message.includes('quick')) entities.priority = 'speed';
-      if (message.includes('gift')) entities.intent = 'gift';
+      const phrases = message.toLowerCase();
+      if (phrases.includes('newborn')) entities.age = 'newborn';
+      if (phrases.includes('6 months') || phrases.includes('six months')) entities.age = '6 months';
+      if (phrases.includes('toddler') || phrases.includes('1 year') || phrases.includes('one year')) entities.age = 'toddler';
+      if (phrases.includes('infant')) entities.age = 'infant';
+      if (phrases.includes('budget') || phrases.includes('cheap') || phrases.includes('low cost') || phrases.includes('affordable') || phrases.includes('cost-effective') || phrases.includes('low-budget')) entities.budget = 'low';
+      if (phrases.includes('safe') || phrases.includes('safety') || phrases.includes('safety-first')) entities.priority = 'safety';
+      if (phrases.includes('fast') || phrases.includes('quick') || phrases.includes('urgent') || phrases.includes('priority')) entities.priority = 'speed';
       return entities;
     }
 
-    // Sentiment and intent detection
-    function detectSentiment(message) {
-      const positive = ['love', 'like', 'great', 'awesome', 'happy', 'excited', 'amazing', 'fantastic'];
-      const negative = ['hate', 'bad', 'frustrated', 'problem', 'upset', 'angry', 'annoyed', 'disappointed'];
-      const curious = ['what', 'how', 'why', 'question', 'curious', 'wonder', 'interested'];
-      return positive.some(word => message.includes(word)) ? 'positive' :
-             negative.some(word => message.includes(word)) ? 'negative' :
-             curious.some(word => message.includes(word)) ? 'curious' : 'neutral';
-    }
-    function detectIntents(message) {
-      const tokens = tokenize(message);
-      const intents = [];
-      if (tokens.includes('buy') || tokens.includes('purchase') || tokens.includes('order')) intents.push('buy');
-      if (tokens.includes('help') || tokens.includes('support') || tokens.includes('issue')) intents.push('support');
-      if (tokens.includes('product') || tokens.includes('item') || tokens.includes('bottle') ||
-          tokens.includes('blanket') || tokens.includes('toy')) intents.push('browse');
-      if (tokens.includes('what') || tokens.includes('how') || tokens.includes('why') || tokens.includes('last')) intents.push('inquire');
-      if (tokens.includes('last') || tokens.includes('previous') || tokens.includes('before') || tokens.includes('history')) intents.push('recall');
-      if (tokens.includes('gift')) intents.push('gift');
-      return intents.length ? intents : ['general'];
-    }
-
-    // Vectorized context
-    function vectorizeContext(message) {
-      const tokens = tokenize(message);
-      const vector = new Array(300).fill(0);
-      for (const token of tokens) {
-        const hash = token.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 300;
-        vector[hash] += 1;
-      }
-      return vector;
-    }
-    function cosineSimilarity(vec1, vec2) {
-      let dot = 0, norm1 = 0, norm2 = 0;
-      for (let i = 0; i < vec1.length; i++) {
-        dot += vec1[i] * vec2[i];
-        norm1 += vec1[i] ** 2;
-        norm2 += vec2[i] ** 2;
-      }
-      return dot / (Math.sqrt(norm1) * Math.sqrt(norm2)) || 0;
-    }
-
-    // Memory clustering and compression
-    function clusterMemory(message, key, intents) {
-      intents.forEach(intent => {
-        const clusterKey = intent === 'browse' ? key : intent;
-        if (!aiState.memoryClusters[clusterKey]) {
-          aiState.memoryClusters[clusterKey] = [];
-        }
-        aiState.memoryClusters[clusterKey].push({ message, timestamp: Date.now() });
-        if (aiState.memoryClusters[clusterKey].length > 100) {
-          aiState.memoryClusters[clusterKey].shift();
+    // Behavioral analysis
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('mouseover', () => {
+        const category = card.dataset.category;
+        aiState.hoverCount[category]++;
+        if (aiState.interactions > 12 && Math.random() < 0.3) {
+          typeMessage(`AI: Noticed you’re eyeing ${category}s, Jacob! Want to explore our ${category} collection?`);
         }
       });
-    }
-    function consolidateMemory() {
-      for (const cluster in aiState.memoryClusters) {
-        const messages = aiState.memoryClusters[cluster].map(m => m.message);
-        const unique = [...new Set(messages)];
-        if (unique.length < messages.length) {
-          aiState.memoryClusters[cluster] = unique.slice(-100).map((msg, i) => ({
-            message: msg,
-            timestamp: aiState.memoryClusters[cluster][i]?.timestamp || Date.now()
-          }));
-        }
-      }
-    }
-    function applyMemoryDecay() {
-      for (const cluster in aiState.memoryClusters) {
-        aiState.memoryClusters[cluster] = aiState.memoryClusters[cluster].filter(
-          item => {
-            const age = (Date.now() - item.timestamp) / (24 * 60 * 60 * 1000);
-            return 1 / (1 + Math.exp(0.05 * (age - 180))) > 0.1; // Sigmoid decay
-          }
+    });
+
+    // Memory management
+    function clusterMemory(message, intent) {
+      aiState.memory.push({ message, intent, timestamp: Date.now() });
+      if (aiState.memory.length > 700) {
+        aiState.memory = aiState.memory.filter(
+          item => Date.now() - item.timestamp < 240 * 24 * 60 * 60 * 1000 // 240 days
         );
       }
-      if (aiState.context.length > 1000) {
-        aiState.context = aiState.context.slice(-1000);
-      }
-      consolidateMemory();
-      const compressed = LZString.compressToUTF16(JSON.stringify({
-        interactions: aiState.interactions,
-        preferences: aiState.preferences,
-        customResponses: aiState.customResponses,
-        responseWeights: aiState.responseWeights,
-        entities: aiState.entities,
-        context: aiState.context,
-        memoryClusters: aiState.memoryClusters,
-        userProfile: aiState.userProfile
-      }));
-      localStorage.setItem('babyBitesPrefs', compressed);
-      if (db && aiState.context.length > 500) {
-        const tx = db.transaction(['memories'], 'readwrite');
-        const store = tx.objectStore('memories');
-        store.put({ id: 1, context: aiState.context });
+      aiState.context.push({ message, intent });
+      if (aiState.context.length > 25) {
+        aiState.context.shift();
       }
     }
 
     // Update memory panel
     function updateMemoryPanel() {
-      const filter = memoryFilter.value;
       const search = memorySearch.value.toLowerCase();
-      let content = '<ul>';
-      if (filter === 'all') {
-        if (aiState.entities.age) content += `<li>Baby Age: ${aiState.entities.age}</li>`;
-        if (aiState.entities.budget) content += `<li>Budget: ${aiState.entities.budget === 'low' ? 'Low' : 'Flexible'}</li>`;
-        if (aiState.entities.priority) content += `<li>Priority: ${aiState.entities.priority}</li>`;
-        if (aiState.userProfile.mood) content += `<li>Mood: ${aiState.userProfile.mood}</li>`;
-        const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
-          aiState.preferences[a] > aiState.preferences[b] ? a : b, 'none');
-        if (topPref !== 'none' && aiState.preferences[topPref] > 20) {
-          content += `<li>Favorite: ${topPref}s</li>`;
-        }
-        const recentCluster = Object.keys(aiState.memoryClusters).reduce((a, b) =>
-          aiState.memoryClusters[a]?.length > aiState.memoryClusters[b]?.length ? a : b, 'none');
-        if (recentCluster !== 'none') {
-          content += `<li>Recent Topic: ${recentCluster}</li>`;
-        }
-      } else {
-        const cluster = aiState.memoryClusters[filter] || [];
-        cluster.filter(item => !search || item.message.toLowerCase().includes(search))
-          .slice(-5).forEach(item => {
-            content += `<li>${new Date(item.timestamp).toLocaleString()}: ${item.message}</li>`;
-          });
+      let content = 'Your History:<ul>';
+      if (aiState.entities.age) content += `<li>Baby Age: ${aiState.entities.age}</li>`;
+      if (aiState.entities.budget) content += `<li>Budget: ${aiState.entities.budget === 'low' ? 'Low' : 'Flexible'}</li>`;
+      if (aiState.entities.priority) content += `<li>Priority: ${aiState.entities.priority}</li>`;
+      const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
+        aiState.preferences[a] > aiState.preferences[b] ? a : b, 'none');
+      if (topPref !== 'none' && aiState.preferences[topPref] > 25) {
+        content += `<li>Favorite: ${topPref}s</li>`;
       }
+      const recent = aiState.memory.slice(-15).reverse().filter(item => !search || item.message.toLowerCase().includes(search));
+      recent.forEach(item => {
+        const daysAgo = Math.round((Date.now() - item.timestamp) / (24 * 60 * 60 * 1000));
+        content += `<li>${new Date(item.timestamp).toLocaleDateString()}: ${item.intent} - "${item.message.slice(0, 30)}${item.message.length > 30 ? '...' : ''}" (${daysAgo} days ago)</li>`;
+      });
       content += '</ul>';
       memoryContent.innerHTML = content;
     }
 
     // Update AI state
-    function updateAIState(key, message, typingSpeed) {
+    function updateAIState(key, message) {
       aiState.interactions++;
       if (key in aiState.preferences) {
-        aiState.preferences[key] += 15;
+        aiState.preferences[key] += 12;
       }
-      const sentiment = detectSentiment(message);
-      const intents = detectIntents(message);
+      const intent = detectIntent(message);
       const entities = extractEntities(message);
       Object.assign(aiState.entities, entities);
-      const contextVector = vectorizeContext(message);
-      aiState.userProfile.mood = sentiment === 'negative' ? 'upset' : sentiment === 'positive' ? 'happy' : 'neutral';
-      aiState.userProfile.typingSpeed = typingSpeed;
-      if (sentiment === 'positive' && message.includes('like')) {
-        aiState.customResponses[message.toLowerCase()] = `Love your vibe! Noted: "${message}".`;
-      } else if (sentiment === 'negative') {
-        aiState.customResponses[message.toLowerCase()] = `Let’s turn that frown upside down! What can I do?`;
+      clusterMemory(message, intent);
+      aiState.responseWeights[key] = (aiState.responseWeights[key] || 1) * 1.35;
+      try {
+        const compressed = LZString.compressToUTF16(JSON.stringify(aiState));
+        localStorage.setItem('babyBitesPrefs', compressed);
+      } catch (e) {
+        console.error('Memory Save Error:', e);
       }
-      aiState.context.push({ key, message, sentiment, intents, entities, contextVector, timestamp: Date.now() });
-      clusterMemory(message, key, intents);
-      aiState.responseWeights[key] = (aiState.responseWeights[key] || 1) * 1.3;
-      applyMemoryDecay();
       updateProductCarousel();
       updateMemoryPanel();
     }
 
     // Get personalized response
     function getPersonalizedResponse(key, message) {
-      if (aiState.customResponses[message.toLowerCase()]) {
+      if (aiState.customResponses?.[message.toLowerCase()]) {
         return aiState.customResponses[message.toLowerCase()];
       }
-      const tokens = tokenize(message);
-      const tags = partOfSpeechTag(tokens);
-      const resolved = resolveAnaphora(message, tokens, tags);
-      const responseOptions = responses[resolved || key] || responses['default'];
+      const responseOptions = responses[key] || responses['default'];
       let response = responseOptions[Math.floor(Math.random() * responseOptions.length)];
       const sentiment = detectSentiment(message);
-      const intents = detectIntents(message);
-      const contextVector = vectorizeContext(message);
-
-      // Ethical filter
-      if (aiState.entities.budget === 'low' && intents.includes('buy')) {
-        response = response.replace(/\$24\.99/, '$14.99').replace(/blanket/, 'toy');
-      }
+      const intent = detectIntent(message);
 
       // Replace placeholders
-      if (aiState.entities.age) response = response.replace('{age}', aiState.entities.age);
+      if (aiState.entities.age) {
+        response = response.replace('{age}', aiState.entities.age);
+      }
+      if (aiState.entities.priority) {
+        response = response.replace('{priority}', aiState.entities.priority);
+      }
 
       // Memory-driven enhancements
-      if (intents.includes('recall')) {
-        const relevantMemory = aiState.context.slice(-50).find(c => cosineSimilarity(contextVector, c.contextVector) > 0.85);
-        if (relevantMemory) {
-          response = `I recall you said "${relevantMemory.message}" on ${new Date(relevantMemory.timestamp).toLocaleString()}. Want to explore that further?`;
+      if (intent === 'last') {
+        const lastMemory = aiState.memory.slice(-2)[0];
+        if (lastMemory) {
+          const daysAgo = Math.round((Date.now() - lastMemory.timestamp) / (24 * 60 * 60 * 1000));
+          response = `You asked about ${lastMemory.intent} ${daysAgo} days ago: "${lastMemory.message.slice(0, 30)}${lastMemory.message.length > 30 ? '...' : ''}". Want to continue there?`;
         }
       }
 
-      // Contextual enhancements
-      if (aiState.context.length > 3) {
-        const lastContext = aiState.context[aiState.context.length - 2];
-        if (lastContext.intents.includes('browse') && intents.includes('general')) {
-          response += ` Still into ${lastContext.key}? Let’s find the perfect one!`;
-        } else if (lastContext.sentiment === 'negative' && sentiment !== 'negative') {
-          response += ` You’re sounding brighter! What’s next on your list?`;
-        }
-      }
-
-      // Personalized journey
-      if (aiState.interactions > 15) {
+      // Personalized suggestions
+      if (aiState.interactions > 12) {
         const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
           aiState.preferences[a] > aiState.preferences[b] ? a : b, 'bottle');
-        if (aiState.preferences[topPref] > 30) {
-          response += ` You’re obsessed with ${topPref}s! Want a custom ${topPref} recommendation?`;
-        } else if (aiState.entities.age || message.includes('baby')) {
-          response += ` For ${aiState.entities.age || 'your baby'}, I’d go with ${topPref}s. Any special needs?`;
+        const hoverPref = Object.keys(aiState.hoverCount).reduce((a, b) =>
+          aiState.hoverCount[a] > aiState.hoverCount[b] ? a : b, topPref);
+        if (aiState.preferences[topPref] > 25 || aiState.hoverCount[hoverPref] > 5) {
+          response += ` You’re really into ${hoverPref}s, Jacob! Want to explore our ${hoverPref} collection?`;
+        } else if (aiState.entities.age) {
+          response += ` For your ${aiState.entities.age} baby, I’d suggest ${topPref}s.`;
         } else if (aiState.entities.budget === 'low') {
-          response += ` Budget-savvy? Our toys at $14.99 are a steal!`;
+          response += ` Budget-friendly? Our toys at $14.99 are a great deal!`;
         } else if (aiState.entities.priority === 'safety') {
-          response += ` Safety’s key! Our bottles are rigorously tested.`;
-        } else if (aiState.entities.intent === 'gift') {
-          response += ` Gift shopping? Our toys make perfect presents!`;
+          response += ` Safety’s key! Our bottles are top-rated for safety.`;
+        } else if (aiState.entities.priority === 'speed') {
+          response += ` Need it fast? Our Utah hub ensures quick delivery!`;
         }
+      }
+
+      // Contextual follow-up
+      if (aiState.context.length > 3) {
+        const lastContext = aiState.context[aiState.context.length - 2];
+        if (lastContext.intent === 'browse' && intent === 'general') {
+          response += ` Still looking for ${lastContext.intent === 'browse' ? 'products' : lastContext.intent}? I can help!`;
+        } else if (lastContext.intent === 'gift' && intent !== 'gift') {
+          response += ` Still gift shopping? I can suggest more ideas!`;
+        } else if (lastContext.intent === 'shipping' && intent !== 'shipping') {
+          response += ` Want more shipping details from our Utah hub?`;
+        }
+      }
+
+      // Sentiment adjustment
+      if (sentiment === 'negative') {
+        response = `Sorry you’re feeling that way, Jacob! ${response}`;
+      } else if (sentiment === 'positive') {
+        response = `Love your enthusiasm, Jacob! ${response}`;
       }
 
       // Error recovery
-      if (key === 'default' && aiState.interactions > 10) {
-        const similarContext = aiState.context.slice(-100).find(c => cosineSimilarity(contextVector, c.contextVector) > 0.75);
-        if (similarContext) {
-          response = `Did you mean something like "${similarContext.message}" from ${new Date(similarContext.timestamp).toLocaleString()}? Clarify, and I’m on it!`;
+      if (key === 'default' && aiState.interactions > 12) {
+        const intents = ['bottles', 'toys', 'shipping', 'gifts', 'support'];
+        const recentIntents = aiState.context.map(c => c.intent).filter(i => intents.includes(i));
+        if (recentIntents.length) {
+          response += ` Did you mean ${recentIntents[recentIntents.length - 1]} or something else?`;
         } else {
-          response += ` Let’s narrow it down—shopping, shipping, or something else?`;
+          response += ` Try asking about bottles, toys, gifts, or shipping!`;
         }
-      }
-
-      // Sentiment and mood adjustment
-      if (sentiment === 'negative' || aiState.userProfile.mood === 'upset') {
-        response = `I’m here to help! ${response}`;
-      } else if (sentiment === 'curious') {
-        response = `That’s a great question! ${response}`;
-      } else if (aiState.userProfile.typingSpeed > 50) {
-        response = response.slice(0, 100) + '...'; // Shorter for fast typers
-      }
-
-      // Proactive nudge
-      if (aiState.interactions > 25 && Math.random() < 0.8) {
-        response += ` By the way, check the memory cockpit or filter products for more ideas!`;
       }
 
       return response;
@@ -596,11 +477,12 @@
     // Quick replies
     function renderQuickReplies() {
       quickReplies.innerHTML = '';
-      const suggestions = aiState.interactions < 5 ? ['Show bottles', 'What’s new?', 'Help me shop'] :
-        [`Explore ${Object.keys(aiState.preferences).reduce((a, b) => aiState.preferences[a] > aiState.preferences[b] ? a : b)}s`, 'Contact support', 'What did I ask last?', 'Gift ideas'];
+      const suggestions = aiState.interactions < 12 ? ['Show bottles', 'Show toys', 'Gift ideas', 'Shipping info', 'Help me shop'] :
+        [`Explore ${Object.keys(aiState.preferences).reduce((a, b) => aiState.preferences[a] > aiState.preferences[b] ? a : b)}s`, 'What did I ask last?', 'Gift ideas', 'Shipping info', 'Help me shop'];
       suggestions.forEach(suggestion => {
         const btn = document.createElement('button');
-        btn.className = 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-lg text-sm';
+        btn.className = 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-lg text-sm opacity-0 transition-opacity duration-300';
+        btn.style.opacity = '1';
         btn.textContent = suggestion;
         btn.addEventListener('click', () => {
           chatInput.value = suggestion;
@@ -612,25 +494,17 @@
 
     // Typing effect
     async function typeMessage(message) {
-      if (speakEnabled && synth) {
-        const utterance = new SpeechSynthesisUtterance(message.replace('AI: ', ''));
-        utterance.rate = aiState.userProfile.typingSpeed > 50 ? 1.3 : 1.1;
-        utterance.pitch = aiState.userProfile.mood === 'happy' ? 1.2 : 1;
-        synth.speak(utterance);
-      }
       const botDiv = document.createElement('div');
       botDiv.className = 'text-left mb-3';
       const botP = document.createElement('p');
       botP.className = 'inline-block bg-gray-200 dark:bg-gray-700 p-3 rounded-lg typing';
-      const emoji = aiState.userProfile.mood === 'happy' ? '😊' : aiState.userProfile.mood === 'upset' ? '😔' : '';
-      botP.textContent = emoji;
       botDiv.appendChild(botP);
       chatMessages.appendChild(botDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
 
       for (let i = 0; i < message.length; i++) {
-        botP.textContent = emoji + message.slice(0, i + 1);
-        await new Promise(resolve => setTimeout(resolve, 5));
+        botP.textContent = message.slice(0, i + 1);
+        await new Promise(resolve => setTimeout(resolve, 3));
       }
       botP.className = 'inline-block bg-gray-200 dark:bg-gray-700 p-3 rounded-lg';
       chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -639,7 +513,6 @@
 
     // Handle user input
     async function handleInput(message) {
-      const startTime = Date.now();
       const userDiv = document.createElement('div');
       userDiv.className = 'text-right mb-3';
       userDiv.innerHTML = `<p class="inline-block bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">You: ${message}</p>`;
@@ -648,25 +521,22 @@
 
       const userMessageLower = message.toLowerCase();
       let responseKey = 'default';
-      let maxWeight = 0;
       for (const key in responses) {
-        const weight = aiState.responseWeights[key] || 1;
         if (key.includes('|')) {
           const keys = key.split('|');
-          if (keys.some(k => userMessageLower.includes(k)) && weight > maxWeight) {
+          if (keys.some(k => userMessageLower.includes(k))) {
             responseKey = key;
-            maxWeight = weight;
+            break;
           }
-        } else if (userMessageLower.includes(key) && weight > maxWeight) {
+        } else if (userMessageLower.includes(key)) {
           responseKey = key;
-          maxWeight = weight;
+          break;
         }
       }
 
       typingIndicator.classList.remove('hidden');
-      await new Promise(resolve => setTimeout(resolve, 100));
-      const typingSpeed = message.length / ((Date.now() - startTime) / 1000) || 30;
-      updateAIState(responseKey, message, typingSpeed);
+      await new Promise(resolve => setTimeout(resolve, 60));
+      updateAIState(responseKey, message);
       const response = getPersonalizedResponse(responseKey, message);
       typingIndicator.classList.add('hidden');
       await typeMessage(`AI: ${response}`);
@@ -682,20 +552,24 @@
 
     // Proactive engagement
     let idleTimeout;
-    let lastInputTime = Date.now();
+    let lastInteraction = Date.now();
     chatInput.addEventListener('input', () => {
-      lastInputTime = Date.now();
+      lastInteraction = Date.now();
     });
     document.addEventListener('mousemove', () => {
       clearTimeout(idleTimeout);
-      if (chatContainer.style.display === 'block' && aiState.interactions > 15) {
+      if (chatContainer.style.display === 'block' && aiState.interactions > 12) {
         idleTimeout = setTimeout(() => {
-          if (Date.now() - lastInputTime > 8000) {
+          if (Date.now() - lastInteraction > 3000) {
             const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
               aiState.preferences[a] > aiState.preferences[b] ? a : b, 'bottle');
-            typeMessage(`AI: Been a moment! Into ${topPref}s? Let’s explore more!`);
+            const recent = aiState.memory.slice(-1)[0];
+            const message = recent && recent.intent === 'gift' ?
+              `AI: Still gift shopping, Jacob? Try our ${topPref}s for your baby!` :
+              `AI: Still browsing, Jacob? Since you like ${topPref}s, want to see more?`;
+            typeMessage(message);
           }
-        }, 8000);
+        }, 3000);
       }
     });
 
@@ -703,15 +577,22 @@
     function updateProductCarousel() {
       const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
         aiState.preferences[a] > aiState.preferences[b] ? a : b, 'bottle');
+      const hoverPref = Object.keys(aiState.hoverCount).reduce((a, b) =>
+        aiState.hoverCount[a] > aiState.hoverCount[b] ? a : b, topPref);
       const cards = productGrid.querySelectorAll('.product-card');
       cards.forEach(card => {
-        const category = card.dataset.category;
-        const price = parseFloat(card.dataset.price);
+        const badge = card.querySelector('.top-pick-badge');
+        badge.classList.add('hidden');
         let score = 0;
-        if (category === topPref) score += 0.5;
-        if (aiState.entities.budget === 'low' && price < 20) score += 0.3;
-        if (aiState.entities.priority === 'safety' && category === 'bottle') score += 0.2;
-        card.querySelector('.match-score').textContent = score > 0 ? `(${Math.round(score * 100)}% Match)` : '';
+        if (card.dataset.category === topPref) score += 0.6;
+        if (card.dataset.category === hoverPref && aiState.hoverCount[hoverPref] > 5) score += 0.1;
+        if (aiState.entities.budget === 'low' && parseFloat(card.dataset.price) < 20) score += 0.3;
+        if (aiState.entities.priority === 'safety' && card.dataset.category === 'bottle') score += 0.2;
+        if (aiState.entities.priority === 'speed' && card.dataset.category === topPref) score += 0.1;
+        if (score > 0.8) {
+          badge.textContent = `Top Pick (${Math.round(score * 100)}%)`;
+          badge.classList.remove('hidden');
+        }
       });
       const sortedCards = Array.from(cards).sort((a, b) => {
         const aPref = a.dataset.category === topPref ? 1 : 0;
