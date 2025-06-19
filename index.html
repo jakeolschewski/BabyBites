@@ -1,607 +1,555 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="author" content="Jacob Olszewski">
-  <meta name="description" content="BabyBites - Significantly smarter AI-powered website with enhanced memory, owned by Jacob Olszewski, Herriman, Utah">
-  <title>BabyBites - Smarter AI Website</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta name="theme-color" content="#2563eb">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BabyBites: Ultimate personalized baby store by Jacob Olszewski, Herriman, UT. AI-driven, animated, and secure.">
+    <meta name="author" content="Jacob Olszewski">
+    <meta name="copyright" content="© 2025 BabyBites, Jacob Olszewski. All rights reserved.">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://code.jquery.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://js.stripe.com https://unpkg.com https://cdn.tailwindcss.com 'nonce-babybites2025'; style-src 'self' https://fonts.googleapis.com 'nonce-babybites2025'; img-src 'self' data: https://images.unsplash.com https://assets5.lottiefiles.com; media-src 'self'; object-src 'none'; worker-src 'self' blob:; connect-src 'self' https://api.stripe.com;">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="BabyBites - Ultimate Baby Store">
+    <meta property="og:description" content="Explore personalized baby essentials with Jacob Olszewski’s BabyBites! Animated, secure, and interactive.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c">
+    <meta property="og:url" content="https://babybites.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>BabyBites: Ultimate Baby Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" nonce="babybites2025"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/build/three.min.js" nonce="babybites2025"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.137.0/examples/js/controls/OrbitControls.js" nonce="babybites2025"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" nonce="babybites2025"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.10/dist/purify.min.js" nonce="babybites2025"></script>
+    <script src="https://cdn.jsdelivr.net/npm/compromise@latest/builds/compromise.min.js" nonce="babybites2025"></script>
+    <script src="https://js.stripe.com/v3/" nonce="babybites2025"></script>
+    <script src="https://unpkg.com/@lottie/lottie-player@latest/dist/lottie-player.js" nonce="babybites2025"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" nonce="babybites2025">
 </head>
-<body class="bg-gray-50 font-sans transition-colors duration-300" id="theme-body">
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-6 sticky top-0 z-20 shadow-md">
-    <div class="container mx-auto flex justify-between items-center px-4">
-      <div>
-        <h1 class="text-4xl font-extrabold tracking-tight">BabyBites</h1>
-        <p class="text-lg">Smarter AI for baby shopping</p>
-        <p class="text-sm">Owned by Jacob Olszewski, Herriman, Utah 84096</p>
-      </div>
-      <button id="theme-toggle" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-200">Toggle Dark Mode</button>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="container mx-auto py-10 px-4">
-    <!-- Why Choose Us -->
-    <section class="text-center mb-12">
-      <h2 class="text-3xl font-bold mb-6">Why Choose BabyBites?</h2>
-      <p class="text-lg mb-8 max-w-2xl mx-auto">Shop smarter with our advanced AI that remembers your preferences and guides you with precision.</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in">
-          <h3 class="text-xl font-bold mb-3 text-blue-600 dark:text-blue-400">Smarter AI</h3>
-          <p>Highly personalized and intuitive guidance.</p>
+<body class="bg-gradient-to-br from-blue-50 to-pink-50 font-poppins text-gray-800 overflow-x-hidden">
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-blue-600 transition-all duration-300 ease-in-out"></div>
+    <canvas id="particle-canvas" class="fixed inset-0 z-[-1] opacity-20"></canvas>
+    <header class="bg-white shadow-xl py-4 sticky top-0 z-50 transition-all duration-300 hover:shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-8">
+                <h1 class="text-3xl font-semibold text-blue-700 transition-colors duration-300 hover:text-blue-800">BabyBites</h1>
+                <nav class="space-x-8">
+                    <a href="#home" class="hover:text-blue-600 transition-colors duration-300 hover:scale-105" data-translate="home">Home</a>
+                    <a href="#products" class="hover:text-blue-600 transition-colors duration-300 hover:scale-105" data-translate="shop">Shop</a>
+                    <a href="#tools" class="hover:text-blue-600 transition-colors duration-300 hover:scale-105" data-translate="tools">Tools</a>
+                    <a href="#community" class="hover:text-blue-600 transition-colors duration-300 hover:scale-105" data-translate="community">Community</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-6">
+                <select id="language-selector" class="p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
+                <select id="currency-switcher" class="p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                    <option value="usd">USD</option>
+                    <option value="eur">EUR</option>
+                    <option value="gbp">GBP</option>
+                </select>
+                <span class="text-sm text-gray-600 transition-opacity duration-300 hover:opacity-80">Herriman, UT 84096</span>
+                <input type="text" id="search-input" placeholder="Search baby items..." class="p-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-64 transition-all duration-300" onkeyup="smartSearch()">
+                <button id="login-btn" class="text-blue-600 hover:underline transition-colors duration-300 hover:scale-105" data-translate="login">Login</button>
+                <button id="signup-btn" class="text-blue-600 hover:underline transition-colors duration-300 hover:scale-105" data-translate="signup">Signup</button>
+            </div>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in">
-          <h3 class="text-xl font-bold mb-3 text-blue-600 dark:text-blue-400">Fast Shipping</h3>
-          <p>Reliable delivery from Herriman, Utah.</p>
+    </header>
+    <div id="toast" class="fixed bottom-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hidden z-50"></div>
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="bg-white p-6 rounded-xl max-w-md mx-auto mt-20 shadow-2xl transition-all duration-300">
+            <h3 class="text-xl font-medium">Login</h3>
+            <input id="login-email" placeholder="Email" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input id="login-password" type="password" placeholder="Password" class="mt-2 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="loginUser()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300">Login</button>
+            <button onclick="openModal('signup-modal')" class="mt-2 text-blue-600 hover:underline">Sign Up</button>
+            <button onclick="closeModal('login-modal')" class="mt-2 text-red-600 hover:underline">Close</button>
         </div>
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg animate-fade-in">
-          <h3 class="text-xl font-bold mb-3 text-blue-600 dark:text-blue-400">Premium Quality</h3>
-          <p>Curated essentials for your baby.</p>
+    </div>
+    <div id="signup-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="bg-white p-6 rounded-xl max-w-md mx-auto mt-20 shadow-2xl transition-all duration-300">
+            <h3 class="text-xl font-medium">Sign Up</h3>
+            <input id="signup-email" placeholder="Email" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input id="signup-password" type="password" placeholder="Password" class="mt-2 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="signupUser()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300">Sign Up</button>
+            <button onclick="openModal('login-modal')" class="mt-2 text-blue-600 hover:underline">Login</button>
+            <button onclick="closeModal('signup-modal')" class="mt-2 text-red-600 hover:underline">Close</button>
         </div>
-      </div>
-    </section>
-
-    <!-- Product Showcase -->
-    <section id="products" class="mb-12">
-      <h2 class="text-3xl font-bold text-center mb-6">Our Products</h2>
-      <div class="flex justify-center mb-6">
-        <select id="product-filter" class="p-2 border rounded-lg dark:bg-gray-700 dark:text-white">
-          <option value="all">All Products</option>
-          <option value="bottle">Bottles</option>
-          <option value="blanket">Blankets</option>
-          <option value="toy">Toys</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-        </select>
-      </div>
-      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="product-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg" data-category="bottle" data-price="19.99">
-          <img src="https://via.placeholder.com/150" alt="Baby Bottle" class="w-full h-40 object-cover rounded-lg mb-4">
-          <h3 class="text-lg font-semibold">Eco-Friendly Baby Bottle</h3>
-          <p class="text-gray-600 dark:text-gray-300">$19.99 <span class="top-pick-badge hidden text-sm text-green-600 font-bold"></span></p>
-          <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 product-details" data-product="bottle">Details</button>
-        </div>
-        <div class="product-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg" data-category="blanket" data-price="24.99">
-          <img src="https://via.placeholder.com/150" alt="Baby Blanket" class="w-full h-40 object-cover rounded-lg mb-4">
-          <h3 class="text-lg font-semibold">Soft Cotton Blanket</h3>
-          <p class="text-gray-600 dark:text-gray-300">$24.99 <span class="top-pick-badge hidden text-sm text-green-600 font-bold"></span></p>
-          <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 product-details" data-product="blanket">Details</button>
-        </div>
-        <div class="product-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg" data-category="toy" data-price="14.99">
-          <img src="https://via.placeholder.com/150" alt="Baby Toy" class="w-full h-40 object-cover rounded-lg mb-4">
-          <h3 class="text-lg font-semibold">Interactive Plush Toy</h3>
-          <p class="text-gray-600 dark:text-gray-300">$14.99 <span class="top-pick-badge hidden text-sm text-green-600 font-bold"></span></p>
-          <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 product-details" data-product="toy">Details</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Form -->
-    <section class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg max-w-lg mx-auto">
-      <h2 class="text-3xl font-bold text-center mb-6">Get in Touch</h2>
-      <div>
-        <input type="text" placeholder="Your Name" class="w-full p-3 mb-4 border rounded-lg dark:bg-gray-700 dark:text-white" id="contact-name">
-        <input type="email" placeholder="Your Email" class="w-full p-3 mb-4 border rounded-lg dark:bg-gray-700 dark:text-white" id="contact-email">
-        <textarea placeholder="Your Message" class="w-full p-3 mb-4 border rounded-lg dark:bg-gray-700 dark:text-white" rows="4" id="contact-message"></textarea>
-        <button class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700" onclick="alert('Form submission not enabled. Contact a developer to add backend.')">Send Message</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Product Modal -->
-  <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-30">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl max-w-md w-full animate-fade-in">
-      <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
-      <p id="modal-description" class="text-gray-600 dark:text-gray-300 mb-4"></p>
-      <button id="modal-close" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Close</button>
     </div>
-  </div>
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <section id="home" class="relative mb-16">
+            <canvas id="hero-canvas" class="absolute inset-0 z-[-1] opacity-15"></canvas>
+            <div class="text-center bg-white bg-opacity-95 p-8 rounded-xl shadow-2xl transform transition-all duration-500 hover:scale-102">
+                <h2 class="text-4xl font-semibold text-blue-700 mb-6 animate-pulse-slow">Tailored Deals Just for You</h2>
+                <p class="text-xl text-gray-600 mb-6 animate-fade-in">Save up to 35% - Starting at $19.99!</p>
+                <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_knl9nq2g.json" background="transparent" speed="1.2" style="width: 120px; height: 120px; margin: 0 auto;" loop autoplay></lottie-player>
+                <button onclick="scrollToSection('#products')" class="mt-6 bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow">Discover Now</button>
+                <div id="recommendations" class="mt-8 text-gray-600 text-lg"></div>
+            </div>
+        </section>
+        <section id="products" class="mb-16">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-8 animate-slide-in">Dynamic Store</h2>
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            <div id="cart" class="mt-8 bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                <h3 class="text-xl font-medium">Your Cart</h3>
+                <div id="cart-items" class="mt-4 text-gray-600"></div>
+                <input id="shipping-address" placeholder="Enter shipping address..." class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                <select id="shipping-method" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                    <option value="standard">Standard (3-5 days, Free)</option>
+                    <option value="express">Express (1-2 days, $9.99)</option>
+                </select>
+                <button onclick="checkout()" class="mt-4 bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-all duration-300 animate-pulse-slow" data-translate="buyAgain">Buy Now</button>
+                <div id="subscribe-section" class="mt-4">
+                    <p class="text-gray-600">Join BabyBites Monthly ($49.99) for 10% off & free express!</p>
+                    <button onclick="subscribe()" class="mt-2 bg-purple-600 text-white px-4 py-2 rounded-full hover:bg-purple-700 transition-all duration-300 animate-bounce-slow">Subscribe</button>
+                </div>
+                <div id="checkout-result" class="mt-4 text-gray-600"></div>
+            </div>
+        </section>
+        <section id="tools" class="mb-16">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-8 animate-slide-in">Your Parenting Tools</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                    <h3 class="text-xl font-medium">Baby Tracker</h3>
+                    <input id="baby-name" placeholder="Baby's Name" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                    <input id="baby-tracker-input" placeholder="e.g., First Step" class="mt-2 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="logBabyTracker()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="track">Track</button>
+                    <div id="baby-tracker-log" class="mt-4 text-gray-600"></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                    <h3 class="text-xl font-medium">Nutrition Plan</h3>
+                    <input id="nutrition-input" placeholder="e.g., 6 months" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                    <button onclick="generateNutritionPlan()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="generate">Generate</button>
+                    <div id="nutrition-plan" class="mt-4 text-gray-600"></div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-xl">
+                    <h3 class="text-xl font-medium">Growth Tracker</h3>
+                    <input id="growth-input" placeholder="e.g., Height in cm" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="logGrowthTracker()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="logGrowth">Log Growth</button>
+                    <div id="growth-log" class="mt-4 text-gray-600"></div>
+                </div>
+            </div>
+        </section>
+        <section id="community" class="mb-16">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-8 animate-slide-in">Community Preview</h2>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div id="community-preview" class="text-gray-600 space-y-4"></div>
+                <button onclick="loadCommunityPreview()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="joinForum">Join Forum</button>
+            </div>
+        </section>
+        <section id="ai-chat" class="mb-16">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-8 animate-slide-in">AI Chatbot</h2>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div id="ai-chat-log" class="text-gray-600 h-40 overflow-y-auto mb-4"></div>
+                <input id="ai-chat-input" placeholder="Ask about baby care..." class="p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                <button onclick="aiChatRespond()" class="mt-2 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="send">Send</button>
+            </div>
+        </section>
+        <section id="owner-room" class="mb-16 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto transition-all duration-300 hover:shadow-xl">
+                <h2 class="text-2xl font-semibold text-blue-700">Owner’s Room - Jacob Olszewski</h2>
+                <input id="owner-password" type="password" placeholder="Password" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                <input id="owner-2fa" placeholder="2FA Code" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                <button onclick="accessOwnerRoom()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="accessControl">Access Control</button>
+                <div id="owner-content" class="mt-6 hidden">
+                    <h3 class="text-xl font-medium">AI Commands</h3>
+                    <input id="owner-input" placeholder="e.g., Add Stroller $39.99" class="mt-4 p-2 rounded-full border border-gray-300 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300">
+                    <button id="voice-btn" onclick="startVoice()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="voiceCommand">Voice Command</button>
+                    <button onclick="processSmartAI()" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-bounce-slow" data-translate="execute">Execute</button>
+                    <div id="owner-result" class="mt-4 text-gray-600"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-blue-700 text-white py-6 text-center">
+        <p class="text-sm">© 2025 BabyBites by Jacob Olszewski, Herriman, UT. All rights reserved.</p>
+    </footer>
+    <script nonce="babybites2025">
+        const CONFIG = {
+            STRIPE_KEY: 'pk_test_your_stripe_key',
+            OWNER_PASSWORD: 'secure2025',
+            OWNER_2FA: '123456'
+        };
+        const stripe = Stripe(CONFIG.STRIPE_KEY);
+        let state = {
+            cart: [],
+            points: localStorage.getItem('babybitesPoints') ? parseInt(localStorage.getItem('babybitesPoints')) : 0,
+            products: [
+                { id: '1', name: 'Organic Formula', price: 19.99, category: 'food', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c', rating: 4.8, reviews: 1200 },
+                { id: '2', name: 'Lightweight Stroller', price: 39.99, category: 'gear', img: 'https://images.unsplash.com/photo-1596362418110-2e6b3e3e9990', rating: 4.7, reviews: 900 },
+                { id: '3', name: 'Smart Monitor', price: 59.99, category: 'tech', img: 'https://images.unsplash.com/photo-1601134467661-3d775b999c8b', rating: 4.9, reviews: 750 }
+            ],
+            userPrefs: {
+                pastPurchases: JSON.parse(localStorage.getItem('babybitesPurchases')) || [],
+                browseHistory: JSON.parse(localStorage.getItem('babybitesBrowse')) || []
+            },
+            currency: localStorage.getItem('babybitesCurrency') || 'usd',
+            language: localStorage.getItem('babybitesLanguage') || 'en'
+        };
 
-  <!-- Chatbot -->
-  <div id="chat-toggle" class="fixed bottom-4 right-4 bg-blue-600 text-white p-4 rounded-full shadow-lg text-2xl animate-pulse">
-    💬
-  </div>
-  <div id="chat-container" class="fixed bottom-16 right-4 bg-white dark:bg-gray-800 w-80 p-4 rounded-xl shadow-lg z-10">
-    <div class="flex justify-between mb-2">
-      <span class="font-semibold">Smarter AI</span>
-      <div>
-        <button id="memory-toggle" class="text-blue-600 dark:text-blue-400 mr-2">🧠 Memory</button>
-        <button id="voice-toggle" class="text-blue-600 dark:text-blue-400">🎙️ Voice</button>
-      </div>
-    </div>
-    <div id="memory-panel" class="hidden bg-gray-100 dark:bg-gray-700 p-2 mb-2 rounded-lg text-sm">
-      <input id="memory-search" type="text" placeholder="Search history..." class="w-full p-1 mb-2 border rounded-lg dark:bg-gray-600 dark:text-white">
-      <div id="memory-content"></div>
-    </div>
-    <div id="chat-messages" class="h-64 overflow-y-auto mb-3 p-2 border rounded-lg"></div>
-    <div id="quick-replies" class="flex flex-wrap gap-2 mb-2"></div>
-    <div class="relative">
-      <input id="chat-input" type="text" placeholder="Ask about baby needs..." class="w-full p-2 pr-10 border rounded-lg dark:bg-gray-700 dark:text-white">
-      <span id="typing-indicator" class="absolute right-3 top-2 text-gray-500 hidden animate-pulse">...</span>
-    </div>
-  </div>
+        const translations = {
+            en: { home: "Home", shop: "Shop", tools: "Tools", community: "Community", login: "Login", signup: "Signup", addToCart: "Add to Cart", buyAgain: "Buy Now", track: "Track", generate: "Generate", logGrowth: "Log Growth", joinForum: "Join Forum", ask: "Ask", send: "Send", accessControl: "Access Control", voiceCommand: "Voice Command", execute: "Execute" },
+            es: { home: "Inicio", shop: "Tienda", tools: "Herramientas", community: "Comunidad", login: "Iniciar Sesión", signup: "Registrarse", addToCart: "Añadir al Carrito", buyAgain: "Comprar Ahora", track: "Seguimiento", generate: "Generar", logGrowth: "Registrar Crecimiento", joinForum: "Unirse al Foro", ask: "Preguntar", send: "Enviar", accessControl: "Acceso de Control", voiceCommand: "Comando de Voz", execute: "Ejecutar" },
+            fr: { home: "Accueil", shop: "Boutique", tools: "Outils", community: "Communauté", login: "Connexion", signup: "Inscription", addToCart: "Ajouter au Panier", buyAgain: "Acheter Maintenant", track: "Suivi", generate: "Générer", logGrowth: "Enregistrer la Croissance", joinForum: "Rejoindre le Forum", ask: "Demander", send: "Envoyer", accessControl: "Contrôle d'Accès", voiceCommand: "Commande Vocale", execute: "Exécuter" }
+        };
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-6">
-    <div class="container mx-auto text-center">
-      <p>© 2025 BabyBites. All rights reserved by Jacob Olszewski.</p>
-      <p class="text-sm mt-2">Herriman, Utah 84096</p>
-    </div>
-  </footer>
+        const currencyRates = { usd: 1, eur: 0.85, gbp: 0.75 };
 
-  <!-- JavaScript for Smarter AI -->
-  <script>
-    const chatToggle = document.getElementById('chat-toggle');
-    const chatContainer = document.getElementById('chat-container');
-    const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    const voiceToggle = document.getElementById('voice-toggle');
-    const memoryToggle = document.getElementById('memory-toggle');
-    const memoryPanel = document.getElementById('memory-panel');
-    const memorySearch = document.getElementById('memory-search');
-    const memoryContent = document.getElementById('memory-content');
-    const quickReplies = document.getElementById('quick-replies');
-    const typingIndicator = document.getElementById('typing-indicator');
-    const productFilter = document.getElementById('product-filter');
-    const productGrid = document.getElementById('product-grid');
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.getElementById('theme-body');
-    const productModal = document.getElementById('product-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalClose = document.getElementById('modal-close');
-
-    // Service Worker
-    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-      navigator.serviceWorker.register('./sw.js')
-        .then(() => console.log('Service Worker Registered'))
-        .catch(err => console.error('Service Worker Registration Failed:', err));
-    }
-
-    // Dark mode toggle
-    themeToggle.addEventListener('click', () => {
-      body.classList.toggle('dark');
-      themeToggle.textContent = body.classList.contains('dark') ? 'Toggle Light Mode' : 'Toggle Dark Mode';
-      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
-    });
-    if (localStorage.getItem('theme') === 'dark') {
-      body.classList.add('dark');
-      themeToggle.textContent = 'Toggle Light Mode';
-    }
-
-    // Product filtering
-    productFilter.addEventListener('change', () => {
-      const filter = productFilter.value;
-      const cards = productGrid.querySelectorAll('.product-card');
-      cards.forEach(card => {
-        const category = card.dataset.category;
-        card.style.display = 'block';
-        if (filter === 'price-low' || filter === 'price-high') {
-          const sortedCards = Array.from(cards).sort((a, b) => {
-            const priceA = parseFloat(a.dataset.price);
-            const priceB = parseFloat(b.dataset.price);
-            return filter === 'price-low' ? priceA - priceB : priceB - priceA;
-          });
-          productGrid.innerHTML = '';
-          sortedCards.forEach(c => productGrid.appendChild(c));
-        } else if (filter !== 'all' && category !== filter) {
-          card.style.display = 'none';
+        function updateLanguage() {
+            state.language = $('#language-selector').val();
+            localStorage.setItem('babybitesLanguage', state.language);
+            $('[data-translate]').each(function() {
+                const key = $(this).data('translate');
+                $(this).text(translations[state.language][key] || translations.en[key]);
+            });
         }
-      });
-    });
 
-    // Product modal
-    document.querySelectorAll('.product-details').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const product = btn.dataset.product;
-        modalTitle.textContent = product === 'bottle' ? 'Eco-Friendly Baby Bottle' :
-                                product === 'blanket' ? 'Soft Cotton Blanket' : 'Interactive Plush Toy';
-        modalDescription.textContent = aiState.preferences[product] > 25 ?
-          `Perfect match, Jacob! You love ${product}s! ${responses[product][0]}` :
-          `Discover our ${product}! ${responses[product][0]}`;
-        productModal.classList.remove('hidden');
-      });
-    });
-    modalClose.addEventListener('click', () => productModal.classList.add('hidden'));
-
-    // Voice input
-    let recognition = null;
-    if ('webkitSpeechRecognition' in window) {
-      recognition = new webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
-      recognition.onresult = (event) => {
-        chatInput.value = event.results[0][0].transcript;
-        chatInput.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
-      };
-      recognition.onerror = (e) => {
-        voiceToggle.textContent = '🎙️ Voice';
-        console.log('Voice Recognition Error:', e.error);
-      };
-      voiceToggle.addEventListener('click', () => {
-        try {
-          recognition.start();
-          voiceToggle.textContent = '🎙️ Listening...';
-        } catch (e) {
-          console.log('Voice Start Error:', e);
-          voiceToggle.textContent = '🎙️ Voice';
+        function updateCurrency() {
+            state.currency = $('#currency-switcher').val();
+            localStorage.setItem('babybitesCurrency', state.currency);
+            $('.product-price').each(function() {
+                const price = parseFloat($(this).data('price'));
+                const converted = price * currencyRates[state.currency];
+                $(this).text(`${state.currency.toUpperCase()} ${converted.toFixed(2)}`);
+            });
         }
-        recognition.onend = () => voiceToggle.textContent = '🎙️ Voice';
-      });
-    } else {
-      voiceToggle.style.display = 'none';
-    }
 
-    // Memory panel toggle and search
-    memoryToggle.addEventListener('click', () => {
-      memoryPanel.classList.toggle('hidden');
-      if (!memoryPanel.classList.contains('hidden')) {
-        updateMemoryPanel();
-      }
-    });
-    memorySearch.addEventListener('input', updateMemoryPanel);
-
-    // Toggle chatbot
-    chatToggle.addEventListener('click', () => {
-      chatContainer.style.display = chatContainer.style.display === 'none' ? 'block' : 'none';
-      if (chatContainer.style.display === 'block' && aiState.interactions === 0) {
-        setTimeout(() => typeMessage('AI: Hi, Jacob! I’m your smarter assistant for BabyBites. What’s your baby’s age or needs?'), 1000);
-      }
-    });
-
-    // AI state
-    let aiState = {
-      interactions: 0,
-      preferences: { bottle: 0, blanket: 0, toy: 0 },
-      entities: {},
-      memory: [],
-      context: [],
-      responseWeights: {},
-      hoverCount: { bottle: 0, blanket: 0, toy: 0 }
-    };
-
-    // Load preferences with compression
-    const savedPrefs = localStorage.getItem('babyBitesPrefs');
-    if (savedPrefs) {
-      try {
-        const decompressed = LZString.decompressFromUTF16(savedPrefs);
-        aiState = { ...aiState, ...JSON.parse(decompressed || '{}') };
-        aiState.memory = aiState.memory.slice(-700);
-        aiState.context = aiState.context.slice(-25);
-      } catch (e) {
-        console.error('Memory Load Error:', e);
-      }
-    }
-
-    // Response templates
-    const responses = {
-      'hi|hello': ['Hi, Jacob! Welcome to BabyBites. What’s up?', 'Hello! Ready to shop for your baby?', 'Hey! How can I assist you today?', 'Hi there! Excited to help with your baby needs!', 'Hello, Jacob! What’s on your mind for BabyBites?', 'Hi! Let’s find something great for your baby!', 'Hey Jacob! Ready to explore BabyBites?', 'Hello! What’s your next baby need?', 'Hi, Jacob! Let’s make shopping fun!', 'Hey! What’s up with your baby needs?', 'Hello! Let’s dive into baby shopping!', 'Hi, Jacob! What’s the plan for your baby?', 'Hey! Excited to shop with you!', 'Hello! What’s your baby craving today?', 'Hi! Let’s get started with BabyBites!'],
-      'products|items': ['We have bottles, blankets, and toys! What’s your baby’s favorite?', 'Check out our baby essentials! Need something specific?', 'Got bottles, blankets, and toys. Pick one!', 'Our products are perfect for babies. What do you need?', 'Browse our bottles, blankets, or toys! What’s up?', 'Explore our curated baby items! What’s on your list?', 'Bottles, blankets, toys—what’s catching your eye?', 'Our baby products rock! What do you want?', 'Pick from bottles, blankets, or toys! What’s next?', 'Need baby stuff? We’ve got it all!', 'Browse our baby gear! What’s your pick?', 'Toys, bottles, blankets—take your choice!', 'Our essentials are top-notch! What’s up?', 'What baby item are you after today?', 'Check out our baby must-haves!'],
-      'shipping|delivery': ['Fast shipping from Herriman, Utah. Questions?', 'We deliver quickly! Need details?', 'Shipping’s secure from Utah. Want info?', 'Quick delivery from our Utah hub. Ask away!', 'Shipping’s fast and reliable. What’s your question?', 'We ship from Herriman, Utah. Need more info?', 'Fast, secure delivery. What’s up?', 'Shipping from Utah—fast! Questions?', 'Quick shipping guaranteed! Details?', 'Need it fast? We ship from Utah!', 'Priority shipping from Utah! Ask away!', 'Fast delivery from Herriman! What’s up?', 'Secure shipping—need details?', 'Quick ship from Utah! Questions?', 'Express delivery available! Info?'],
-      'bottle': ['Eco-friendly bottles, $19.99. Want one for {age}?', 'Safe bottles for $19.99. Interested?', 'Bottles for easy feeding, $19.99. Add it?', 'Our bottles are great, $19.99. Want one?', 'Bottles, $19.99, perfect for {age}. Grab one?', 'Eco bottles for {age}, $19.99. Like it?', 'Safe feeding bottles, $19.99. Want one?', 'Bottles for {age}, $19.99. Add to cart?', 'Eco-friendly bottles, $19.99. Good for {age}?', 'Our bottles are top-notch, $19.99. Want it?', 'Bottles, $19.99, safe for {age}. Pick one?', 'Eco bottles, $19.99. Great for {age}?', 'Safe bottles, $19.99. Add one?', 'Bottles for feeding, $19.99. Interested?', 'Our bottles rock, $19.99. Want one?'],
-      'blanket': ['Soft blankets, $24.99. Cozy for {age}!', 'Warm blankets, $24.99. Like it?', 'Snuggly blankets, $24.99. Want one?', 'Perfect blankets, $24.99. Grab one?', 'Cozy blankets, $24.99 for {age}. Interested?', 'Soft, warm blankets, $24.99. Want it?', 'Blankets for {age}, $24.99. Pick one?', 'Snuggly blankets, $24.99. Good for {age}?', 'Warm, cozy blankets, $24.99. Add it?', 'Blankets, $24.99. Perfect for {age}?', 'Cozy blankets, $24.99. Grab one?', 'Soft blankets for {age}, $24.99. Want it?', 'Warm blankets, $24.99. Add one?', 'Snuggly blankets, $24.99. Like it?', 'Blankets for {age}, $24.99. Interested?'],
-      'toy': ['Fun toys, $14.99. Great for {age}!', 'Plush toys, $14.99. Want one?', 'Toys for joy, $14.99. Grab one?', 'Interactive toys, $14.99. Interested?', 'Toys, $14.99, perfect for {age}. Want one?', 'Fun plush toys, $14.99. Like it?', 'Toys to spark joy, $14.99. Add one?', 'Playtime toys, $14.99. Good for {age}?', 'Interactive toys, $14.99. Grab it?', 'Toys for {age}, $14.99. Want it?', 'Fun toys, $14.99. Add one?', 'Plush toys for {age}, $14.99. Pick one?', 'Joyful toys, $14.99. Interested?', 'Toys, $14.99. Great for {age}?', 'Interactive toys, $14.99. Want one?'],
-      'help|support': ['Need help? I’m here for you!', 'What’s the issue? Let’s fix it!', 'Support’s on—what’s up?', 'I’ve got your back! What’s the problem?', 'Help’s here! What do you need?', 'Let’s solve that! What’s wrong?', 'Support mode activated! What’s up?', 'Need assistance? I’m ready!', 'What’s the trouble? Let’s sort it!', 'Help’s here, Jacob! What’s up?', 'Got an issue? I’m on it!', 'Support’s here! What’s the deal?', 'Need help, Jacob? Let’s fix it!', 'What’s wrong? I’m here to help!', 'Let’s tackle that problem! What’s up?'],
-      'buy|purchase': ['Ready to buy? What’s your pick?', 'Let’s shop! What do you want?', 'Buying? Tell me what!', 'Great choice! What’s on your list?', 'Time to purchase! What’s it gonna be?', 'Shopping time! What’s your choice?', 'Ready to order? What’s up?', 'Let’s get buying! What’s the pick?', 'Purchase time! What’s your choice?', 'Ready to shop, Jacob? What’s it?', 'Time to buy! What’s your pick?', 'Let’s order! What do you want?', 'Shopping, Jacob? What’s up?', 'Ready to purchase? What’s the choice?', 'Buy now! What’s on your list?'],
-      'last|previous': ['Let me check your last chat. What’s up?', 'I remember your last question! What now?', 'Got your history! What’s next?', 'You asked about that before. Want to dive deeper?', 'Last time we talked about that. What’s up now?', 'Checking your history—what’s next?', 'I recall your last chat! What’s up?', 'Your last question’s on my mind! What now?', 'Got your past chats! What’s up?', 'Let’s revisit your last question!', 'Last chat in mind! What’s next?', 'Your history’s fresh! What’s up?', 'I recall your last ask! What now?', 'Let’s pick up from your last chat!', 'Got your recent chats! What’s next?'],
-      'gift': ['Looking for a gift? Our toys are perfect for {age}!', 'Gift ideas? Try our plush toys!', 'Great gift choices—want toys or blankets?', 'Gift shopping? I’ve got ideas for you!', 'Perfect gifts for {age}! Toys or blankets?', 'Gift for a baby? Try our toys!', 'Need a gift? Our toys are a hit!', 'Gift ideas for {age}? Toys are great!', 'Shopping for a gift? Try our blankets!', 'Perfect gift? Our toys rock!', 'Gift for {age}? Try our toys!', 'Need gift ideas? Toys or blankets?', 'Gift shopping? Our toys shine!', 'Perfect gifts for {age}! What’s up?', 'Gift ideas? Our blankets are cozy!'],
-      'default': ['Not sure about that. Try products or help!', 'Hmm, what’s that? Ask about baby stuff!', 'Missed that. What do you need?', 'Let’s try again—what’s on your mind?', 'Unclear on that. Ask about gifts or shipping?', 'Not sure what you mean. Try bottles or toys?', 'Let’s clarify—what’s your question?', 'Missed that one. Try products or support!', 'What’s that? Ask about baby needs!', 'Let’s sort it out—what do you mean?', 'Not clear on that. Try gifts or bottles?', 'Hmm, let’s try again—what’s up?', 'Missed it. Ask about toys or shipping?', 'Unclear? Try products or help!', 'What’s your question? Let’s clarify!']
-    };
-
-    // NLP functions
-    function tokenize(message) {
-      return message.toLowerCase().match(/\b\w+\b/g) || [];
-    }
-    function detectSentiment(message) {
-      const positive = ['love', 'like', 'great', 'happy', 'awesome', 'excited', 'amazing', 'fantastic'];
-      const negative = ['hate', 'bad', 'upset', 'frustrated', 'annoyed', 'worried', 'disappointed'];
-      return positive.some(word => message.includes(word)) ? 'positive' :
-             negative.some(word => message.includes(word)) ? 'negative' : 'neutral';
-    }
-    function detectIntent(message) {
-      const tokens = tokenize(message);
-      const phrases = message.toLowerCase();
-      if (phrases.includes('buy') || phrases.includes('purchase') || phrases.includes('order') || phrases.includes('shop')) return 'buy';
-      if (phrases.includes('help') || phrases.includes('support') || phrases.includes('issue') || phrases.includes('problem')) return 'support';
-      if (phrases.includes('gift') || phrases.includes('present') || phrases.includes('gift for')) return 'gift';
-      if (phrases.includes('product') || phrases.includes('item') || phrases.includes('bottle') ||
-          phrases.includes('blanket') || phrases.includes('toy')) return 'browse';
-      if (phrases.includes('shipping') || phrases.includes('delivery') || phrases.includes('ship') || phrases.includes('urgent delivery') || phrases.includes('priority delivery')) return 'shipping';
-      if (phrases.includes('last') || phrases.includes('previous') || phrases.includes('before') || phrases.includes('history')) return 'last';
-      return 'general';
-    }
-    function extractEntities(message) {
-      const entities = {};
-      const phrases = message.toLowerCase();
-      if (phrases.includes('newborn')) entities.age = 'newborn';
-      if (phrases.includes('6 months') || phrases.includes('six months')) entities.age = '6 months';
-      if (phrases.includes('toddler') || phrases.includes('1 year') || phrases.includes('one year')) entities.age = 'toddler';
-      if (phrases.includes('infant')) entities.age = 'infant';
-      if (phrases.includes('budget') || phrases.includes('cheap') || phrases.includes('low cost') || phrases.includes('affordable') || phrases.includes('cost-effective') || phrases.includes('low-budget')) entities.budget = 'low';
-      if (phrases.includes('safe') || phrases.includes('safety') || phrases.includes('safety-first')) entities.priority = 'safety';
-      if (phrases.includes('fast') || phrases.includes('quick') || phrases.includes('urgent') || phrases.includes('priority')) entities.priority = 'speed';
-      return entities;
-    }
-
-    // Behavioral analysis
-    document.querySelectorAll('.product-card').forEach(card => {
-      card.addEventListener('mouseover', () => {
-        const category = card.dataset.category;
-        aiState.hoverCount[category]++;
-        if (aiState.interactions > 12 && Math.random() < 0.3) {
-          typeMessage(`AI: Noticed you’re eyeing ${category}s, Jacob! Want to explore our ${category} collection?`);
+        function showToast(message, duration = 3000) {
+            $('#toast').text(message).removeClass('hidden').css('opacity', 1);
+            setTimeout(() => $('#toast').addClass('hidden'), duration);
         }
-      });
-    });
 
-    // Memory management
-    function clusterMemory(message, intent) {
-      aiState.memory.push({ message, intent, timestamp: Date.now() });
-      if (aiState.memory.length > 700) {
-        aiState.memory = aiState.memory.filter(
-          item => Date.now() - item.timestamp < 240 * 24 * 60 * 60 * 1000 // 240 days
-        );
-      }
-      aiState.context.push({ message, intent });
-      if (aiState.context.length > 25) {
-        aiState.context.shift();
-      }
-    }
-
-    // Update memory panel
-    function updateMemoryPanel() {
-      const search = memorySearch.value.toLowerCase();
-      let content = 'Your History:<ul>';
-      if (aiState.entities.age) content += `<li>Baby Age: ${aiState.entities.age}</li>`;
-      if (aiState.entities.budget) content += `<li>Budget: ${aiState.entities.budget === 'low' ? 'Low' : 'Flexible'}</li>`;
-      if (aiState.entities.priority) content += `<li>Priority: ${aiState.entities.priority}</li>`;
-      const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
-        aiState.preferences[a] > aiState.preferences[b] ? a : b, 'none');
-      if (topPref !== 'none' && aiState.preferences[topPref] > 25) {
-        content += `<li>Favorite: ${topPref}s</li>`;
-      }
-      const recent = aiState.memory.slice(-15).reverse().filter(item => !search || item.message.toLowerCase().includes(search));
-      recent.forEach(item => {
-        const daysAgo = Math.round((Date.now() - item.timestamp) / (24 * 60 * 60 * 1000));
-        content += `<li>${new Date(item.timestamp).toLocaleDateString()}: ${item.intent} - "${item.message.slice(0, 30)}${item.message.length > 30 ? '...' : ''}" (${daysAgo} days ago)</li>`;
-      });
-      content += '</ul>';
-      memoryContent.innerHTML = content;
-    }
-
-    // Update AI state
-    function updateAIState(key, message) {
-      aiState.interactions++;
-      if (key in aiState.preferences) {
-        aiState.preferences[key] += 12;
-      }
-      const intent = detectIntent(message);
-      const entities = extractEntities(message);
-      Object.assign(aiState.entities, entities);
-      clusterMemory(message, intent);
-      aiState.responseWeights[key] = (aiState.responseWeights[key] || 1) * 1.35;
-      try {
-        const compressed = LZString.compressToUTF16(JSON.stringify(aiState));
-        localStorage.setItem('babyBitesPrefs', compressed);
-      } catch (e) {
-        console.error('Memory Save Error:', e);
-      }
-      updateProductCarousel();
-      updateMemoryPanel();
-    }
-
-    // Get personalized response
-    function getPersonalizedResponse(key, message) {
-      if (aiState.customResponses?.[message.toLowerCase()]) {
-        return aiState.customResponses[message.toLowerCase()];
-      }
-      const responseOptions = responses[key] || responses['default'];
-      let response = responseOptions[Math.floor(Math.random() * responseOptions.length)];
-      const sentiment = detectSentiment(message);
-      const intent = detectIntent(message);
-
-      // Replace placeholders
-      if (aiState.entities.age) {
-        response = response.replace('{age}', aiState.entities.age);
-      }
-      if (aiState.entities.priority) {
-        response = response.replace('{priority}', aiState.entities.priority);
-      }
-
-      // Memory-driven enhancements
-      if (intent === 'last') {
-        const lastMemory = aiState.memory.slice(-2)[0];
-        if (lastMemory) {
-          const daysAgo = Math.round((Date.now() - lastMemory.timestamp) / (24 * 60 * 60 * 1000));
-          response = `You asked about ${lastMemory.intent} ${daysAgo} days ago: "${lastMemory.message.slice(0, 30)}${lastMemory.message.length > 30 ? '...' : ''}". Want to continue there?`;
+        function scrollToSection(id) {
+            $('html, body').animate({ scrollTop: $(id).offset().top - 100 }, 800, 'easeInOutQuad');
         }
-      }
 
-      // Personalized suggestions
-      if (aiState.interactions > 12) {
-        const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
-          aiState.preferences[a] > aiState.preferences[b] ? a : b, 'bottle');
-        const hoverPref = Object.keys(aiState.hoverCount).reduce((a, b) =>
-          aiState.hoverCount[a] > aiState.hoverCount[b] ? a : b, topPref);
-        if (aiState.preferences[topPref] > 25 || aiState.hoverCount[hoverPref] > 5) {
-          response += ` You’re really into ${hoverPref}s, Jacob! Want to explore our ${hoverPref} collection?`;
-        } else if (aiState.entities.age) {
-          response += ` For your ${aiState.entities.age} baby, I’d suggest ${topPref}s.`;
-        } else if (aiState.entities.budget === 'low') {
-          response += ` Budget-friendly? Our toys at $14.99 are a great deal!`;
-        } else if (aiState.entities.priority === 'safety') {
-          response += ` Safety’s key! Our bottles are top-rated for safety.`;
-        } else if (aiState.entities.priority === 'speed') {
-          response += ` Need it fast? Our Utah hub ensures quick delivery!`;
+        function openModal(modalId) {
+            closeModal('login-modal');
+            closeModal('signup-modal');
+            $(`#${modalId}`).removeClass('hidden').find('input').first().focus();
         }
-      }
 
-      // Contextual follow-up
-      if (aiState.context.length > 3) {
-        const lastContext = aiState.context[aiState.context.length - 2];
-        if (lastContext.intent === 'browse' && intent === 'general') {
-          response += ` Still looking for ${lastContext.intent === 'browse' ? 'products' : lastContext.intent}? I can help!`;
-        } else if (lastContext.intent === 'gift' && intent !== 'gift') {
-          response += ` Still gift shopping? I can suggest more ideas!`;
-        } else if (lastContext.intent === 'shipping' && intent !== 'shipping') {
-          response += ` Want more shipping details from our Utah hub?`;
+        function closeModal(modalId) {
+            $(`#${modalId}`).addClass('hidden').find('input').val('');
         }
-      }
 
-      // Sentiment adjustment
-      if (sentiment === 'negative') {
-        response = `Sorry you’re feeling that way, Jacob! ${response}`;
-      } else if (sentiment === 'positive') {
-        response = `Love your enthusiasm, Jacob! ${response}`;
-      }
-
-      // Error recovery
-      if (key === 'default' && aiState.interactions > 12) {
-        const intents = ['bottles', 'toys', 'shipping', 'gifts', 'support'];
-        const recentIntents = aiState.context.map(c => c.intent).filter(i => intents.includes(i));
-        if (recentIntents.length) {
-          response += ` Did you mean ${recentIntents[recentIntents.length - 1]} or something else?`;
-        } else {
-          response += ` Try asking about bottles, toys, gifts, or shipping!`;
+        function loadProducts() {
+            $('#product-grid').empty();
+            const recs = getRecommendations();
+            state.products.forEach(p => {
+                const canvasId = `product-canvas-${p.id}`;
+                const isRecommended = recs.includes(p.id);
+                $('#product-grid').append(`
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-3 ${isRecommended ? 'border-2 border-green-500' : ''}">
+                        <div class="relative group">
+                            <canvas id="${canvasId}" class="absolute inset-0 z-[-1] opacity-20 transition-opacity duration-300 group-hover:opacity-50"></canvas>
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-48 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <h3 class="text-xl font-medium mt-4">${p.name}</h3>
+                        <p class="product-price text-gray-600" data-price="${p.price}">${state.currency.toUpperCase()} ${(p.price * currencyRates[state.currency]).toFixed(2)} <span class="text-green-600">★ ${p.rating.toFixed(1)} (${p.reviews})</span></p>
+                        <button onclick="addToCart('${p.name}', ${p.price})" class="mt-4 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-pulse-slow" data-translate="addToCart">Add to Cart</button>
+                    </div>
+                `);
+                initProductCanvas(canvasId);
+            });
+            $('#recommendations').html(`<p class="font-medium">Recommended for you: ${recs.map(id => state.products.find(p => p.id === id)?.name).join(', ')}</p>`);
         }
-      }
 
-      return response;
-    }
+        function initProductCanvas(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            const geometry = new THREE.TorusKnotGeometry(6, 2, 100, 16);
+            const material = new THREE.MeshBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.3 });
+            const knot = new THREE.Mesh(geometry, material);
+            scene.add(knot);
+            camera.position.z = 15;
+            function animate() {
+                knot.rotation.x += 0.01;
+                knot.rotation.y += 0.01;
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
 
-    // Quick replies
-    function renderQuickReplies() {
-      quickReplies.innerHTML = '';
-      const suggestions = aiState.interactions < 12 ? ['Show bottles', 'Show toys', 'Gift ideas', 'Shipping info', 'Help me shop'] :
-        [`Explore ${Object.keys(aiState.preferences).reduce((a, b) => aiState.preferences[a] > aiState.preferences[b] ? a : b)}s`, 'What did I ask last?', 'Gift ideas', 'Shipping info', 'Help me shop'];
-      suggestions.forEach(suggestion => {
-        const btn = document.createElement('button');
-        btn.className = 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-lg text-sm opacity-0 transition-opacity duration-300';
-        btn.style.opacity = '1';
-        btn.textContent = suggestion;
-        btn.addEventListener('click', () => {
-          chatInput.value = suggestion;
-          chatInput.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
+        function getRecommendations() {
+            const prefs = state.userPrefs;
+            return state.products
+                .filter(p => !prefs.pastPurchases.some(pp => pp.id === p.id))
+                .slice(0, 2)
+                .map(p => p.id);
+        }
+
+        function addToCart(name, price) {
+            const product = state.products.find(p => p.name === name);
+            state.cart.push({ name, price });
+            state.points += Math.floor(price * 10);
+            state.userPrefs.pastPurchases.push(product);
+            localStorage.setItem('babybitesPurchases', JSON.stringify(state.userPrefs.pastPurchases));
+            localStorage.setItem('babybitesPoints', state.points);
+            $('#cart-items').text(state.cart.map(i => `${i.name}: ${state.currency.toUpperCase()} ${(i.price * currencyRates[state.currency]).toFixed(2)}`).join(', '));
+            showToast(`${name} added! Earned ${Math.floor(price * 10)} BabyPoints.`);
+            loadProducts();
+        }
+
+        function checkout() {
+            const address = DOMPurify.sanitize($('#shipping-address').val());
+            if (!address || !state.cart.length) return showToast('Add items and an address.');
+            $('#checkout-result').text('Checkout successful! Order placed.');
+            state.cart = [];
+            $('#cart-items').empty();
+            showToast('Order placed successfully!');
+        }
+
+        function subscribe() {
+            showToast('Subscribed to BabyBites Monthly! 10% off + free express shipping.');
+            state.points += 100;
+            localStorage.setItem('babybitesPoints', state.points);
+        }
+
+        function smartSearch() {
+            const query = DOMPurify.sanitize($('#search-input').val().toLowerCase());
+            const results = state.products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            state.userPrefs.browseHistory = results.map(p => p.id);
+            localStorage.setItem('babybitesBrowse', JSON.stringify(state.userPrefs.browseHistory));
+            $('#product-grid').empty();
+            results.forEach(p => {
+                const canvasId = `product-canvas-${p.id}`;
+                $('#product-grid').append(`
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-3">
+                        <div class="relative group">
+                            <canvas id="${canvasId}" class="absolute inset-0 z-[-1] opacity-20 transition-opacity duration-300 group-hover:opacity-50"></canvas>
+                            <img src="${p.img}" alt="${p.name}" class="w-full h-48 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+                        </div>
+                        <h3 class="text-xl font-medium mt-4">${p.name}</h3>
+                        <p class="product-price text-gray-600" data-price="${p.price}">${state.currency.toUpperCase()} ${(p.price * currencyRates[state.currency]).toFixed(2)} <span class="text-green-600">★ ${p.rating.toFixed(1)} (${p.reviews})</span></p>
+                        <button onclick="addToCart('${p.name}', ${p.price})" class="mt-4 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition-all duration-300 animate-pulse-slow" data-translate="addToCart">Add to Cart</button>
+                    </div>
+                `);
+                initProductCanvas(canvasId);
+            });
+        }
+
+        function logBabyTracker() {
+            const name = DOMPurify.sanitize($('#baby-name').val());
+            const milestone = DOMPurify.sanitize($('#baby-tracker-input').val());
+            if (name && milestone) {
+                $('#baby-tracker-log').append(`<p class="animate-fade-in">${name}: ${milestone} - ${new Date().toLocaleDateString()}</p>`);
+                $('#baby-name, #baby-tracker-input').val('');
+                showToast('Milestone tracked!');
+            } else {
+                showToast('Enter baby name and milestone.');
+            }
+        }
+
+        function generateNutritionPlan() {
+            const age = DOMPurify.sanitize($('#nutrition-input').val());
+            let plan = 'No plan available.';
+            if (age) {
+                const plans = {
+                    '6 months': 'Pureed fruits, veggies, and rice cereal.',
+                    '12 months': 'Soft solids like mashed bananas, yogurt, and small pieces of bread.'
+                };
+                plan = plans[age] || 'Custom plan: Consult a pediatrician for ' + age + ' months.';
+            }
+            $('#nutrition-plan').html(`<p class="animate-fade-in">${plan}</p>`);
+            showToast('Nutrition plan generated!');
+        }
+
+        function logGrowthTracker() {
+            const growth = DOMPurify.sanitize($('#growth-input').val());
+            if (growth) {
+                $('#growth-log').append(`<p class="animate-fade-in">Growth: ${growth} - ${new Date().toLocaleDateString()}</p>`);
+                $('#growth-input').val('');
+                showToast('Growth logged!');
+            } else {
+                showToast('Enter growth details.');
+            }
+        }
+
+        function loadCommunityPreview() {
+            const mockReviews = [
+                { user: 'Sarah M.', comment: 'Loved the organic formula!' },
+                { user: 'John D.', comment: 'The stroller is a game-changer!' }
+            ];
+            $('#community-preview').html(mockReviews.map(r => `<p class="animate-fade-in">${r.user}: ${r.comment}</p>`).join(''));
+            showToast('Community preview loaded!');
+        }
+
+        function aiChatRespond() {
+            const input = DOMPurify.sanitize($('#ai-chat-input').val());
+            if (input) {
+                $('#ai-chat-log').append(`<p class="animate-fade-in"><strong>You:</strong> ${input}</p>`);
+                const response = input.toLowerCase().includes('feed') ? 'Try pureed fruits or veggies for your baby!' : 'I’m here to help! Ask me anything about baby care.';
+                $('#ai-chat-log').append(`<p class="animate-fade-in"><strong>Bot:</strong> ${response}</p>`);
+                $('#ai-chat-input').val('');
+                $('#ai-chat-log').scrollTop($('#ai-chat-log')[0].scrollHeight);
+                showToast('Message sent!');
+            } else {
+                showToast('Enter a message.');
+            }
+        }
+
+        function startVoice() {
+            if (!window.SpeechRecognition && !window.webkitSpeechRecognition) return showToast('Voice recognition not supported.');
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.onresult = e => {
+                $('#owner-input').val(DOMPurify.sanitize(e.results[0][0].transcript));
+                processSmartAI();
+            };
+            recognition.start();
+            showToast('Listening...');
+        }
+
+        function processSmartAI() {
+            const command = DOMPurify.sanitize($('#owner-input').val().toLowerCase());
+            const doc = nlp(command);
+            if (doc.has('add product')) {
+                const name = doc.match('#Noun+').out('text');
+                const price = parseFloat(doc.match('#Money').out('text') || '0');
+                if (name && price) {
+                    state.products.push({ id: Date.now().toString(), name, price, category: 'custom', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c', rating: 4.5, reviews: 100 });
+                    loadProducts();
+                    $('#owner-result').text(`Added ${name} at $${price}.`);
+                    showToast(`Added ${name} at $${price}.`);
+                } else {
+                    $('#owner-result').text('Invalid product details.');
+                    showToast('Invalid product details.');
+                }
+            } else {
+                $('#owner-result').text('Command not recognized.');
+                showToast('Command not recognized.');
+            }
+        }
+
+        function loginUser() {
+            const email = DOMPurify.sanitize($('#login-email').val());
+            const password = DOMPurify.sanitize($('#login-password').val());
+            if (email && password) {
+                showToast(`Logged in as ${email}!`);
+                closeModal('login-modal');
+            } else {
+                showToast('Enter email and password.');
+            }
+        }
+
+        function signupUser() {
+            const email = DOMPurify.sanitize($('#signup-email').val());
+            const password = DOMPurify.sanitize($('#signup-password').val());
+            if (email && password) {
+                showToast(`Account created for ${email}!`);
+                closeModal('signup-modal');
+            } else {
+                showToast('Enter email and password.');
+            }
+        }
+
+        function accessOwnerRoom() {
+            const password = $('#owner-password').val();
+            const twoFA = $('#owner-2fa').val();
+            if (password === CONFIG.OWNER_PASSWORD && twoFA === CONFIG.OWNER_2FA) {
+                $('#owner-content').removeClass('hidden');
+                $('#owner-room').removeClass('hidden');
+                showToast('Access granted to Owner’s Room!');
+            } else {
+                showToast('Incorrect credentials.');
+            }
+        }
+
+        function initWebGL() {
+            const canvas = document.getElementById('particle-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(1000 * 3);
+            for (let i = 0; i < positions.length; i++) positions[i] = (Math.random() - 0.5) * 100;
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const material = new THREE.PointsMaterial({ color: 0x3b82f6, size: 0.1, transparent: true, opacity: 0.5 });
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+            camera.position.z = 50;
+            function animate() {
+                particles.rotation.y += 0.002;
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        function initHeroCanvas() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+            const material = new THREE.MeshBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.3 });
+            const knot = new THREE.Mesh(geometry, material);
+            scene.add(knot);
+            camera.position.z = 30;
+            function animate() {
+                knot.rotation.x += 0.01;
+                knot.rotation.y += 0.01;
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                camera.updateProjectionMatrix();
+            });
+        }
+
+        $(document).ready(() => {
+            $('#language-selector').val(state.language);
+            $('#currency-switcher').val(state.currency);
+            updateLanguage();
+            updateCurrency();
+            $('#language-selector, #currency-switcher').on('change', () => {
+                updateLanguage();
+                updateCurrency();
+                loadProducts();
+            });
+            $('#login-btn').on('click', () => openModal('login-modal'));
+            $('#signup-btn').on('click', () => openModal('signup-modal'));
+            loadProducts();
+            initWebGL();
+            initHeroCanvas();
+            loadCommunityPreview();
+            $(window).on('scroll', () => {
+                const scroll = $(window).scrollTop();
+                const height = $(document).height() - $(window).height();
+                $('#progress-bar').css('width', `${(scroll / height) * 100}%`);
+            });
         });
-        quickReplies.appendChild(btn);
-      });
-    }
-
-    // Typing effect
-    async function typeMessage(message) {
-      const botDiv = document.createElement('div');
-      botDiv.className = 'text-left mb-3';
-      const botP = document.createElement('p');
-      botP.className = 'inline-block bg-gray-200 dark:bg-gray-700 p-3 rounded-lg typing';
-      botDiv.appendChild(botP);
-      chatMessages.appendChild(botDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      for (let i = 0; i < message.length; i++) {
-        botP.textContent = message.slice(0, i + 1);
-        await new Promise(resolve => setTimeout(resolve, 3));
-      }
-      botP.className = 'inline-block bg-gray-200 dark:bg-gray-700 p-3 rounded-lg';
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      renderQuickReplies();
-    }
-
-    // Handle user input
-    async function handleInput(message) {
-      const userDiv = document.createElement('div');
-      userDiv.className = 'text-right mb-3';
-      userDiv.innerHTML = `<p class="inline-block bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">You: ${message}</p>`;
-      chatMessages.appendChild(userDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-
-      const userMessageLower = message.toLowerCase();
-      let responseKey = 'default';
-      for (const key in responses) {
-        if (key.includes('|')) {
-          const keys = key.split('|');
-          if (keys.some(k => userMessageLower.includes(k))) {
-            responseKey = key;
-            break;
-          }
-        } else if (userMessageLower.includes(key)) {
-          responseKey = key;
-          break;
+    </script>
+    <style nonce="babybites2025">
+        .animate-slide-in { animation: slideIn 1s ease forwards; }
+        .animate-pulse-slow { animation: pulse 2.5s infinite; }
+        .animate-fade-in { animation: fadeIn 1.5s ease forwards; }
+        .animate-bounce-slow { animation: bounce 2s infinite; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @media (max-width: 768px) {
+            #product-grid { grid-template-columns: 1fr; }
+            #search-input { width: 100%; }
+            .max-w-7xl { padding: 0 1rem; }
         }
-      }
-
-      typingIndicator.classList.remove('hidden');
-      await new Promise(resolve => setTimeout(resolve, 60));
-      updateAIState(responseKey, message);
-      const response = getPersonalizedResponse(responseKey, message);
-      typingIndicator.classList.add('hidden');
-      await typeMessage(`AI: ${response}`);
-    }
-
-    chatInput.addEventListener('keypress', async (e) => {
-      if (e.key === 'Enter' && chatInput.value.trim()) {
-        const message = chatInput.value.trim();
-        await handleInput(message);
-        chatInput.value = '';
-      }
-    });
-
-    // Proactive engagement
-    let idleTimeout;
-    let lastInteraction = Date.now();
-    chatInput.addEventListener('input', () => {
-      lastInteraction = Date.now();
-    });
-    document.addEventListener('mousemove', () => {
-      clearTimeout(idleTimeout);
-      if (chatContainer.style.display === 'block' && aiState.interactions > 12) {
-        idleTimeout = setTimeout(() => {
-          if (Date.now() - lastInteraction > 3000) {
-            const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
-              aiState.preferences[a] > aiState.preferences[b] ? a : b, 'bottle');
-            const recent = aiState.memory.slice(-1)[0];
-            const message = recent && recent.intent === 'gift' ?
-              `AI: Still gift shopping, Jacob? Try our ${topPref}s for your baby!` :
-              `AI: Still browsing, Jacob? Since you like ${topPref}s, want to see more?`;
-            typeMessage(message);
-          }
-        }, 3000);
-      }
-    });
-
-    // Dynamic product carousel
-    function updateProductCarousel() {
-      const topPref = Object.keys(aiState.preferences).reduce((a, b) =>
-        aiState.preferences[a] > aiState.preferences[b] ? a : b, 'bottle');
-      const hoverPref = Object.keys(aiState.hoverCount).reduce((a, b) =>
-        aiState.hoverCount[a] > aiState.hoverCount[b] ? a : b, topPref);
-      const cards = productGrid.querySelectorAll('.product-card');
-      cards.forEach(card => {
-        const badge = card.querySelector('.top-pick-badge');
-        badge.classList.add('hidden');
-        let score = 0;
-        if (card.dataset.category === topPref) score += 0.6;
-        if (card.dataset.category === hoverPref && aiState.hoverCount[hoverPref] > 5) score += 0.1;
-        if (aiState.entities.budget === 'low' && parseFloat(card.dataset.price) < 20) score += 0.3;
-        if (aiState.entities.priority === 'safety' && card.dataset.category === 'bottle') score += 0.2;
-        if (aiState.entities.priority === 'speed' && card.dataset.category === topPref) score += 0.1;
-        if (score > 0.8) {
-          badge.textContent = `Top Pick (${Math.round(score * 100)}%)`;
-          badge.classList.remove('hidden');
-        }
-      });
-      const sortedCards = Array.from(cards).sort((a, b) => {
-        const aPref = a.dataset.category === topPref ? 1 : 0;
-        const bPref = b.dataset.category === topPref ? 1 : 0;
-        return bPref - aPref;
-      });
-      productGrid.innerHTML = '';
-      sortedCards.forEach(c => productGrid.appendChild(c));
-    }
-  </script>
+    </style>
 </body>
 </html>
