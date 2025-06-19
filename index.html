@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="BabyBites: AI-powered baby e-commerce with dropshipping and parenting tools by Jacob Olszewski">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://aframe.io https://www.gstatic.com https://js.stripe.com https://cdn.dialogflow.com 'unsafe-eval'; style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com; connect-src 'self' https://api.cjdropshipping.com https://firestore.googleapis.com https://api.stripe.com https://api.shippo.com https://api.dialogflow.com https://api.vertex.ai.google.com https://babybites-workers.cloudflare.com https://us-central1-babybites.cloudfunctions.net https://api.sendgrid.com; manifest-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com https://aframe.io https://www.gstatic.com https://js.stripe.com https://cdn.dialogflow.com https://pagead2.googlesyndication.com 'unsafe-eval'; style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com https://www.amazon.com https://adservice.google.com; connect-src 'self' https://api.cjdropshipping.com https://firestore.googleapis.com https://api.stripe.com https://api.shippo.com https://api.dialogflow.com https://api.vertex.ai.google.com https://babybites-workers.cloudflare.com https://us-central1-babybites.cloudfunctions.net https://api.sendgrid.com https://api.x.com wss://babybites.firebaseio.com https://api.owletcare.com; manifest-src 'self';">
     <meta name="robots" content="index, follow">
     <meta name="keywords" content="baby products, AI, dropshipping, parenting, BabyBites">
     <meta property="og:title" content="BabyBites - AI-Powered Baby E-Commerce">
@@ -28,6 +28,7 @@
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 50; display: none; }
         .modal.active { display: block; }
         .sticky-cart { position: fixed; top: 4rem; right: 1rem; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 40; }
+        .live-chat { position: fixed; bottom: 1rem; right: 1rem; background: #fff; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 40; max-height: 300px; overflow-y: auto; }
         [tabindex]:focus { outline: 2px solid #f472b6; }
         @media (max-width: 640px) {
             h2 { font-size: 1.25rem; }
@@ -49,6 +50,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
     <script type="module">
         import React, { useState, useEffect, useCallback, memo } from 'https://cdn.jsdelivr.net/npm/react@18.2.0/+esm';
@@ -56,6 +59,8 @@
         const { initializeApp } = firebase;
         const { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut } = firebase.auth;
         const { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs } = firebase.firestore;
+        const { getDatabase, ref, push, onValue } = firebase.database;
+        const { getMessaging, getToken } = firebase.messaging;
 
         // Firebase Config (replace with your own)
         const firebaseConfig = {
@@ -64,18 +69,21 @@
             projectId: "babybites",
             storageBucket: "babybites.appspot.com",
             messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            appId: "YOUR_APP_ID",
+            databaseURL: "https://babybites.firebaseio.com"
         };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
+        const rtdb = getDatabase(app);
+        const messaging = getMessaging(app);
 
         // UUID for tracking
         const uuid = () => crypto.randomUUID();
 
         // IndexedDB Setup
         const openDB = () => new Promise((resolve, reject) => {
-            const request = indexedDB.open('BabyBitesDB', 2);
+            const request = indexedDB.open('BabyBitesDB', 4);
             request.onupgradeneeded = e => {
                 const db = e.target.result;
                 db.createObjectStore('profiles', { keyPath: 'id' });
@@ -84,19 +92,15 @@
                 db.createObjectStore('nursery', { keyPath: 'id' });
                 db.createObjectStore('reviews', { keyPath: 'id' });
                 db.createObjectStore('subscriptions', { keyPath: 'id' });
+                db.createObjectStore('quizzes', { keyPath: 'id' });
             };
             request.onsuccess = e => resolve(e.target.result);
             request.onerror = e => reject(e.target.error);
         });
 
-        // Federated Learning Model
+        // Federated Learning Model (Transformer-based)
         const federatedModel = async () => {
-            const model = tf.sequential({
-                layers: [
-                    tf.layers.dense({ units: 16, activation: 'relu', inputShape: [3] }),
-                    tf.layers.dense({ units: 1, activation: 'sigmoid' })
-                ]
-            });
+            const model = await transformers.load_model('gpt2', { from_tf: true });
             return model;
         };
 
@@ -135,7 +139,9 @@
 
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(e => console.error('Service Worker failed:', e));
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                getToken(messaging, { serviceWorkerRegistration: reg }).catch(e => console.error('FCM token failed:', e));
+            }).catch(e => console.error('Service Worker failed:', e));
         }
 
         // Main App Component
@@ -146,10 +152,13 @@
             const [tier, setTier] = useState('Bronze');
             const [theme, setTheme] = useState(localStorage.getItem('theme') || 'default');
             const [language, setLanguage] = useState(navigator.language.split('-')[0] || 'en');
+            const [currency, setCurrency] = useState('USD');
             const [bundles, setBundles] = useState([]);
             const [chatQuery, setChatQuery] = useState('');
             const [chatResponse, setChatResponse] = useState('Ask away!');
-            const [loading, setLoading] = useState({ bundles: false, chatbot: false, consent: false, analytics: false, reviews: false, subscriptions: false });
+            const [liveChatMessages, setLiveChatMessages] = useState([]);
+            const [quiz, setQuiz] = useState(null);
+            const [loading, setLoading] = useState({ bundles: false, chatbot: false, consent: false, analytics: false, reviews: false, subscriptions: false, quiz: false });
             const [error, setError] = useState(null);
             const [flConsent, setFlConsent] = useState(localStorage.getItem('flConsent') === 'true');
             const [twoFAEnabled, setTwoFAEnabled] = useState(false);
@@ -158,6 +167,7 @@
             const [reviews, setReviews] = useState([]);
             const [subscriptions, setSubscriptions] = useState([]);
             const [forumPosts, setForumPosts] = useState([]);
+            const [wearableData, setWearableData] = useState(null);
 
             // Auth and Storage Init
             useEffect(() => {
@@ -177,9 +187,11 @@
                             setPoints(profile.points || 0);
                             setTier(profile.tier || 'Bronze');
                             setTwoFAEnabled(profile.twoFAEnabled || false);
+                            setCurrency(profile.currency || 'USD');
                         }
                         localStorage.setItem('theme', theme);
                         localStorage.setItem('language', language);
+                        localStorage.setItem('currency', currency);
                         document.body.className = theme;
                         // Fetch analytics
                         setLoading(prev => ({ ...prev, analytics: true }));
@@ -220,10 +232,34 @@
                         } catch (e) {
                             setError('Failed to load forum posts');
                         }
+                        // Fetch wearable data
+                        try {
+                            const wearable = await fetchFromServerless('wearable-data', { userId: u.uid });
+                            setWearableData(wearable?.data || null);
+                        } catch (e) {
+                            setError('Failed to load wearable data');
+                        }
+                        // Live chat
+                        onValue(ref(rtdb, `chat/${u.uid}`), snapshot => {
+                            const messages = snapshot.val() ? Object.values(snapshot.val()) : [];
+                            setLiveChatMessages(messages);
+                        });
+                        // Backup data
+                        await fetchFromServerless('backup-data', { userId: u.uid, cart, nursery: profile.nursery || [] });
+                        // Load quiz
+                        setLoading(prev => ({ ...prev, quiz: true }));
+                        try {
+                            const quizData = await fetchFromServerless('daily-quiz', { userId: u.uid });
+                            setQuiz(quizData || { question: 'What’s best for your baby?', options: ['Formula', 'Diapers', 'Monitor'], answer: 'Formula', points: 10 });
+                        } catch (e) {
+                            setError('Failed to load quiz');
+                        } finally {
+                            setLoading(prev => ({ ...prev, quiz: false }));
+                        }
                     });
                 };
                 init();
-            }, [theme, language]);
+            }, [theme, language, currency, cart]);
 
             // FL Consent Popup
             useEffect(() => {
@@ -234,7 +270,7 @@
                 }
             }, [user, flConsent]);
 
-            // AI-Driven Bundles (Serverless + Edge + FL + Dynamic Pricing + Inventory Alerts)
+            // AI-Driven Bundles (Serverless + Edge + FL + Dynamic Pricing + Inventory Alerts + A/B Testing + Wearable Data)
             useEffect(() => {
                 if (!user || !flConsent) return;
                 const loadBundles = async () => {
@@ -245,17 +281,29 @@
                             products = await fetchFromEdge('products', { userId: user.uid });
                             if (!products) {
                                 products = [
-                                    { id: 'formula', name: 'Organic Formula', price: 29.99, margin: 0.4, demand: 0.8, originalPrice: 34.99, stock: 100 },
-                                    { id: 'monitor', name: 'Smart Monitor', price: 199.99, margin: 0.5, demand: 0.9, originalPrice: 229.99, stock: 50 },
-                                    { id: 'diapers', name: 'Eco Diapers', price: 39.99, margin: 0.45, demand: 0.7, originalPrice: 44.99, stock: 5 },
+                                    { id: 'formula', name: 'Organic Formula', price: 29.99, margin: 0.4, demand: 0.8, originalPrice: 34.99, stock: 100, carbonFootprint: '2kg CO2', affiliateLink: 'https://amazon.com/formula' },
+                                    { id: 'monitor', name: 'Smart Monitor', price: 199.99, margin: 0.5, demand: 0.9, originalPrice: 229.99, stock: 50, carbonFootprint: '5kg CO2', affiliateLink: 'https://amazon.com/monitor' },
+                                    { id: 'diapers', name: 'Eco Diapers', price: 39.99, margin: 0.45, demand: 0.7, originalPrice: 44.99, stock: 5, carbonFootprint: '1kg CO2', affiliateLink: 'https://amazon.com/diapers' },
                                 ];
                             }
                         }
-                        // Dynamic pricing
-                        products = products.map(p => ({
+                        // Generate product descriptions
+                        const model = await federatedModel();
+                        const descriptions = await Promise.all(products.map(p => transformers.generate_text(`Describe ${p.name} for baby`, { model }));
+                        products = products.map((p, i) => ({ ...p, description: descriptions[i]?.text || p.name }));
+                        // Dynamic pricing with FL personalization
+                        const localData = tf.tensor2d(products.map(p => [p.price, p.margin, p.demand, p.stock / 100, wearableData?.sleepHours || 8]));
+                        const localLabels = tf.tensor2d(products.map(() => [Math.random()]));
+                        await model.fit(localData, localLabels, { epochs: 1 });
+                        const weights = model.getWeights().map(w => Array.from(w.dataSync()));
+                        await fetchFromServerless('federated-update', { userId: user.uid, weights });
+                        const scores = await Promise.all(products.map(p => model.predict(tf.tensor2d([[p.price, p.margin, p.demand, p.stock / 100, wearableData?.sleepHours || 8]])).data()));
+                        const abTestGroup = Math.random() < 0.5 ? 'A' : 'B';
+                        products = products.map((p, i) => ({
                             ...p,
-                            price: p.price * (1 + (p.demand > 0.8 ? 0.05 : 0)) * (tier === 'Gold' ? 0.9 : tier === 'Silver' ? 0.95 : 1),
-                            alert: p.stock < 10 ? `Only ${p.stock} left!` : null
+                            price: p.price * (1 + (p.demand > 0.8 ? 0.05 : 0)) * (tier === 'Gold' ? 0.9 : tier === 'Silver' ? 0.95 : 1) * (1 + scores[i][0] * 0.1) * (abTestGroup === 'A' ? 0.95 : 0.9),
+                            alert: p.stock < 10 ? `Only ${p.stock} left!` : null,
+                            upsell: p.id === 'diapers' ? { id: 'bib', name: 'Eco Bib', price: 5.99 } : null
                         }));
                         // Mock DQN
                         const state = user.uid;
@@ -267,13 +315,6 @@
                             return [products[bestIdx], products[(bestIdx + 1) % products.length]];
                         };
                         let bundle = selectBundle();
-                        // Federated Learning
-                        const model = await federatedModel();
-                        const localData = tf.tensor2d(products.map(p => [p.price, p.margin, p.demand]));
-                        const localLabels = tf.tensor2d(products.map(() => [Math.random()]));
-                        await model.fit(localData, localLabels, { epochs: 1 });
-                        const weights = model.getWeights().map(w => Array.from(w.dataSync()));
-                        await fetchFromServerless('federated-update', { userId: user.uid, weights });
                         setBundles(bundle);
                         const reward = getReward(bundle);
                         actions[bundle[0].id] += 0.1 * (reward - actions[bundle[0].id]);
@@ -283,13 +324,21 @@
                             action: 'view_bundle',
                             bundle: bundle.map(b => b.id),
                             timestamp: Date.now(),
+                            abTestGroup
                         });
                         // Email campaign
                         if (Math.random() < 0.1) {
                             await fetchFromServerless('send-email', {
                                 userId: user.uid,
                                 email: user.email,
-                                content: `New ${bundle[0].name} bundle for $${bundle[0].price}! ${bundle[0].alert || ''}`
+                                content: `New ${bundle[0].name} bundle for $${bundle[0].price.toFixed(2)}! ${bundle[0].description} ${bundle[0].alert || ''}`
+                            });
+                        }
+                        // Push notification for cart abandonment
+                        if (cart.length > 0 && Math.random() < 0.1) {
+                            await fetchFromServerless('send-push', {
+                                userId: user.uid,
+                                message: `Don't forget your ${cart[0].item} in cart!`
                             });
                         }
                     } catch (e) {
@@ -299,7 +348,7 @@
                     }
                 };
                 loadBundles();
-            }, [user, flConsent, tier]);
+            }, [user, flConsent, tier, cart, wearableData]);
 
             // Voice-Activated Chatbot
             const handleVoiceChat = useCallback(() => {
@@ -319,10 +368,16 @@
                 recognition.start();
             }, [handleChat, language]);
 
-            // Chatbot (Serverless + Edge + Transformers.js + Multi-Language)
+            // Chatbot (Serverless + Edge + Transformers.js + Multi-Language + FL)
             const handleChat = useCallback(async () => {
                 setLoading(prev => ({ ...prev, chatbot: true }));
                 try {
+                    const model = await federatedModel();
+                    const localData = tf.tensor2d([[chatQuery.length, 0.5, 0.5, 1, wearableData?.sleepHours || 8]]); // Include wearable data
+                    const localLabels = tf.tensor2d([[Math.random()]]);
+                    await model.fit(localData, localLabels, { epochs: 1 });
+                    const weights = model.getWeights().map(w => Array.from(w.dataSync()));
+                    await fetchFromServerless('federated-update', { userId: user.uid, weights });
                     const translatedQuery = await fetchFromEdge('translate', { text: chatQuery, targetLang: 'en' });
                     const serverlessResponse = await fetchFromServerless('chatbot', { query: translatedQuery?.text || chatQuery, userId: user?.uid });
                     let response = serverlessResponse?.response || null;
@@ -335,7 +390,8 @@
                             response = age <= 6 ? 'Breast milk or formula every 2-3 hours. Try our Newborn Feeding Bundle!' : 'Pureed fruits and oats. See our Toddler Nutrition Bundle!';
                         }
                     }
-                    const translatedResponse = await fetchFromEdge('translate', { text: response, targetLang: language });
+                    const generatedResponse = await transformers.generate_text(response, { model });
+                    const translatedResponse = await fetchFromEdge('translate', { text: generatedResponse?.text || response, targetLang: language });
                     setChatResponse(translatedResponse?.text || response);
                     await addDoc(collection(db, 'interactions'), {
                         userId: user?.uid,
@@ -348,12 +404,31 @@
                 } finally {
                     setLoading(prev => ({ ...prev, chatbot: false }));
                 }
-            }, [chatQuery, user, language]);
+            }, [chatQuery, user, language, wearableData]);
 
-            // Add to Cart (Serverless + Edge + Shippo)
-            const addToCart = useCallback(async (item, price) => {
+            // Live Chat
+            const handleLiveChat = async message => {
+                try {
+                    await push(ref(rtdb, `chat/${user.uid}`), { message, userId: user.uid, timestamp: Date.now() });
+                    const response = await fetchFromServerless('live-chat', { message, userId: user.uid });
+                    if (response?.response) {
+                        await push(ref(rtdb, `chat/${user.uid}`), { message: response.response, userId: 'bot', timestamp: Date.now() });
+                    }
+                } catch (e) {
+                    setError('Failed to send live chat message');
+                }
+            };
+
+            // Add to Cart (Serverless + Edge + Shippo + FL + Upsell)
+            const addToCart = useCallback(async (item, price, upsell = null) => {
                 setLoading(prev => ({ ...prev, bundles: true }));
                 try {
+                    const model = await federatedModel();
+                    const localData = tf.tensor2d([[price, 0.5, 0.5, 1, wearableData?.sleepHours || 8]]); // Include wearable data
+                    const localLabels = tf.tensor2d([[Math.random()]]);
+                    await model.fit(localData, localLabels, { epochs: 1 });
+                    const weights = model.getWeights().map(w => Array.from(w.dataSync()));
+                    await fetchFromServerless('federated-update', { userId: user.uid, weights });
                     let shipping = await fetchFromServerless('shipping', { item, userId: user.uid });
                     if (!shipping) {
                         shipping = await fetchFromEdge('shipping', { item, userId: user.uid });
@@ -361,9 +436,9 @@
                             shipping = { details: 'USPS, 3-5 days, tracking #123456' };
                         }
                     }
-                    const updatedCart = [...cart, { item, price, id: uuid(), shipping: shipping.details }];
+                    const updatedCart = [...cart, { item, price, id: uuid(), shipping: shipping.details }, ...(upsell ? [{ item: upsell.name, price: upsell.price, id: uuid(), shipping: shipping.details }] : [])];
                     setCart(updatedCart);
-                    const newPoints = points + 50;
+                    const newPoints = points + 50 + (upsell ? 25 : 0);
                     setPoints(newPoints);
                     const newTier = newPoints >= 1000 ? 'Gold' : newPoints >= 500 ? 'Silver' : 'Bronze';
                     setTier(newTier);
@@ -378,7 +453,7 @@
                 } finally {
                     setLoading(prev => ({ ...prev, bundles: false }));
                 }
-            }, [cart, points, user]);
+            }, [cart, points, user, wearableData]);
 
             // Theme Toggle
             const toggleTheme = useCallback(() => {
@@ -394,6 +469,15 @@
                 setLanguage(lang);
                 localStorage.setItem('language', lang);
             }, []);
+
+            // Currency Toggle
+            const toggleCurrency = useCallback(currency => {
+                setCurrency(currency);
+                localStorage.setItem('currency', currency);
+                if (user) {
+                    setDoc(doc(db, 'users', user.uid), { currency }, { merge: true });
+                }
+            }, [user]);
 
             // Challenge Timer
             useEffect(() => {
@@ -442,6 +526,12 @@
             const subscribeToPlan = async plan => {
                 setLoading(prev => ({ ...prev, subscriptions: true }));
                 try {
+                    const model = await federatedModel();
+                    const localData = tf.tensor2d([[plan.price, 0.5, 0.5, 1, wearableData?.sleepHours || 8]]); // Include wearable data
+                    const localLabels = tf.tensor2d([[Math.random()]]);
+                    await model.fit(localData, localLabels, { epochs: 1 });
+                    const weights = model.getWeights().map(w => Array.from(w.dataSync()));
+                    await fetchFromServerless('federated-update', { userId: user.uid, weights });
                     const subData = await fetchFromServerless('subscribe', { userId: user.uid, plan });
                     setSubscriptions(prev => [...prev, subData]);
                     await setDoc(doc(db, 'subscriptions', user.uid), { plans: [...subscriptions, subData] });
@@ -465,6 +555,10 @@
                     const store = tx.objectStore('reviews');
                     await store.put({ id: uuid(), ...reviewData });
                     await addDoc(collection(db, 'reviews'), reviewData);
+                    await fetchFromServerless('share-x', {
+                        userId: user.uid,
+                        content: `Rated ${productId} ${rating}/5 on BabyBites! ${comment} #BabyBites`,
+                    });
                 } catch (e) {
                     setError('Failed to post review');
                 } finally {
@@ -475,11 +569,42 @@
             // Post to Forum
             const postToForum = async (title, content) => {
                 try {
+                    const model = await federatedModel();
+                    const localData = tf.tensor2d([[title.length, 0.5, 0.5, 1, wearableData?.sleepHours || 8]]); // Include wearable data
+                    const localLabels = tf.tensor2d([[Math.random()]]);
+                    await model.fit(localData, localLabels, { epochs: 1 });
+                    const weights = model.getWeights().map(w => Array.from(w.dataSync()));
+                    await fetchFromServerless('federated-update', { userId: user.uid, weights });
                     const postData = { title, content, userId: user.uid, timestamp: Date.now() };
                     await addDoc(collection(db, 'forum'), postData);
                     setForumPosts(prev => [...prev, postData]);
+                    await fetchFromServerless('share-x', {
+                        userId: user.uid,
+                        content: `New post on BabyBites: ${title} #BabyBitesCommunity`,
+                    });
                 } catch (e) {
                     setError('Failed to post to forum');
+                }
+            };
+
+            // Handle Quiz
+            const handleQuiz = async answer => {
+                setLoading(prev => ({ ...prev, quiz: true }));
+                try {
+                    if (answer === quiz.answer) {
+                        const newPoints = points + quiz.points;
+                        setPoints(newPoints);
+                        const newTier = newPoints >= 1000 ? 'Gold' : newPoints >= 500 ? 'Silver' : 'Bronze';
+                        setTier(newTier);
+                        await setDoc(doc(db, 'users', user.uid), { points: newPoints, tier: newTier }, { merge: true });
+                        alert('Correct! +10 BabyPoints');
+                    } else {
+                        alert('Try again!');
+                    }
+                } catch (e) {
+                    setError('Failed to submit quiz');
+                } finally {
+                    setLoading(prev => ({ ...prev, quiz: false }));
                 }
             };
 
@@ -492,25 +617,26 @@
             return (
                 React.createElement('div', { className: `min-h-screen ${theme}`, role: 'main' },
                     error && React.createElement('div', { className: 'fixed top-4 left-4 bg-red-500 text-white p-2 rounded', role: 'alert' }, error),
-                    React.createElement(Header, { toggleTheme, toggleLanguage, points, challenge, handleSignOut, user, tier, twoFAEnabled, toggle2FA }),
+                    React.createElement(Header, { toggleTheme, toggleLanguage, toggleCurrency, points, challenge, handleSignOut, user, tier, twoFAEnabled, toggle2FA }),
                     !user && React.createElement(SignUp, { setUser }),
-                    user && React.createElement(Dashboard, { user, bundles, addToCart, loading, chatQuery, setChatQuery, chatResponse, handleChat, handleVoiceChat, analytics, tier, reviews, postReview, subscriptions, subscribeToPlan, forumPosts, postToForum, language }),
+                    user && React.createElement(Dashboard, { user, bundles, addToCart, loading, chatQuery, setChatQuery, chatResponse, handleChat, handleVoiceChat, analytics, tier, reviews, postReview, subscriptions, subscribeToPlan, forumPosts, postToForum, language, currency, liveChatMessages, handleLiveChat, quiz, handleQuiz, wearableData }),
                     user && React.createElement(StickyCart, { cart }),
                     user && React.createElement(ConsentModal, { handleConsent, loading }),
                     user && React.createElement(VRNurseryDesigner, { user, addToCart }),
                     user && React.createElement(ProductComparison, { bundles, language }),
+                    user && React.createElement(LiveChat, { user, liveChatMessages, handleLiveChat }),
                     React.createElement(Footer)
                 )
             );
         });
 
         // Header Component
-        const Header = memo(({ toggleTheme, toggleLanguage, points, challenge, handleSignOut, user, tier, twoFAEnabled, toggle2FA }) => (
+        const Header = memo(({ toggleTheme, toggleLanguage, toggleCurrency, points, challenge, handleSignOut, user, tier, twoFAEnabled, toggle2FA }) => (
             React.createElement('header', { className: 'fixed top-0 w-full bg-gradient-to-r from-blue-300 to-pink-300 text-white p-4 shadow-lg z-50', role: 'banner' },
                 React.createElement('div', { className: 'flex justify-between items-center max-w-7xl mx-auto' },
                     React.createElement('h1', { className: 'text-2xl font-bold animate-heartpulse', 'aria-label': 'BabyBites Logo' }, 'BabyBites'),
                     React.createElement('nav', { className: 'flex space-x-4', role: 'navigation' },
-                        ['home', 'bundles', 'tools', 'community', 'nursery', 'analytics', 'compare'].map(item => (
+                        ['home', 'bundles', 'tools', 'community', 'nursery', 'analytics', 'compare', 'quiz'].map(item => (
                             React.createElement('a', { key: item, href: `#${item}`, className: 'hover:text-pink-100', tabIndex: 0 }, item.charAt(0).toUpperCase() + item.slice(1))
                         ))
                     ),
@@ -528,8 +654,16 @@
                             className: 'p-2 rounded-full text-gray-900',
                             'aria-label': 'Select Language',
                             tabIndex: 0
-                        }, ['en', 'es', 'fr'].map(lang => (
+                        }, ['en', 'es', 'fr', 'de', 'zh', 'ja', 'ko', 'ru', 'ar', 'pt'].map(lang => (
                             React.createElement('option', { key: lang, value: lang }, lang.toUpperCase())
+                        ))),
+                        React.createElement('select', {
+                            onChange: e => toggleCurrency(e.target.value),
+                            className: 'p-2 rounded-full text-gray-900',
+                            'aria-label': 'Select Currency',
+                            tabIndex: 0
+                        }, ['USD', 'EUR', 'GBP', 'USDC'].map(curr => (
+                            React.createElement('option', { key: curr, value: curr }, curr)
                         ))),
                         React.createElement('button', {
                             onClick: toggleTheme,
@@ -572,11 +706,11 @@
                 setLoading(true);
                 try {
                     const { user } = await createUserWithEmailAndPassword(auth, email, 'tempPassword123');
-                    await setDoc(doc(db, 'users', user.uid), { name, email, babyAge: parseInt(babyAge) || 0, flConsent: false, points: 0, tier: 'Bronze', twoFAEnabled: false });
+                    await setDoc(doc(db, 'users', user.uid), { name, email, babyAge: parseInt(babyAge) || 0, flConsent: false, points: 0, tier: 'Bronze', twoFAEnabled: false, currency: 'USD' });
                     const dbInstance = await openDB();
                     const tx = dbInstance.transaction(['profiles'], 'readwrite');
                     const store = tx.objectStore('profiles');
-                    await store.put({ id: user.uid, name, email, babyAge, cart: [], points: 0, tier: 'Bronze', twoFAEnabled: false });
+                    await store.put({ id: user.uid, name, email, babyAge, cart: [], points: 0, tier: 'Bronze', twoFAEnabled: false, currency: 'USD' });
                     setUser(user);
                 } catch (e) {
                     setError('Sign-up failed: ' + e.message);
@@ -632,7 +766,7 @@
         });
 
         // Dashboard Component
-        const Dashboard = memo(({ user, bundles, addToCart, loading, chatQuery, setChatQuery, chatResponse, handleChat, handleVoiceChat, analytics, tier, reviews, postReview, subscriptions, subscribeToPlan, forumPosts, postToForum, language }) => {
+        const Dashboard = memo(({ user, bundles, addToCart, loading, chatQuery, setChatQuery, chatResponse, handleChat, handleVoiceChat, analytics, tier, reviews, postReview, subscriptions, subscribeToPlan, forumPosts, postToForum, language, currency, liveChatMessages, handleLiveChat, quiz, handleQuiz, wearableData }) => {
             const [compareItems, setCompareItems] = useState([]);
             const [reviewComment, setReviewComment] = useState('');
             const [reviewRating, setReviewRating] = useState(5);
@@ -644,10 +778,19 @@
             };
 
             const translations = {
-                en: { bundles: 'Bundles', chatbot: 'Parenting Assistant', analytics: 'Your Analytics', reviews: 'Reviews', subscriptions: 'Subscriptions', forum: 'Community Forum', compare: 'Compare' },
-                es: { bundles: 'Paquetes', chatbot: 'Asistente de Crianza', analytics: 'Tus Análisis', reviews: 'Reseñas', subscriptions: 'Suscripciones', forum: 'Foro Comunitario', compare: 'Comparar' },
-                fr: { bundles: 'Lots', chatbot: 'Assistant Parental', analytics: 'Vos Analyses', reviews: 'Avis', subscriptions: 'Abonnements', forum: 'Forum Communautaire', compare: 'Comparer' }
+                en: { bundles: 'Bundles', chatbot: 'Parenting Assistant', analytics: 'Your Analytics', reviews: 'Reviews', subscriptions: 'Subscriptions', forum: 'Community Forum', compare: 'Compare', share: 'Share', quiz: 'Daily Quiz', sustainability: 'Sustainability' },
+                es: { bundles: 'Paquetes', chatbot: 'Asistente de Crianza', analytics: 'Tus Análisis', reviews: 'Reseñas', subscriptions: 'Suscripciones', forum: 'Foro Comunitario', compare: 'Comparar', share: 'Compartir', quiz: 'Cuestionario Diario', sustainability: 'Sostenibilidad' },
+                fr: { bundles: 'Lots', chatbot: 'Assistant Parental', analytics: 'Vos Analyses', reviews: 'Avis', subscriptions: 'Abonnements', forum: 'Forum Communautaire', compare: 'Comparer', share: 'Partager', quiz: 'Quiz Quotidien', sustainability: 'Durabilité' },
+                de: { bundles: 'Bündel', chatbot: 'Elternassistent', analytics: 'Deine Analysen', reviews: 'Bewertungen', subscriptions: 'Abonnements', forum: 'Gemeinschaftsforum', compare: 'Vergleichen', share: 'Teilen', quiz: 'Tägliches Quiz', sustainability: 'Nachhaltigkeit' },
+                zh: { bundles: '套餐', chatbot: '育儿助手', analytics: '你的分析', reviews: '评论', subscriptions: '订阅', forum: '社区论坛', compare: '比较', share: '分享', quiz: '每日问答', sustainability: '可持续性' },
+                ja: { bundles: 'バンドル', chatbot: '育児アシスタント', analytics: 'あなたの分析', reviews: 'レビュー', subscriptions: 'サブスクリプション', forum: 'コミュニティフォーラム', compare: '比較', share: '共有', quiz: '毎日のクイズ', sustainability: '持続可能性' },
+                ko: { bundles: '번들', chatbot: '육아 도우미', analytics: '당신의 분석', reviews: '리뷰', subscriptions: '구독', forum: '커뮤니티 포럼', compare: '비교', share: '공유', quiz: '일일 퀴즈', sustainability: '지속 가능성' },
+                ru: { bundles: 'Наборы', chatbot: 'Помощник для родителей', analytics: 'Ваши анализы', reviews: 'Отзывы', subscriptions: 'Подписки', forum: 'Форум сообщества', compare: 'Сравнить', share: 'Поделиться', quiz: 'Ежедневная викторина', sustainability: 'Устойчивость' },
+                ar: { bundles: 'الحزم', chatbot: 'مساعد الأبوة', analytics: 'تحليلاتك', reviews: 'المراجعات', subscriptions: 'الاشتراكات', forum: 'منتدى المجتمع', compare: 'مقارنة', share: 'مشاركة', quiz: 'الاختبار اليومي', sustainability: 'الاستدامة' },
+                pt: { bundles: 'Pacotes', chatbot: 'Assistente de Parentalidade', analytics: 'Suas Análises', reviews: 'Revisões', subscriptions: 'Assinaturas', forum: 'Fórum da Comunidade', compare: 'Comparar', share: 'Compartilhar', quiz: 'Quiz Diário', sustainability: 'Sustentabilidade' }
             };
+
+            const currencyRates = { USD: 1, EUR: 0.85, GBP: 0.73, USDC: 1 }; // Mock rates
 
             return (
                 React.createElement('section', { className: 'pt-20 pb-10 max-w-7xl mx-auto', role: 'region', 'aria-labelledby': 'dashboard-heading' },
@@ -659,20 +802,34 @@
                                 React.createElement('ul', null,
                                     bundles.map(b => (
                                         React.createElement('li', { key: b.id, className: 'mb-2' },
-                                            `${b.name} - $${b.price} (Was $${b.originalPrice || b.price}) (${b.shipping || 'USPS, 3-5 days, #123456'})`,
+                                            `${b.name} - ${(b.price * currencyRates[currency]).toFixed(2)} ${currency} (Was ${(b.originalPrice * currencyRates[currency]).toFixed(2)} ${currency})`,
                                             b.alert && React.createElement('span', { className: 'text-red-500 text-sm ml-2' }, b.alert),
+                                            React.createElement('p', { className: 'text-sm' }, b.description),
+                                            React.createElement('p', { className: 'text-sm text-green-600' }, translations[language].sustainability + `: ${b.carbonFootprint}`),
                                             React.createElement('button', {
-                                                onClick: () => addToCart(b.name, b.price),
+                                                onClick: () => addToCart(b.name, b.price, b.upsell),
                                                 className: 'ml-2 p-1 bg-pink-400 text-white rounded hover:bg-pink-500',
                                                 'aria-label': `Add ${b.name} to cart`,
                                                 tabIndex: 0
-                                            }, 'Add'),
+                                            }, `Add${b.upsell ? ` (+${b.upsell.name} for ${(b.upsell.price * currencyRates[currency]).toFixed(2)} ${currency})` : ''}`),
                                             React.createElement('button', {
                                                 onClick: () => handleCompare(b),
                                                 className: 'ml-2 p-1 bg-blue-400 text-white rounded hover:bg-blue-500',
                                                 'aria-label': `Compare ${b.name}`,
                                                 tabIndex: 0
-                                            }, compareItems.includes(b) ? 'Remove' : 'Compare')
+                                            }, compareItems.includes(b) ? 'Remove' : 'Compare'),
+                                            React.createElement('button', {
+                                                onClick: () => fetchFromServerless('share-x', { userId: user.uid, content: `Check out ${b.name} on BabyBites for $${(b.price * currencyRates[currency]).toFixed(2)}! ${b.description} #BabyBites` }),
+                                                className: 'ml-2 p-1 bg-green-400 text-white rounded hover:bg-green-500',
+                                                'aria-label': `Share ${b.name} to X`,
+                                                tabIndex: 0
+                                            }, translations[language].share),
+                                            React.createElement('a', {
+                                                href: b.affiliateLink,
+                                                className: 'ml-2 p-1 bg-yellow-400 text-white rounded hover:bg-yellow-500',
+                                                'aria-label': `View ${b.name} on Amazon`,
+                                                tabIndex: 0
+                                            }, 'View on Amazon')
                                         )
                                     ))
                                 ),
@@ -709,6 +866,16 @@
                                     'aria-label': 'Submit Review',
                                     tabIndex: 0
                                 }, 'Submit')
+                            ),
+                            React.createElement('div', { className: 'mt-4' },
+                                React.createElement('script', { async: true, src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js' }),
+                                React.createElement('ins', {
+                                    className: 'adsbygoogle',
+                                    style: { display: 'block' },
+                                    'data-ad-client': 'ca-pub-XXXX', // Replace with your AdSense ID
+                                    'data-ad-slot': 'XXXX', // Replace with your AdSense slot
+                                    'data-ad-format': 'auto'
+                                })
                             )
                         ),
                         React.createElement('div', { className: 'bg-white p-6 rounded-lg shadow-lg' },
@@ -744,8 +911,9 @@
                             loading.analytics ? React.createElement('p', null, 'Loading...') :
                                 React.createElement('div', null,
                                     React.createElement('p', null, `Total Purchases: ${analytics.purchases.length}`),
-                                    React.createElement('p', null, `Savings: $${analytics.savings.toFixed(2)}`),
+                                    React.createElement('p', null, `Savings: ${(analytics.savings * currencyRates[currency]).toFixed(2)} ${currency}`),
                                     React.createElement('p', null, `Loyalty Tier: ${tier}`),
+                                    wearableData && React.createElement('p', null, `Baby Sleep: ${wearableData.sleepHours} hours`),
                                     React.createElement('canvas', { id: 'purchaseChart', height: '100' })
                                 )
                         )
@@ -758,8 +926,8 @@
                                 data: {
                                     labels: ${JSON.stringify(analytics.purchases.map((_, i) => `Order ${i + 1}`))},
                                     datasets: [{
-                                        label: 'Purchase Amount ($)',
-                                        data: ${JSON.stringify(analytics.purchases.map(p => p.price))},
+                                        label: 'Purchase Amount (${currency})',
+                                        data: ${JSON.stringify(analytics.purchases.map(p => p.price * currencyRates[currency]))},
                                         backgroundColor: '#f472b6'
                                     }]
                                 },
@@ -772,7 +940,7 @@
                         loading.subscriptions ? React.createElement('p', null, 'Loading...') :
                             React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
                                 subscriptions.map(s => (
-                                    React.createElement('div', { key: s.id }, `${s.name}: $${s.price}/month`)
+                                    React.createElement('div', { key: s.id }, `${s.name}: ${(s.price * currencyRates[currency]).toFixed(2)} ${currency}/month`)
                                 )),
                                 [
                                     { id: 'basic', name: 'Basic Bundle', price: 29.99 },
@@ -784,7 +952,7 @@
                                         className: 'p-2 bg-purple-400 text-white rounded hover:bg-purple-500',
                                         'aria-label': `Subscribe to ${plan.name}`,
                                         tabIndex: 0
-                                    }, `Subscribe to ${plan.name} ($${plan.price}/month)`)
+                                    }, `Subscribe to ${plan.name} (${(plan.price * currencyRates[currency]).toFixed(2)} ${currency}/month)`)
                                 ))
                             )
                     ),
@@ -816,9 +984,31 @@
                         forumPosts.map(p => (
                             React.createElement('div', { key: p.id, className: 'mt-2' },
                                 React.createElement('h4', null, p.title),
-                                React.createElement('p', { className: 'text-sm' }, p.content)
+                                React.createElement('p', { className: 'text-sm' }, p.content),
+                                React.createElement('button', {
+                                    onClick: () => fetchFromServerless('share-x', { userId: user.uid, content: `Check out this BabyBites post: ${p.title} #BabyBitesCommunity` }),
+                                    className: 'mt-1 p-1 bg-green-400 text-white rounded hover:bg-green-500',
+                                    'aria-label': `Share post ${p.title} to X`,
+                                    tabIndex: 0
+                                }, translations[language].share)
                             )
                         ))
+                    ),
+                    React.createElement('div', { className: 'mt-6 bg-white p-6 rounded-lg shadow-lg' },
+                        React.createElement('h3', { className: 'text-xl font-bold mb-2' }, translations[language].quiz),
+                        loading.quiz ? React.createElement('p', null, 'Loading...') :
+                            quiz && React.createElement('div', null,
+                                React.createElement('p', null, quiz.question),
+                                quiz.options.map(opt => (
+                                    React.createElement('button', {
+                                        key: opt,
+                                        onClick: () => handleQuiz(opt),
+                                        className: 'mt-2 p-2 bg-blue-400 text-white rounded hover:bg-blue-500',
+                                        'aria-label': `Select ${opt} for quiz`,
+                                        tabIndex: 0
+                                    }, opt)
+                                ))
+                            )
                     )
                 )
             );
@@ -864,218 +1054,4 @@
         ));
 
         // VR Nursery Designer Component
-        const VRNurseryDesigner = memo(({ user, addToCart }) => {
-            const [items, setItems] = useState([
-                { id: 'crib', x: 40, y: 40, width: 80, height: 50, price: 299.99 },
-                { id: 'chair', x: 140, y: 100, width: 50, height: 50, price: 99.99 }
-            ]);
-
-            useEffect(() => {
-                const canvas = document.getElementById('vr-nursery-canvas');
-                if (!canvas) return;
-                const ctx = canvas.getContext('2d');
-                canvas.width = canvas.offsetWidth;
-                canvas.height = canvas.offsetHeight;
-                const gridSize = 20;
-                let draggedItem = null;
-
-                const snapToGrid = (val) => Math.round(val / gridSize) * gridSize;
-                const draw = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = '#F3F4F6';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    for (let x = 0; x < canvas.width; x += gridSize) {
-                        for (let y = 0; y < canvas.height; y += gridSize) {
-                            ctx.fillStyle = '#E5E7EB';
-                            ctx.fillRect(x, y, 1, 1);
-                        }
-                    }
-                    items.forEach(item => {
-                        ctx.fillStyle = item.id === 'crib' ? '#FFD1DC' : '#D1E7FF';
-                        ctx.fillRect(item.x, item.y, item.width, item.height);
-                        ctx.strokeStyle = '#333';
-                        ctx.strokeRect(item.x, item.y, item.width, item.height);
-                        ctx.fillStyle = '#333';
-                        ctx.font = '12px Arial';
-                        ctx.fillText(item.id, item.x + 5, item.y + 20);
-                    });
-                };
-
-                const getItemAt = (x, y) => items.find(i => x >= i.x && x <= i.x + i.width && y >= i.y && y <= i.y + i.height);
-
-                const handleDragStart = (e, isTouch = false) => {
-                    const rect = canvas.getBoundingClientRect();
-                    const x = isTouch ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
-                    const y = isTouch ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
-                    draggedItem = getItemAt(x, y);
-                    if (draggedItem) {
-                        draggedItem.offsetX = x - draggedItem.x;
-                        draggedItem.offsetY = y - draggedItem.y;
-                    }
-                };
-
-                const handleDragMove = (e, isTouch = false) => {
-                    if (!draggedItem) return;
-                    const rect = canvas.getBoundingClientRect();
-                    const x = isTouch ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
-                    const y = isTouch ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
-                    draggedItem.x = snapToGrid(x - draggedItem.offsetX);
-                    draggedItem.y = snapToGrid(y - draggedItem.offsetY);
-                    draw();
-                };
-
-                canvas.addEventListener('mousedown', e => handleDragStart(e));
-                canvas.addEventListener('mousemove', e => handleDragMove(e));
-                canvas.addEventListener('mouseup', () => { draggedItem = null; });
-                canvas.addEventListener('touchstart', e => { e.preventDefault(); handleDragStart(e, true); });
-                canvas.addEventListener('touchmove', e => { e.preventDefault(); handleDragMove(e, true); });
-                canvas.addEventListener('touchend', () => { draggedItem = null; });
-
-                document.getElementById('save-vr-layout').addEventListener('click', async () => {
-                    const dbInstance = await openDB();
-                    const tx = dbInstance.transaction(['nursery'], 'readwrite');
-                    const store = tx.objectStore('nursery');
-                    await store.put({ id: user.uid, items });
-                    await setDoc(doc(db, 'nurseries', user.uid), { items });
-                    alert('VR Nursery Layout Saved!');
-                });
-
-                draw();
-                return () => {
-                    canvas.removeEventListener('mousedown', () => {});
-                    canvas.removeEventListener('mousemove', () => {});
-                    canvas.removeEventListener('mouseup', () => {});
-                    canvas.removeEventListener('touchstart', () => {});
-                    canvas.removeEventListener('touchmove', () => {});
-                    canvas.removeEventListener('touchend', () => {});
-                };
-            }, [items]);
-
-            return (
-                React.createElement('section', { className: 'py-10 max-w-7xl mx-auto', role: 'region', 'aria-labelledby': 'vr-nursery-heading' },
-                    React.createElement('h2', { id: 'vr-nursery-heading', className: 'text-3xl font-bold text-center mb-6' }, 'VR Nursery Designer'),
-                    React.createElement('a-scene', { embedded: true, className: 'w-full h-48 rounded-lg mb-4', 'aria-label': 'VR Nursery Preview' },
-                        items.map(item => (
-                            React.createElement('a-box', {
-                                key: item.id,
-                                position: `${item.x / 50 - 2} 0.5 ${item.y / 50 - 2}`,
-                                width: item.width / 50,
-                                height: 1,
-                                depth: item.height / 50,
-                                color: item.id === 'crib' ? '#FFD1DC' : '#D1E7FF'
-                            })
-                        )),
-                        React.createElement('a-camera', { position: '0 1.6 5' })
-                    ),
-                    React.createElement('canvas', { id: 'vr-nursery-canvas', className: 'w-full h-48 rounded-lg', 'aria-label': '2D Nursery Layout Editor', tabIndex: 0 }),
-                    React.createElement('div', { className: 'flex space-x-2 mt-4 justify-center' },
-                        React.createElement('button', {
-                            id: 'save-vr-layout',
-                            className: 'p-2 bg-pink-400 text-white rounded hover:bg-pink-500',
-                            'aria-label': 'Save VR Nursery Layout',
-                            tabIndex: 0
-                        }, 'Save Layout'),
-                        items.map(item => (
-                            React.createElement('button', {
-                                key: item.id,
-                                onClick: () => addToCart(item.id, item.price),
-                                className: 'p-2 bg-blue-400 text-white rounded hover:bg-blue-500',
-                                'aria-label': `Buy ${item.id} for $${item.price}`,
-                                tabIndex: 0
-                            }, `Buy ${item.id} ($${item.price})`)
-                        ))
-                    )
-                )
-            );
-        });
-
-        // Product Comparison Component
-        const ProductComparison = memo(({ bundles, language }) => {
-            const translations = {
-                en: { compare: 'Product Comparison', name: 'Name', price: 'Price', rating: 'Rating', features: 'Features' },
-                es: { compare: 'Comparación de Productos', name: 'Nombre', price: 'Precio', rating: 'Calificación', features: 'Características' },
-                fr: { compare: 'Comparaison de Produits', name: 'Nom', price: 'Prix', rating: 'Note', features: 'Caractéristiques' }
-            };
-
-            return (
-                React.createElement('section', { className: 'py-10 max-w-7xl mx-auto', role: 'region', 'aria-labelledby': 'compare-heading' },
-                    React.createElement('h2', { id: 'compare-heading', className: 'text-3xl font-bold text-center mb-6' }, translations[language].compare),
-                    bundles.length ? React.createElement('table', { className: 'w-full bg-white rounded-lg shadow-lg' },
-                        React.createElement('thead', null,
-                            React.createElement('tr', null,
-                                React.createElement('th', { className: 'p-2' }, translations[language].name),
-                                React.createElement('th', { className: 'p-2' }, translations[language].price),
-                                React.createElement('th', { className: 'p-2' }, translations[language].rating),
-                                React.createElement('th', { className: 'p-2' }, translations[language].features)
-                            )
-                        ),
-                        React.createElement('tbody', null,
-                            bundles.map(b => (
-                                React.createElement('tr', { key: b.id },
-                                    React.createElement('td', { className: 'p-2' }, b.name),
-                                    React.createElement('td', { className: 'p-2' }, `$${b.price}`),
-                                    React.createElement('td', { className: 'p-2' }, '4.5/5'), // Mock rating
-                                    React.createElement('td', { className: 'p-2' }, 'Organic, BPA-free') // Mock features
-                                )
-                            ))
-                        )
-                    ) : React.createElement('p', null, 'Select items to compare')
-                )
-            );
-        });
-
-        // Footer Component
-        const Footer = memo(() => (
-            React.createElement('footer', { className: 'py-6 bg-gray-800 text-white text-center', role: 'contentinfo' },
-                React.createElement('p', null, 'Created by Jacob Olszewski - ',
-                    React.createElement('a', { href: 'https://babybites.vercel.app', className: 'underline', tabIndex: 0 }, 'BabyBites')
-                )
-            )
-        ));
-
-        // Render App
-        ReactDOM.render(React.createElement(App), document.getElementById('root'));
-    </script>
-    <!-- PWA Manifest (save as manifest.json) -->
-    <script type="application/json" id="manifest">
-        {
-            "name": "BabyBites",
-            "short_name": "BabyBites",
-            "start_url": "/",
-            "display": "standalone",
-            "background_color": "#fefce8",
-            "theme_color": "#f472b6",
-            "icons": [
-                {
-                    "src": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=192&q=80",
-                    "sizes": "192x192",
-                    "type": "image/png"
-                }
-            ]
-        }
-    </script>
-    <!-- Service Worker (save as sw.js) -->
-    <script id="service-worker">
-        self.addEventListener('install', e => {
-            e.waitUntil(
-                caches.open('babybites-cache').then(cache => {
-                    return cache.addAll([
-                        '/',
-                        '/index.html',
-                        'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css',
-                        'https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js',
-                        'https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js'
-                    ]);
-                })
-            );
-        });
-        self.addEventListener('fetch', e => {
-            e.respondWith(
-                caches.match(e.request).then(response => {
-                    return response || fetch(e.request);
-                })
-            );
-        });
-    </script>
-</body>
-</html>
+        const
