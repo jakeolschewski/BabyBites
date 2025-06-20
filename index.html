@@ -21,121 +21,232 @@
   <script src="https://cdn.jsdelivr.net/npm/sanitize-html@2.7.0/dist/sanitize-html.min.js"></script>
   <link rel="manifest" href="/manifest.json">
   <style>
-   .holographic {
-    background: linear-gradient(45deg, #f4c2c2, #d4e4f1, #c1e1c5); /* Soft pink, blue, mint gradient */
+ <style>
+  /* BabyBites Interactive Visual Styles - Updated June 19, 2025, 10:41 PM MDT */
+
+  /* Holographic Nature Gradient with Hover Interaction */
+  .holographic {
+    background: linear-gradient(45deg, #c1e1c5, #f4e1d2, #d4e4f1); /* Mint, peach, light blue */
     background-size: 200% 200%;
-    animation: holographicGlow 4s ease infinite;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3); /* Pinkish glow */
-    transition: all 0.3s ease;
+    animation: natureGlow 5s ease infinite;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(193, 225, 197, 0.4);
+    clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  @keyframes holographicGlow {
+  .holographic:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(193, 225, 197, 0.6);
+  }
+  @keyframes natureGlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
 
-  /* Heart Pulse Animation for Branding */
+  /* Heart Pulse with Interactive Pop */
   .heart-pulse {
-    animation: heartBeat 1.5s infinite;
-    color: #ff6b81; /* Gentle pink for baby love */
+    animation: heartBeat 1.8s infinite;
+    color: #ff9999; /* Soft coral */
+    position: relative;
+    cursor: pointer;
+  }
+  .heart-pulse:hover::after {
+    content: '❤️';
+    position: absolute;
+    font-size: 0.8em;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    animation: heartPop 1s ease-out;
   }
   @keyframes heartBeat {
     0% { transform: scale(1); }
-    50% { transform: scale(1.2); color: #ff8c94; }
+    50% { transform: scale(1.25); color: #ffcccc; }
     100% { transform: scale(1); }
   }
+  @keyframes heartPop {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(0); }
+  }
 
-  /* Chatbot Bubble with Baby Softness */
+  /* Chatbot Bubble with Click Feedback */
   .chatbot-bubble {
-    background-color: #e6f3fa; /* Light baby blue */
-    border-radius: 15px;
-    padding: 12px;
-    margin: 6px 0;
-    max-width: 85%;
-    box-shadow: 0 2px 10px rgba(173, 216, 230, 0.4); /* Light blue shadow */
-    font-family: 'Comic Sans MS', cursive, sans-serif; /* Playful baby font */
+    background: linear-gradient(135deg, #e6f3fa, #f8e1e1); /* Light blue to pink */
+    border-radius: 20px;
+    padding: 14px;
+    margin: 8px 0;
+    max-width: 90%;
+    box-shadow: 0 4px 15px rgba(230, 243, 250, 0.6);
+    font-family: 'Comic Sans MS', 'Arial', sans-serif;
+    clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%, 5% 50%);
+    transition: background 0.3s ease;
   }
   .chatbot-bubble.user {
-    background-color: #f8e1e1; /* Light pink for user messages */
+    background: linear-gradient(135deg, #f8e1e1, #e6f3fa);
     margin-left: auto;
   }
+  .chatbot-bubble:active {
+    background: linear-gradient(135deg, #d0e7f5, #f0d1d1); /* Slight color shift on click */
+  }
 
-  /* Glowing Buttons for Interactive Fun */
+  /* Glowing Interactive Buttons */
   .baby-button {
-    background: linear-gradient(135deg, #ffd1dc, #b3e5fc); /* Pink to light blue gradient */
+    background: linear-gradient(135deg, #ffd1dc, #c1e1c5); /* Pink to mint */
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 25px;
-    font-weight: bold;
-    box-shadow: 0 0 10px rgba(255, 182, 193, 0.7); /* Glow effect */
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(255, 209, 220, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
   }
   .baby-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 182, 193, 0.9);
+    transform: translateY(-3px);
+    box-shadow: 0 0 18px rgba(255, 209, 220, 0.9);
+  }
+  .baby-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 10px rgba(255, 209, 220, 0.6);
   }
 
-  /* Product Cards with Baby Charm */
+  /* Product Cards with Drag Feedback */
   .product-card {
     background: #fff;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 4px 20px rgba(173, 216, 230, 0.5); /* Light blue shadow */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 8px 25px rgba(212, 228, 241, 0.5);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    cursor: move; /* Indicates draggable */
   }
   .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 25px rgba(173, 216, 230, 0.7);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(212, 228, 241, 0.7);
   }
-
-  /* Sparkle Animation for Special Offers */
-  .sparkle {
-    position: relative;
-    overflow: hidden;
+  .product-card.dragging {
+    opacity: 0.7;
+    transform: scale(1.05);
   }
-  .sparkle::before {
+  .product-card::before {
     content: '';
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background: radial-gradient(circle, #fff 10%, transparent 70%);
-    animation: sparkleTwinkle 2s infinite;
-    top: -10px;
-    left: -10px;
-    opacity: 0.7;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 209, 220, 0.3) 10%, transparent 70%);
+    animation: organicFloat 10s infinite linear;
+    top: -50px;
+    left: -50px;
+    z-index: 0;
+  }
+  @keyframes organicFloat {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+
+  /* Sparkle Animation on Click */
+  .sparkle {
+    position: relative;
+  }
+  .sparkle.clicked::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: radial-gradient(circle, #fff 15%, transparent 80%);
+    animation: sparkleTwinkle 1.5s ease-out;
+    top: -15px;
+    left: -15px;
+    opacity: 0.8;
+    z-index: 1;
   }
   @keyframes sparkleTwinkle {
     0% { transform: scale(0) rotate(0deg); opacity: 0; }
-    50% { transform: scale(1.5) rotate(180deg); opacity: 0.7; }
+    50% { transform: scale(1.8) rotate(180deg); opacity: 0.8; }
     100% { transform: scale(0) rotate(360deg); opacity: 0; }
   }
 
-  /* Error Boundary with Soft Warning */
+  /* Error Boundary with Interactive Alert */
   .error-boundary {
-    padding: 20px;
-    background-color: #ffebee; /* Light red for warnings */
+    padding: 25px;
+    background-color: #ffebee;
     border: 2px solid #ef9a9a;
-    border-radius: 10px;
+    border-radius: 12px;
     text-align: center;
     color: #d32f2f;
     font-family: 'Arial', sans-serif;
+    box-shadow: 0 4px 15px rgba(239, 154, 154, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .error-boundary:hover {
+    transform: scale(1.02);
+    background-color: #ffcccc;
   }
 
-  /* Responsive Adjustments for Baby-Friendly Viewing */
+  /* Hero Section with Interactive Overlay */
+  .hero-section {
+    background: linear-gradient(135deg, #f4e1d2, #d4e4f1);
+    padding: 80px 20px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 20px rgba(212, 228, 241, 0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-section:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 70%);
+    animation: rippleEffect 2s infinite;
+    z-index: 1;
+  }
+  @keyframes rippleEffect {
+    0% { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+  .hero-section h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #4a5d6a;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+    position: relative;
+    z-index: 2;
+  }
+  .hero-section p {
+    font-size: 1.2rem;
+    color: #6b7280;
+    margin-bottom: 20px;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* Responsive Adjustments */
   @media (max-width: 640px) {
     .holographic, .product-card {
-      border-radius: 8px;
-      padding: 10px;
+      border-radius: 10px;
+      padding: 12px;
     }
     .baby-button {
-      padding: 8px 16px;
+      padding: 10px 18px;
       font-size: 14px;
     }
     .chatbot-bubble {
-      max-width: 90%;
+      max-width: 95%;
       font-size: 14px;
+      padding: 10px;
+    }
+    .hero-section {
+      padding: 50px 10px;
+    }
+    .hero-section h2 {
+      font-size: 2rem;
     }
   }
 </style>
