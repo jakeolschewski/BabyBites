@@ -20,7 +20,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sanitize-html@2.7.0/dist/sanitize-html.min.js"></script>
   <link rel="manifest" href="/manifest.json">
   <style>
-    /* BabyBites Interactive Visual Styles - Updated June 20, 2025, 08:50 PM MDT */
+    /* BabyBites Interactive Visual Styles - Updated June 20, 2025, 09:03 PM MDT */
     .holographic {
       background: linear-gradient(45deg, #c1e1c5, #f4e1d2, #d4e4f1);
       background-size: 200% 200%;
@@ -279,12 +279,12 @@
       }
     });
 
-    // Sample Product Data (Updated for June 20, 2025, 08:50 PM MDT)
+    // Sample Product Data (Updated for June 20, 2025, 09:03 PM MDT)
     const initialProducts = [
-      { id: 1, name: "Organic Baby Puree", price: 5.99, originalPrice: 6.99, image: "https://via.placeholder.com/150", category: "food", stock: 50, carbonFootprint: "0.5kg", affiliateLink: "https://amazon.com", description: "Gentle, organic puree for your baby’s first meals, updated June 20, 2025, 08:50 PM MDT." },
-      { id: 2, name: "Baby Sleep Sack", price: 19.99, originalPrice: 22.99, image: "https://via.placeholder.com/150", category: "clothing", stock: 20, carbonFootprint: "1.2kg", affiliateLink: "https://amazon.com", description: "Cozy sleep sack for safe nights, updated June 20, 2025, 08:50 PM MDT." },
-      { id: 3, name: "Teething Toy", price: 9.99, originalPrice: 11.99, image: "https://via.placeholder.com/150", category: "toys", stock: 8, carbonFootprint: "0.3kg", affiliateLink: "https://amazon.com", description: "Safe, soothing toy for teething babies, updated June 20, 2025, 08:50 PM MDT." },
-      { id: 4, name: "Starter Bundle", price: 29.99, originalPrice: 34.99, image: "https://via.placeholder.com/150", category: "bundle", isBundle: true, items: ["Organic Baby Puree", "Teething Toy"], stock: 15, carbonFootprint: "1.0kg", description: "Perfect starter pack for new parents, updated June 20, 2025, 08:50 PM MDT." }
+      { id: 1, name: "Organic Baby Puree", price: 5.99, originalPrice: 6.99, image: "https://via.placeholder.com/150", category: "food", stock: 50, carbonFootprint: "0.5kg", affiliateLink: "https://amazon.com", description: "Gentle, organic puree for your baby’s first meals, updated June 20, 2025, 09:03 PM MDT." },
+      { id: 2, name: "Baby Sleep Sack", price: 19.99, originalPrice: 22.99, image: "https://via.placeholder.com/150", category: "clothing", stock: 20, carbonFootprint: "1.2kg", affiliateLink: "https://amazon.com", description: "Cozy sleep sack for safe nights, updated June 20, 2025, 09:03 PM MDT." },
+      { id: 3, name: "Teething Toy", price: 9.99, originalPrice: 11.99, image: "https://via.placeholder.com/150", category: "toys", stock: 8, carbonFootprint: "0.3kg", affiliateLink: "https://amazon.com", description: "Safe, soothing toy for teething babies, updated June 20, 2025, 09:03 PM MDT." },
+      { id: 4, name: "Starter Bundle", price: 29.99, originalPrice: 34.99, image: "https://via.placeholder.com/150", category: "bundle", isBundle: true, items: ["Organic Baby Puree", "Teething Toy"], stock: 15, carbonFootprint: "1.0kg", description: "Perfect starter pack for new parents, updated June 20, 2025, 09:03 PM MDT." }
     ];
 
     // IndexedDB Setup for Federated Learning
@@ -353,7 +353,7 @@
         const prediction = model.predict(tf.tensor2d([userHistory])).argMax(-1).dataSync()[0];
 
         const localWeights = model.getWeights();
-        const globalWeights = localWeights.map(w => tf.add(w, tf.randomNormal(w.shape)).div(2)); // Mocked aggregation
+        const globalWeights = localWeights.map(w => tf.add(w, tf.randomNormal(w.shape)).div(2));
         const updateTx = db.transaction(['aiData'], 'readwrite');
         const updateStore = updateTx.objectStore('aiData');
         updateStore.put({ id: 'federatedModel', weights: globalWeights.map(w => w.dataSync()) });
@@ -371,7 +371,7 @@
         const db = await openDB();
         const tx = db.transaction(['aiData'], 'readwrite');
         const store = tx.objectStore('aiData');
-        await store.put({ id: 'chatInteractions_' + Date.now(), input, response, timestamp: 'June 20, 2025, 08:50 PM MDT' });
+        await store.put({ id: 'chatInteractions_' + Date.now(), input, response, timestamp: 'June 20, 2025, 09:03 PM MDT' });
       } catch (e) {
         console.warn('Federated chat model update failed:', e);
       }
@@ -379,24 +379,31 @@
 
     // Mock Product Description
     async function generateDescription(productName) {
-      return `Premium ${productName} designed for your baby’s comfort and safety, updated June 20, 2025, 08:50 PM MDT.`;
+      return `Premium ${productName} designed for your baby’s comfort and safety, updated June 20, 2025, 09:03 PM MDT.`;
     }
 
-    // Error Boundary Component
+    // Error Boundary Component with Reset
     class ErrorBoundary extends React.Component {
       state = { error: null };
       static getDerivedStateFromError(error) {
         return { error: error.message };
       }
+      resetError = () => {
+        this.setState({ error: null });
+      };
       render() {
         if (this.state.error) {
-          return <div className="error-boundary" onClick={() => playSound('giggle')}>Error: {this.state.error}. Click to try again!</div>;
+          return (
+            <div className="error-boundary" onClick={this.resetError} role="alert" aria-live="assertive">
+              Error: {this.state.error}. Click to try again!
+            </div>
+          );
         }
         return this.props.children;
       }
     }
 
-    // Play Sound Function (Updated with Real Audio)
+    // Play Sound Function
     const playSound = (type) => {
       const audio = new Audio();
       audio.src = type === 'giggle' ? 'https://freesound.org/data/previews/6619_135933-lq.mp3' : 'https://freesound.org/data/previews/344568_6374821-lq.mp3';
@@ -406,7 +413,7 @@
     // Chatbot Component
     function Chatbot() {
       const { t } = useTranslation();
-      const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hello! How can I help you today? (June 20, 2025, 08:50 PM MDT)' }]);
+      const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hello! How can I help you today? (June 20, 2025, 09:03 PM MDT)' }]);
       const [input, setInput] = useState('');
       const recognition = useRef(null);
 
@@ -417,6 +424,8 @@
           recognition.current.lang = i18next.language;
           recognition.current.onresult = (e) => setInput(e.results[0][0].transcript);
           recognition.current.onerror = () => console.warn('Speech recognition failed');
+        } else {
+          console.warn('Web Speech API not supported in this browser');
         }
       }, []);
 
@@ -424,7 +433,7 @@
         if (!input.trim()) return;
         const sanitizedInput = window.sanitizeHtml ? sanitizeHtml(input) : input;
         const newMessages = [...messages, { sender: 'user', text: sanitizedInput }];
-        const response = `Thanks for your query! Try asking about baby products. (June 20, 2025, 08:50 PM MDT)`;
+        const response = `Thanks for your query! Try asking about baby products. (June 20, 2025, 09:03 PM MDT)`;
         setMessages([...newMessages, { sender: 'bot', text: response }]);
         await updateFederatedChatModel(sanitizedInput, response);
         playSound('giggle');
@@ -459,7 +468,7 @@
               aria-label="Chatbot input"
             />
             <button onClick={handleSend} className="baby-button" aria-label="Send message">Send</button>
-            <button onClick={startVoice} className="baby-button ml-1" aria-label="Voice input">🎤</button>
+            <button onClick={startVoice} className="baby-button ml-1" aria-label="Start voice input">🎤</button>
           </div>
         </div>
       );
@@ -487,7 +496,7 @@
             <a-box position="0 0 -5" rotation="0 45 0" color="#60a5fa" draggable="true" onDragStart={(e) => e.dataTransfer.setData('text/plain', 'crib')}></a-box>
             <a-camera position="0 1.6 0"></a-camera>
           </a-scene>
-          <p className="text-center text-gray-600">Drag the box to add a crib to your cart!</p>
+          <p className="text-center text-gray-600" aria-label="Drag the box to add a crib to your cart">Drag the box to add a crib to your cart!</p>
         </div>
       );
     }
@@ -510,7 +519,7 @@
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold">{question.text}</h3>
           {question.options.map((opt, i) => (
-            <button key={i} onClick={() => handleAnswer(opt)} className="baby-button mt-2" disabled={answer}>
+            <button key={i} onClick={() => handleAnswer(opt)} className="baby-button mt-2" disabled={answer} aria-label={`Select ${opt} as answer`}>
               {opt}
             </button>
           ))}
@@ -527,7 +536,7 @@
         if (!title.trim() || !content.trim()) return;
         const sanitizedTitle = window.sanitizeHtml ? sanitizeHtml(title) : title;
         const sanitizedContent = window.sanitizeHtml ? sanitizeHtml(content) : content;
-        setPosts([...posts, { id: Date.now(), title: sanitizedTitle, content: sanitizedContent, timestamp: '2025-06-20T20:50:00-06:00' }]);
+        setPosts([...posts, { id: Date.now(), title: sanitizedTitle, content: sanitizedContent, timestamp: '2025-06-20T21:03:00-06:00' }]);
         setTitle('');
         setContent('');
         playSound('giggle');
@@ -550,7 +559,7 @@
             placeholder="Post content"
             aria-label="Forum post content"
           ></textarea>
-          <button onClick={handlePost} className="baby-button">Post</button>
+          <button onClick={handlePost} className="baby-button" aria-label="Submit forum post">Post</button>
           <div className="mt-4">
             {posts.map(post => (
               <div key={post.id} className="p-2 border-b">
@@ -586,7 +595,7 @@
           options: { scales: { y: { beginAtZero: true } } }
         });
       }, [purchases]);
-      return <canvas ref={canvasRef} className="max-w-full"></canvas>;
+      return <canvas ref={canvasRef} className="max-w-full" aria-label="Analytics chart showing purchase amounts"></canvas>;
     }
 
     // Main App Component
@@ -645,11 +654,11 @@
         setCart([...cart, product]);
         setPoints(points + 50);
         setTier(points + 50 >= 1000 ? 'Gold' : points + 50 >= 500 ? 'Silver' : 'Bronze');
-        getRecommendation(cart.map(item => item.id), products).then(() => {}); // Update model
+        getRecommendation(cart.map(item => item.id), products).then(() => {});
       };
 
       const handleCheckout = async () => {
-        alert('Checkout initiated (mocked, June 20, 2025, 08:50 PM MDT)');
+        alert('Checkout initiated (mocked, June 20, 2025, 09:03 PM MDT)');
       };
 
       const getPrice = (product) => {
@@ -684,23 +693,23 @@
                   <a href="#forum" className="mr-4 text-blue-600 hover:underline">Forum</a>
                   <a href="#quiz" className="mr-4 text-blue-600 hover:underline">Quiz</a>
                   <a href="#nursery" className="mr-4 text-blue-600 hover:underline">Nursery</a>
-                  <select onChange={(e) => i18next.changeLanguage(e.target.value)} className="mr-4">
+                  <select onChange={(e) => i18next.changeLanguage(e.target.value)} className="mr-4" aria-label="Select language">
                     <option value="en">English</option>
                     <option value="es">Español</option>
                   </select>
-                  <select onChange={(e) => setCurrency(e.target.value)} className="mr-4">
+                  <select onChange={(e) => setCurrency(e.target.value)} className="mr-4" aria-label="Select currency">
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="GBP">GBP</option>
                   </select>
-                  <button onClick={toggleTheme} className="mr-4 text-blue-600 hover:underline">Toggle Theme</button>
+                  <button onClick={toggleTheme} className="mr-4 text-blue-600 hover:underline" aria-label="Toggle theme">Toggle Theme</button>
                   {user ? (
                     <>
                       <span className="mr-4">Points: {points} ({tier})</span>
-                      <button onClick={() => auth.signOut()} className="text-blue-600 hover:underline">{t('signOut')}</button>
+                      <button onClick={() => auth.signOut()} className="text-blue-600 hover:underline" aria-label="Sign out">{t('signOut')}</button>
                     </>
                   ) : (
-                    <button onClick={() => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())} className="text-blue-600 hover:underline">{t('signIn')}</button>
+                    <button onClick={() => auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())} className="text-blue-600 hover:underline" aria-label="Sign in">{t('signIn')}</button>
                   )}
                 </nav>
               </div>
@@ -710,7 +719,7 @@
               <div className="container mx-auto">
                 <h2 className="text-4xl font-bold text-blue-800 mb-4 holographic">{t('welcome')}</h2>
                 <p className="text-lg text-gray-600 mb-6">{t('discover')}</p>
-                <a href="#products" className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600">{t('shopNow')}</a>
+                <a href="#products" className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600" aria-label="Shop now">{t('shopNow')}</a>
               </div>
             </section>
 
@@ -718,8 +727,8 @@
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-xl font-semibold mb-4">Privacy Consent</h3>
-                  <p className="mb-4">We use federated learning to personalize your experience. Do you consent? (June 20, 2025, 08:50 PM MDT)</p>
-                  <button onClick={handleConsent} className="bg-green-500 text-white px-4 py-2 rounded">Accept</button>
+                  <p className="mb-4">We use federated learning to personalize your experience. Do you consent? (June 20, 2025, 09:03 PM MDT)</p>
+                  <button onClick={handleConsent} className="bg-green-500 text-white px-4 py-2 rounded" aria-label="Accept privacy consent">Accept</button>
                 </div>
               </div>
             )}
@@ -768,7 +777,7 @@
                         >
                           Add to Cart
                         </button>
-                        <a href={product.affiliateLink} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">View on Amazon</a>
+                        <a href={product.affiliateLink} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" aria-label={`View ${product.name} on Amazon`}>View on Amazon</a>
                       </div>
                     </div>
                   ))}
@@ -835,7 +844,7 @@
             </section>
 
             <footer className="bg-blue-200 p-4 text-center">
-              <p className="text-gray-600">© 2025 BabyBites. All rights reserved. Updated June 20, 2025, 08:50 PM MDT.</p>
+              <p className="text-gray-600">© 2025 BabyBites. All rights reserved. Updated June 20, 2025, 09:03 PM MDT.</p>
               <div className="mt-2">
                 <a href="/about" className="text-blue-600 hover:underline mx-2">About</a>
                 <a href="/contact" className="text-blue-600 hover:underline mx-2">Contact</a>
@@ -848,19 +857,20 @@
           </div>
         </ErrorBoundary>
       );
+    }
 
-      // Render the App
-      try {
-        ReactDOM.render(<App />, document.getElementById('root'));
-      } catch (e) {
-        console.error('Render failed:', e);
-        document.getElementById('root').innerHTML = '<div class="error-boundary">Failed to load the application. Please try again later.</div>';
-      }
+    // Render the App
+    try {
+      ReactDOM.render(<App />, document.getElementById('root'));
+    } catch (e) {
+      console.error('Render failed:', e);
+      document.getElementById('root').innerHTML = '<div class="error-boundary">Failed to load the application. Please try again later.</div>';
+    }
 
-      // Mock Service Worker
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(e => console.warn('Service worker registration failed:', e));
-      }
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(e => console.warn('Service worker registration failed:', e));
+    }
   </script>
 </body>
 </html>
