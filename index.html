@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://www.tensorflow.org https://www.gstatic.com https://js.stripe.com https://cdn.jsdelivr.net https://aframe.io 'unsafe-inline'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://www.amazon.com; connect-src 'self' https://api.exchangerate-api.com; manifest-src 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com https://www.tensorflow.org https://www.gstatic.com https://js.stripe.com https://cdn.jsdelivr.net https://aframe.io https://cdn.jsdelivr.net/npm/ 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; img-src 'self' data: https://via.placeholder.com https://www.amazon.com; connect-src 'self' https://api.exchangerate-api.com wss:; manifest-src 'self';">
   <title>BabyBites - Baby Products & Parenting</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.18.9/babel.min.js"></script>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://www.tensorflow.org/js/dist/tf.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
@@ -21,238 +20,220 @@
   <script src="https://cdn.jsdelivr.net/npm/sanitize-html@2.7.0/dist/sanitize-html.min.js"></script>
   <link rel="manifest" href="/manifest.json">
   <style>
- <style>
-  /* BabyBites Interactive Visual Styles - Updated June 19, 2025, 10:41 PM MDT */
-
-  /* Holographic Nature Gradient with Hover Interaction */
-  .holographic {
-    background: linear-gradient(45deg, #c1e1c5, #f4e1d2, #d4e4f1); /* Mint, peach, light blue */
-    background-size: 200% 200%;
-    animation: natureGlow 5s ease infinite;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(193, 225, 197, 0.4);
-    clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .holographic:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 25px rgba(193, 225, 197, 0.6);
-  }
-  @keyframes natureGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Heart Pulse with Interactive Pop */
-  .heart-pulse {
-    animation: heartBeat 1.8s infinite;
-    color: #ff9999; /* Soft coral */
-    position: relative;
-    cursor: pointer;
-  }
-  .heart-pulse:hover::after {
-    content: '❤️';
-    position: absolute;
-    font-size: 0.8em;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 1;
-    animation: heartPop 1s ease-out;
-  }
-  @keyframes heartBeat {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.25); color: #ffcccc; }
-    100% { transform: scale(1); }
-  }
-  @keyframes heartPop {
-    0% { opacity: 0; transform: scale(0); }
-    50% { opacity: 1; transform: scale(1.2); }
-    100% { opacity: 0; transform: scale(0); }
-  }
-
-  /* Chatbot Bubble with Click Feedback */
-  .chatbot-bubble {
-    background: linear-gradient(135deg, #e6f3fa, #f8e1e1); /* Light blue to pink */
-    border-radius: 20px;
-    padding: 14px;
-    margin: 8px 0;
-    max-width: 90%;
-    box-shadow: 0 4px 15px rgba(230, 243, 250, 0.6);
-    font-family: 'Comic Sans MS', 'Arial', sans-serif;
-    clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%, 5% 50%);
-    transition: background 0.3s ease;
-  }
-  .chatbot-bubble.user {
-    background: linear-gradient(135deg, #f8e1e1, #e6f3fa);
-    margin-left: auto;
-  }
-  .chatbot-bubble:active {
-    background: linear-gradient(135deg, #d0e7f5, #f0d1d1); /* Slight color shift on click */
-  }
-
-  /* Glowing Interactive Buttons */
-  .baby-button {
-    background: linear-gradient(135deg, #ffd1dc, #c1e1c5); /* Pink to mint */
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 30px;
-    font-weight: 600;
-    box-shadow: 0 0 12px rgba(255, 209, 220, 0.8);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-  }
-  .baby-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 18px rgba(255, 209, 220, 0.9);
-  }
-  .baby-button:active {
-    transform: scale(0.98);
-    box-shadow: 0 0 10px rgba(255, 209, 220, 0.6);
-  }
-
-  /* Product Cards with Drag Feedback */
-  .product-card {
-    background: #fff;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 8px 25px rgba(212, 228, 241, 0.5);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    position: relative;
-    cursor: move; /* Indicates draggable */
-  }
-  .product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 30px rgba(212, 228, 241, 0.7);
-  }
-  .product-card.dragging {
-    opacity: 0.7;
-    transform: scale(1.05);
-  }
-  .product-card::before {
-    content: '';
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle, rgba(255, 209, 220, 0.3) 10%, transparent 70%);
-    animation: organicFloat 10s infinite linear;
-    top: -50px;
-    left: -50px;
-    z-index: 0;
-  }
-  @keyframes organicFloat {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-
-  /* Sparkle Animation on Click */
-  .sparkle {
-    position: relative;
-  }
-  .sparkle.clicked::before {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    background: radial-gradient(circle, #fff 15%, transparent 80%);
-    animation: sparkleTwinkle 1.5s ease-out;
-    top: -15px;
-    left: -15px;
-    opacity: 0.8;
-    z-index: 1;
-  }
-  @keyframes sparkleTwinkle {
-    0% { transform: scale(0) rotate(0deg); opacity: 0; }
-    50% { transform: scale(1.8) rotate(180deg); opacity: 0.8; }
-    100% { transform: scale(0) rotate(360deg); opacity: 0; }
-  }
-
-  /* Error Boundary with Interactive Alert */
-  .error-boundary {
-    padding: 25px;
-    background-color: #ffebee;
-    border: 2px solid #ef9a9a;
-    border-radius: 12px;
-    text-align: center;
-    color: #d32f2f;
-    font-family: 'Arial', sans-serif;
-    box-shadow: 0 4px 15px rgba(239, 154, 154, 0.3);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  .error-boundary:hover {
-    transform: scale(1.02);
-    background-color: #ffcccc;
-  }
-
-  /* Hero Section with Interactive Overlay */
-  .hero-section {
-    background: linear-gradient(135deg, #f4e1d2, #d4e4f1);
-    padding: 80px 20px;
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 4px 20px rgba(212, 228, 241, 0.5);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-section:hover::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 70%);
-    animation: rippleEffect 2s infinite;
-    z-index: 1;
-  }
-  @keyframes rippleEffect {
-    0% { transform: scale(0); opacity: 0.5; }
-    100% { transform: scale(2); opacity: 0; }
-  }
-  .hero-section h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #4a5d6a;
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
-    position: relative;
-    z-index: 2;
-  }
-  .hero-section p {
-    font-size: 1.2rem;
-    color: #6b7280;
-    margin-bottom: 20px;
-    z-index: 2;
-    position: relative;
-  }
-
-  /* Responsive Adjustments */
-  @media (max-width: 640px) {
-    .holographic, .product-card {
-      border-radius: 10px;
-      padding: 12px;
+    /* BabyBites Interactive Visual Styles - Updated June 20, 2025, 08:50 PM MDT */
+    .holographic {
+      background: linear-gradient(45deg, #c1e1c5, #f4e1d2, #d4e4f1);
+      background-size: 200% 200%;
+      animation: natureGlow 5s ease infinite;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(193, 225, 197, 0.4);
+      clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .baby-button {
-      padding: 10px 18px;
-      font-size: 14px;
+    .holographic:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(193, 225, 197, 0.6);
+    }
+    @keyframes natureGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .heart-pulse {
+      animation: heartBeat 1.8s infinite;
+      color: #ff9999;
+      position: relative;
+      cursor: pointer;
+    }
+    .heart-pulse:hover::after {
+      content: '❤️';
+      position: absolute;
+      font-size: 0.8em;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 1;
+      animation: heartPop 1s ease-out;
+    }
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25); color: #ffcccc; }
+      100% { transform: scale(1); }
+    }
+    @keyframes heartPop {
+      0% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(0); }
     }
     .chatbot-bubble {
-      max-width: 95%;
-      font-size: 14px;
-      padding: 10px;
+      background: linear-gradient(135deg, #e6f3fa, #f8e1e1);
+      border-radius: 20px;
+      padding: 14px;
+      margin: 8px 0;
+      max-width: 90%;
+      box-shadow: 0 4px 15px rgba(230, 243, 250, 0.6);
+      font-family: 'Comic Sans MS', 'Arial', sans-serif;
+      clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%, 5% 50%);
+      transition: background 0.3s ease;
+    }
+    .chatbot-bubble.user {
+      background: linear-gradient(135deg, #f8e1e1, #e6f3fa);
+      margin-left: auto;
+    }
+    .chatbot-bubble:active {
+      background: linear-gradient(135deg, #d0e7f5, #f0d1d1);
+    }
+    .baby-button {
+      background: linear-gradient(135deg, #ffd1dc, #c1e1c5);
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      box-shadow: 0 0 12px rgba(255, 209, 220, 0.8);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .baby-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 18px rgba(255, 209, 220, 0.9);
+    }
+    .baby-button:active {
+      transform: scale(0.98);
+      box-shadow: 0 0 10px rgba(255, 209, 220, 0.6);
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 8px 25px rgba(212, 228, 241, 0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      cursor: move;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(212, 228, 241, 0.7);
+    }
+    .product-card.dragging {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+    .product-card::before {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(255, 209, 220, 0.3) 10%, transparent 70%);
+      animation: organicFloat 10s infinite linear;
+      top: -50px;
+      left: -50px;
+      z-index: 0;
+    }
+    @keyframes organicFloat {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+    .sparkle {
+      position: relative;
+    }
+    .sparkle.clicked::before {
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: radial-gradient(circle, #fff 15%, transparent 80%);
+      animation: sparkleTwinkle 1.5s ease-out;
+      top: -15px;
+      left: -15px;
+      opacity: 0.8;
+      z-index: 1;
+    }
+    @keyframes sparkleTwinkle {
+      0% { transform: scale(0) rotate(0deg); opacity: 0; }
+      50% { transform: scale(1.8) rotate(180deg); opacity: 0.8; }
+      100% { transform: scale(0) rotate(360deg); opacity: 0; }
+    }
+    .error-boundary {
+      padding: 25px;
+      background-color: #ffebee;
+      border: 2px solid #ef9a9a;
+      border-radius: 12px;
+      text-align: center;
+      color: #d32f2f;
+      font-family: 'Arial', sans-serif;
+      box-shadow: 0 4px 15px rgba(239, 154, 154, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .error-boundary:hover {
+      transform: scale(1.02);
+      background-color: #ffcccc;
     }
     .hero-section {
-      padding: 50px 10px;
+      background: linear-gradient(135deg, #f4e1d2, #d4e4f1);
+      padding: 80px 20px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 20px rgba(212, 228, 241, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section:hover::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 10%, transparent 70%);
+      animation: rippleEffect 2s infinite;
+      z-index: 1;
+    }
+    @keyframes rippleEffect {
+      0% { transform: scale(0); opacity: 0.5; }
+      100% { transform: scale(2); opacity: 0; }
     }
     .hero-section h2 {
-      font-size: 2rem;
+      font-size: 3rem;
+      font-weight: 700;
+      color: #4a5d6a;
+      text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+      position: relative;
+      z-index: 2;
     }
-  }
-</style>
-    }<body>
+    .hero-section p {
+      font-size: 1.2rem;
+      color: #6b7280;
+      margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
+    }
+    @media (max-width: 640px) {
+      .holographic, .product-card {
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .baby-button {
+        padding: 10px 18px;
+        font-size: 14px;
+      }
+      .chatbot-bubble {
+        max-width: 95%;
+        font-size: 14px;
+        padding: 10px;
+      }
+      .hero-section {
+        padding: 50px 10px;
+      }
+      .hero-section h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
   <div id="root"></div>
-  <script type="text/babel">
+  <script type="text/javascript">
     const { useState, useEffect, useRef } = React;
     const { useTranslation } = ReactI18next;
 
@@ -298,12 +279,12 @@
       }
     });
 
-    // Sample Product Data (Updated for June 19, 2025, 09:11 PM MDT)
+    // Sample Product Data (Updated for June 20, 2025, 08:50 PM MDT)
     const initialProducts = [
-      { id: 1, name: "Organic Baby Puree", price: 5.99, originalPrice: 6.99, image: "https://via.placeholder.com/150", category: "food", stock: 50, carbonFootprint: "0.5kg", affiliateLink: "https://amazon.com", description: "Gentle, organic puree for your baby’s first meals, updated June 19, 2025, 09:11 PM MDT." },
-      { id: 2, name: "Baby Sleep Sack", price: 19.99, originalPrice: 22.99, image: "https://via.placeholder.com/150", category: "clothing", stock: 20, carbonFootprint: "1.2kg", affiliateLink: "https://amazon.com", description: "Cozy sleep sack for safe nights, updated June 19, 2025, 09:11 PM MDT." },
-      { id: 3, name: "Teething Toy", price: 9.99, originalPrice: 11.99, image: "https://via.placeholder.com/150", category: "toys", stock: 8, carbonFootprint: "0.3kg", affiliateLink: "https://amazon.com", description: "Safe, soothing toy for teething babies, updated June 19, 2025, 09:11 PM MDT." },
-      { id: 4, name: "Starter Bundle", price: 29.99, originalPrice: 34.99, image: "https://via.placeholder.com/150", category: "bundle", isBundle: true, items: ["Organic Baby Puree", "Teething Toy"], stock: 15, carbonFootprint: "1.0kg", description: "Perfect starter pack for new parents, updated June 19, 2025, 09:11 PM MDT." }
+      { id: 1, name: "Organic Baby Puree", price: 5.99, originalPrice: 6.99, image: "https://via.placeholder.com/150", category: "food", stock: 50, carbonFootprint: "0.5kg", affiliateLink: "https://amazon.com", description: "Gentle, organic puree for your baby’s first meals, updated June 20, 2025, 08:50 PM MDT." },
+      { id: 2, name: "Baby Sleep Sack", price: 19.99, originalPrice: 22.99, image: "https://via.placeholder.com/150", category: "clothing", stock: 20, carbonFootprint: "1.2kg", affiliateLink: "https://amazon.com", description: "Cozy sleep sack for safe nights, updated June 20, 2025, 08:50 PM MDT." },
+      { id: 3, name: "Teething Toy", price: 9.99, originalPrice: 11.99, image: "https://via.placeholder.com/150", category: "toys", stock: 8, carbonFootprint: "0.3kg", affiliateLink: "https://amazon.com", description: "Safe, soothing toy for teething babies, updated June 20, 2025, 08:50 PM MDT." },
+      { id: 4, name: "Starter Bundle", price: 29.99, originalPrice: 34.99, image: "https://via.placeholder.com/150", category: "bundle", isBundle: true, items: ["Organic Baby Puree", "Teething Toy"], stock: 15, carbonFootprint: "1.0kg", description: "Perfect starter pack for new parents, updated June 20, 2025, 08:50 PM MDT." }
     ];
 
     // IndexedDB Setup for Federated Learning
@@ -356,7 +337,6 @@
         model.add(tf.layers.dense({ units: products.length, activation: 'softmax' }));
         model.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy' });
 
-        // Load local or global model weights
         const db = await openDB();
         const tx = db.transaction(['aiData'], 'readonly');
         const store = tx.objectStore('aiData');
@@ -372,7 +352,6 @@
         await model.fit(xs, ys, { epochs: 10, batchSize: 1 });
         const prediction = model.predict(tf.tensor2d([userHistory])).argMax(-1).dataSync()[0];
 
-        // Update local model and simulate federated aggregation
         const localWeights = model.getWeights();
         const globalWeights = localWeights.map(w => tf.add(w, tf.randomNormal(w.shape)).div(2)); // Mocked aggregation
         const updateTx = db.transaction(['aiData'], 'readwrite');
@@ -392,7 +371,7 @@
         const db = await openDB();
         const tx = db.transaction(['aiData'], 'readwrite');
         const store = tx.objectStore('aiData');
-        await store.put({ id: 'chatInteractions_' + Date.now(), input, response, timestamp: 'June 19, 2025, 09:11 PM MDT' });
+        await store.put({ id: 'chatInteractions_' + Date.now(), input, response, timestamp: 'June 20, 2025, 08:50 PM MDT' });
       } catch (e) {
         console.warn('Federated chat model update failed:', e);
       }
@@ -400,7 +379,7 @@
 
     // Mock Product Description
     async function generateDescription(productName) {
-      return `Premium ${productName} designed for your baby’s comfort and safety, updated June 19, 2025, 09:11 PM MDT.`;
+      return `Premium ${productName} designed for your baby’s comfort and safety, updated June 20, 2025, 08:50 PM MDT.`;
     }
 
     // Error Boundary Component
@@ -411,16 +390,23 @@
       }
       render() {
         if (this.state.error) {
-          return <div className="error-boundary">Error: {this.state.error}. Please refresh the page.</div>;
+          return <div className="error-boundary" onClick={() => playSound('giggle')}>Error: {this.state.error}. Click to try again!</div>;
         }
         return this.props.children;
       }
     }
 
+    // Play Sound Function (Updated with Real Audio)
+    const playSound = (type) => {
+      const audio = new Audio();
+      audio.src = type === 'giggle' ? 'https://freesound.org/data/previews/6619_135933-lq.mp3' : 'https://freesound.org/data/previews/344568_6374821-lq.mp3';
+      audio.play().catch(() => console.warn('Audio playback failed'));
+    };
+
     // Chatbot Component
     function Chatbot() {
       const { t } = useTranslation();
-      const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hello! How can I help you today? (June 19, 2025, 09:11 PM MDT)' }]);
+      const [messages, setMessages] = useState([{ sender: 'bot', text: 'Hello! How can I help you today? (June 20, 2025, 08:50 PM MDT)' }]);
       const [input, setInput] = useState('');
       const recognition = useRef(null);
 
@@ -438,15 +424,17 @@
         if (!input.trim()) return;
         const sanitizedInput = window.sanitizeHtml ? sanitizeHtml(input) : input;
         const newMessages = [...messages, { sender: 'user', text: sanitizedInput }];
-        const response = `Thanks for your query! Try asking about baby products. (June 19, 2025, 09:11 PM MDT)`;
+        const response = `Thanks for your query! Try asking about baby products. (June 20, 2025, 08:50 PM MDT)`;
         setMessages([...newMessages, { sender: 'bot', text: response }]);
-        await updateFederatedChatModel(sanitizedInput, response); // Update federated model
+        await updateFederatedChatModel(sanitizedInput, response);
+        playSound('giggle');
         setInput('');
       };
 
       const startVoice = () => {
         try {
           recognition.current?.start();
+          playSound('lullaby');
         } catch (e) {
           console.warn('Voice input failed:', e);
         }
@@ -456,7 +444,7 @@
         <div className="fixed bottom-4 right-4 w-80 bg-white shadow-lg rounded-lg p-4" role="region" aria-label="Chatbot">
           <div className="h-64 overflow-y-auto mb-2">
             {messages.map((msg, index) => (
-              <div key={index} className={`chatbot-bubble ${msg.sender === 'user' ? 'ml-auto bg-blue-100' : 'mr-auto'}`} aria-live="polite">
+              <div key={index} className={`chatbot-bubble ${msg.sender === 'user' ? 'user' : ''}`} aria-live="polite">
                 {msg.text}
               </div>
             ))}
@@ -470,8 +458,8 @@
               placeholder={t('typeMessage')}
               aria-label="Chatbot input"
             />
-            <button onClick={handleSend} className="bg-blue-500 text-white p-2 rounded-r" aria-label="Send message">Send</button>
-            <button onClick={startVoice} className="bg-blue-500 text-white p-2 ml-1 rounded" aria-label="Voice input">🎤</button>
+            <button onClick={handleSend} className="baby-button" aria-label="Send message">Send</button>
+            <button onClick={startVoice} className="baby-button ml-1" aria-label="Voice input">🎤</button>
           </div>
         </div>
       );
@@ -479,26 +467,42 @@
 
     // VR Nursery Designer Component
     function VRNurseryDesigner({ onAddToCart }) {
+      const dropZone = useRef(null);
+      useEffect(() => {
+        dropZone.current.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.current.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const itemId = e.dataTransfer.getData('text/plain');
+          if (itemId === 'crib') {
+            onAddToCart({ id: 'crib', name: 'Crib', price: 99.99 });
+            playSound('giggle');
+            dropZone.current.classList.add('sparkle');
+            setTimeout(() => dropZone.current.classList.remove('sparkle'), 1500);
+          }
+        });
+      }, [onAddToCart]);
       return (
         <div className="py-10">
-          <a-scene embedded vr-mode-ui="enabled: false">
-            <a-box position="0 0 -5" rotation="0 45 0" color="#60a5fa" onClick={() => onAddToCart({ id: 'crib', name: 'Crib', price: 99.99 })}></a-box>
+          <a-scene embedded vr-mode-ui="enabled: false" ref={dropZone} className="h-64 w-full">
+            <a-box position="0 0 -5" rotation="0 45 0" color="#60a5fa" draggable="true" onDragStart={(e) => e.dataTransfer.setData('text/plain', 'crib')}></a-box>
             <a-camera position="0 1.6 0"></a-camera>
           </a-scene>
-          <p className="text-center text-gray-600">Click the box to add a crib to your cart!</p>
+          <p className="text-center text-gray-600">Drag the box to add a crib to your cart!</p>
         </div>
       );
     }
 
     // Daily Quiz Component
     function DailyQuiz() {
-      const [question] = useState({ text: 'What’s best for a 6-month-old? (June 19, 2025)', options: ['Puree', 'Candy', 'Juice'], correct: 'Puree' });
+      const [question] = useState({ text: 'What’s best for a 6-month-old? (June 20, 2025)', options: ['Puree', 'Candy', 'Juice'], correct: 'Puree' });
       const [answer, setAnswer] = useState(null);
       const handleAnswer = (option) => {
         if (option === question.correct) {
           alert('Correct! +10 points');
+          playSound('giggle');
         } else {
           alert('Try again tomorrow!');
+          playSound('lullaby');
         }
         setAnswer(option);
       };
@@ -506,7 +510,7 @@
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h3 className="text-xl font-semibold">{question.text}</h3>
           {question.options.map((opt, i) => (
-            <button key={i} onClick={() => handleAnswer(opt)} className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" disabled={answer}>
+            <button key={i} onClick={() => handleAnswer(opt)} className="baby-button mt-2" disabled={answer}>
               {opt}
             </button>
           ))}
@@ -523,9 +527,10 @@
         if (!title.trim() || !content.trim()) return;
         const sanitizedTitle = window.sanitizeHtml ? sanitizeHtml(title) : title;
         const sanitizedContent = window.sanitizeHtml ? sanitizeHtml(content) : content;
-        setPosts([...posts, { id: Date.now(), title: sanitizedTitle, content: sanitizedContent, timestamp: '2025-06-19T21:11:00-06:00' }]);
+        setPosts([...posts, { id: Date.now(), title: sanitizedTitle, content: sanitizedContent, timestamp: '2025-06-20T20:50:00-06:00' }]);
         setTitle('');
         setContent('');
+        playSound('giggle');
       };
       return (
         <div className="bg-white p-4 rounded-lg shadow-md">
@@ -545,7 +550,7 @@
             placeholder="Post content"
             aria-label="Forum post content"
           ></textarea>
-          <button onClick={handlePost} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Post</button>
+          <button onClick={handlePost} className="baby-button">Post</button>
           <div className="mt-4">
             {posts.map(post => (
               <div key={post.id} className="p-2 border-b">
@@ -593,12 +598,11 @@
       const [theme, setTheme] = useState('default');
       const [currency, setCurrency] = useState('USD');
       const [recommendation, setRecommendation] = useState(null);
-      const [purchases, setPurchases] = useState([{ date: '2025-06-19', amount: 29.99, originalPrice: 34.99 }]);
+      const [purchases, setPurchases] = useState([{ date: '2025-06-20', amount: 29.99, originalPrice: 34.99 }]);
       const [points, setPoints] = useState(0);
       const [tier, setTier] = useState('Bronze');
       const [showConsent, setShowConsent] = useState(false);
 
-      // Initialize IndexedDB
       useEffect(() => {
         if (!user?.uid) return;
         openDB().then(db => {
@@ -616,12 +620,10 @@
         }).catch(e => console.warn('IndexedDB open failed:', e));
       }, [user]);
 
-      // Mock Product Fetch
       useEffect(() => {
         setProducts(initialProducts);
       }, []);
 
-      // Mock Authentication
       useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           setUser(user);
@@ -633,27 +635,23 @@
         return unsubscribe;
       }, []);
 
-      // Federated Learning Recommendation
       useEffect(() => {
         if (user && cart.length > 0) {
           getRecommendation(cart.map(item => item.id), products).then(rec => setRecommendation(rec));
         }
       }, [cart, user]);
 
-      // Add to Cart and Update Federated Model
       const addToCart = (product) => {
         setCart([...cart, product]);
         setPoints(points + 50);
         setTier(points + 50 >= 1000 ? 'Gold' : points + 50 >= 500 ? 'Silver' : 'Bronze');
-        updateFederatedModel(cart.map(item => item.id), products); // Update federated model on cart action
+        getRecommendation(cart.map(item => item.id), products).then(() => {}); // Update model
       };
 
-      // Mock Checkout
       const handleCheckout = async () => {
-        alert('Checkout initiated (mocked, June 19, 2025, 09:11 PM MDT)');
+        alert('Checkout initiated (mocked, June 20, 2025, 08:50 PM MDT)');
       };
 
-      // Dynamic Pricing
       const getPrice = (product) => {
         let price = product.price;
         if (tier === 'Gold') price *= 0.9;
@@ -662,7 +660,6 @@
         return price.toFixed(2);
       };
 
-      // Theme Toggle
       const toggleTheme = () => {
         const themes = ['default', 'dark', 'high-contrast', 'colorblind'];
         const nextTheme = themes[(themes.indexOf(theme) + 1) % themes.length];
@@ -670,7 +667,6 @@
         localStorage.setItem('theme', nextTheme);
       };
 
-      // Consent Modal
       const handleConsent = () => {
         setShowConsent(false);
       };
@@ -678,7 +674,6 @@
       return (
         <ErrorBoundary>
           <div className={`min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : theme === 'high-contrast' ? 'bg-black text-yellow-200' : theme === 'colorblind' ? 'bg-gray-200 text-blue-900' : 'bg-gray-100'}`}>
-            {/* Header */}
             <header className="bg-blue-200 p-4 shadow-md fixed w-full top-0 z-10">
               <div className="container mx-auto flex justify-between items-center">
                 <h1 className="text-3xl font-bold text-blue-800 heart-pulse">BabyBites</h1>
@@ -711,7 +706,6 @@
               </div>
             </header>
 
-            {/* Hero Section */}
             <section id="home" className="bg-blue-100 py-20 text-center pt-20">
               <div className="container mx-auto">
                 <h2 className="text-4xl font-bold text-blue-800 mb-4 holographic">{t('welcome')}</h2>
@@ -720,18 +714,16 @@
               </div>
             </section>
 
-            {/* Consent Modal */}
             {showConsent && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                 <div className="bg-white p-6 rounded-lg shadow-md">
                   <h3 className="text-xl font-semibold mb-4">Privacy Consent</h3>
-                  <p className="mb-4">We use federated learning to personalize your experience. Do you consent? (June 19, 2025, 09:11 PM MDT)</p>
+                  <p className="mb-4">We use federated learning to personalize your experience. Do you consent? (June 20, 2025, 08:50 PM MDT)</p>
                   <button onClick={handleConsent} className="bg-green-500 text-white px-4 py-2 rounded">Accept</button>
                 </div>
               </div>
             )}
 
-            {/* Recommendation Section */}
             {recommendation && (
               <section className="py-10 bg-gray-50">
                 <div className="container mx-auto">
@@ -753,7 +745,6 @@
               </section>
             )}
 
-            {/* Products Section */}
             <section id="products" className="py-10">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-8">Our Products</h2>
@@ -785,7 +776,6 @@
               </div>
             </section>
 
-            {/* Cart Section */}
             <section id="cart" className="py-10 bg-gray-50">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-8">Your Cart</h2>
@@ -815,7 +805,6 @@
               </div>
             </section>
 
-            {/* Forum Section */}
             <section id="forum" className="py-10">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-8">Community Forum</h2>
@@ -823,7 +812,6 @@
               </div>
             </section>
 
-            {/* Quiz Section */}
             <section id="quiz" className="py-10 bg-gray-50">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-8">Daily Quiz</h2>
@@ -831,7 +819,6 @@
               </div>
             </section>
 
-            {/* VR Nursery Designer */}
             <section id="nursery" className="py-10">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-8">Design Your Nursery</h2>
@@ -839,7 +826,6 @@
               </div>
             </section>
 
-            {/* Analytics Section */}
             <section id="analytics" className="py-10 bg-gray-50">
               <div className="container mx-auto">
                 <h2 className="text-3xl font-bold text-center mb-8">Your Analytics</h2>
@@ -848,9 +834,8 @@
               </div>
             </section>
 
-            {/* Footer */}
             <footer className="bg-blue-200 p-4 text-center">
-              <p className="text-gray-600">© 2025 BabyBites. All rights reserved. Updated June 19, 2025, 09:11 PM MDT.</p>
+              <p className="text-gray-600">© 2025 BabyBites. All rights reserved. Updated June 20, 2025, 08:50 PM MDT.</p>
               <div className="mt-2">
                 <a href="/about" className="text-blue-600 hover:underline mx-2">About</a>
                 <a href="/contact" className="text-blue-600 hover:underline mx-2">Contact</a>
@@ -859,7 +844,6 @@
               </div>
             </footer>
 
-            {/* Chatbot */}
             <Chatbot />
           </div>
         </ErrorBoundary>
@@ -877,6 +861,6 @@
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(e => console.warn('Service worker registration failed:', e));
       }
-    </script>
+  </script>
 </body>
 </html>
